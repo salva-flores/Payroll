@@ -1466,7 +1466,7 @@ CREATE TABLE IF NOT EXISTS `sec_user_emp` (
 -- Dumping data for table hhrr.sec_user_emp: ~11 rows (approximately)
 /*!40000 ALTER TABLE `sec_user_emp` DISABLE KEYS */;
 INSERT INTO `sec_user_emp` (`id`, `userId`, `employeeId`) VALUES
-	(1, 1, 55),
+	(1, 1, 55);
 
 -- Dumping structure for table hhrr.sys_config
 DROP TABLE IF EXISTS `sys_config`;
