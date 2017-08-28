@@ -1,0 +1,20 @@
+<div class="center-wrapper" data-ng-controller="sessionCtrl"  style="background-image: url('src/images/shore.jpg'); background-size:cover ;background-repeat: no-repeat; background-color:white; background-color: rgba(255, 255, 255, .85);">
+	<div class="center-content">
+		<div class="text-center" >
+			<div class="lockscreen-avatar shadows" >
+				<img data-ng-src="src/images/{{temp.avatar}}" alt="" class="avatar avatar-lg img-circle">
+			</div>
+			<span class="center-block mt25" ><label style="color:white; font-size:32px">{{temp.fname}}</label></span>
+		</div>
+		<div class="center-block lockcode" >
+			<form role="form">
+				<div class="input-group mb15 mt25">
+					<input style="background-color: rgba(255, 255, 255, .70)" type="password" ng-model="user.password" id="1" class="form-control lock-input" placeholder="código de acceso" required>
+					<span class="input-group-btn">
+						<button class="btn btn-danger" id="lockscreen" type="submit" ng-click="app.layout.isFullScreen=!app.layout.isFullScreen;unblock()" full-screen>Desbloquear</button>
+					</span>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

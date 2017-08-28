@@ -1,0 +1,189 @@
+<div class="card p-0 border-dark d-print-none" id="overReqsForm">
+	<div class="card-header m-0 p-2" >
+		<div class="d-flex justify-content-end align-items-center">
+			<div class="text-dark font-weight-bold mr-auto">Solicitudes de Horas Extras</div>
+			<div class="btn-toolbar " role="toolbar">
+				<button class="btn btn-outline-primary btn-xs mr-1" title="Agregar solicitud" ng-click="addRequest(frm)" data-toggle="modal" data-target="#overReqForm"><i class="fa fa-plus mr5"></i>Nueva</button>
+				<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadRequests();"><i class="fa fa-repeat"></i></button>
+				<!-- <button class="btn btn-outline-secondary btn-xs" title="Calcular el Total" ng-click="calcFooter();"><i class="fa fa-calculator"></i></button> -->
+			</div>
+		</div>
+	</div>
+	<div class="card-body p-2">
+		<table datatable="ng" class="row-border hover" id="reqsTable">
+			<thead>
+				<th>Fecha</th>
+				<th ng-show="isAdmin">Empleado</th>
+				<th>Inicio</th>
+				<th>Solicitante</th>
+				<th>Tipo</th>
+				<th>Descripción</th>
+				<th>Estimado</th>
+				<th ng-show="isAdmin">Real</th>
+				<th ng-repeat="o in overtime" class="text-right" ng-show="isAdmin">{{o.name}} </th>
+				<th>Estado</th>
+				<th>Observaciones</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="r in requests" ng-class="{'text-primary':r.state=='Autorizada','text-success':r.state=='Aprobada','text-warning':r.state=='Pendiente','text-secondary':r.state=='Cerrada','text-danger':r.state=='Rechazada'||r.state=='Devuelta','text-dark':r.state=='Pagada'}" >
+					<td title="{{r.date}}">{{ r.date |date : 'EEE, dd-MMM-yyyy'}}</td>
+					<td ng-show="isAdmin">{{ r.firstName }}</td>
+					<td>{{ r.date+'T'+r.startTime|date:'h:mm a' }}</td>
+					<td>{{ r.requestedBy }}</td>
+					<td>{{ r.class }}</td>
+					<td>{{ r.description }}</td>
+					<td class="text-center">{{ r.estimatedTime }}</td>
+					<td class="text-right" ng-show="isAdmin">{{ r.totalHoras }}</td>
+					<td ng-repeat="o in overtime" class="text-center" ng-show="isAdmin">{{r.t[$index]>0 ? r.t[$index] : '-'}}</td>
+					<td>
+						<button title="Detalle de actividades." data-toggle="modal" data-target="#overDetailForm" ng-click="fillDetail(r)" class="btn btn-outline btn-xs" ng-class="{'btn-primary':r.state=='Autorizada','btn-success':r.state=='Aprobada', 'btn-secondary':r.state=='Cerrada','btn-warning':r.state=='Pendiente','btn-danger':r.state=='Rechazada'||r.state=='Devuelta','btn-dark':r.state=='Pagada',}" ng-disabled="r.state=='Rechazada'||r.state=='Devuelta'||r.state=='Pendiente'">
+							<i class="fa" ng-class="{'fa fa-thumbs-up':r.state=='Autorizada','fa-pencil-square-o':r.state=='Aprobada'||r.state=='Cerrada','fa-warning':r.state=='Pendiente'||r.state=='Devuelta', 'fa-thumbs-o-down':r.state=='Rechazada' }"></i>
+						</button>
+						- {{ r.state }}
+					</td>
+					<td>{{ r.observations }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="modal fade" id="overReqForm" tabindex="-1" role="dialog" data-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="card">
+				<div class="card-header p-2 text-dark font-weight-bold">Solicitud de Horas Extras para el {{today|date:'EEEE, dd-MM-yyyy'}}</div>
+				<div class="card-body p-2">
+					<form name="frm">
+						<fieldset>
+							<div class="row">
+								<div class="col-md-3" ng-class="{ 'has-error' : frm.start.$invalid && frm.start.$touched}">
+									<label class=" control-label bold" for="start">Hora de inicio:</label>  
+									<input ng-model="hora" title="Hora en que comenzará a trabajar; Su Jornada laboral le permite a partir de las {{os|date:'h:mma'}}" id="1" name="start" type="time" class="form-control input-sm" min="{{os}}" required  >
+									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.start.$invalid && frm.start.$touched">De {{os|date:'h:mm a'}} a 12 pm.</tt>
+								</div>
+								<div class="col-md-3" ng-class="{ 'has-error' : frm.estimatedTime.$invalid && frm.estimatedTime.$touched}">
+									<label class=" control-label bold" for="estimatedTime">Horas estimadas:</label>  
+									<input ng-model="request.estimatedTime" title="Tiempo estimado para completar la actividad (máximo 4 hrs)." type="text" class="form-control input-sm" id="estTime" name="estimatedTime" minlength ="1" maxlength="1" pattern="^[1-4]*$" ng-pattern-restrict required>
+									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.estimatedTime.$invalid">De 1 a 4 horas.</tt>
+								</div>
+								<div class="col-md-6" ng-class="{ 'has-error' : frm.requestedBy.$invalid && frm.requestedBy.$touched}">
+									<label class="control-label bold" for="requestedBy">Persona que le asignó la actividad:</label>  
+									<input ng-model="request.requestedBy" title="Nombre del Jefe que le asignó la actividad." id="requestedBy" name="requestedBy" type="text" class="form-control input-sm" required >
+									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestedBy.$invalid && frm.requestedBy.$touched">Campo requerido!</tt>
+								</div>
+							</div>
+							<div class="row justify-content-end mt-2">
+								<div class="col-md-3">
+									<label class="control-label bold">Tipo:</label>
+									<div class="radio" ><label class="text" title="Asignada en Tigo." ><input ng-model="request.class" type="radio" name="t1" id="t1" value="Normal" ng-checked="true" >Asignada en TIGO</label></div>
+									<div class="radio" ><label class="text" title="Asignada en CENTEC."><input ng-model="request.class" type="radio" name="t2" id="t2" value="Interna" >Asignada en CENTEC</label></div>
+									<div class="radio" ><label class="text" title="Ventana programada."><input ng-model="request.class" type="radio" name="t3" id="t3" value="Ventana" >Ventana Programda</label></div>
+								</div>
+								<div class="col-md-9" ng-class="{ 'has-error' : frm.description.$invalid && frm.description.$touched}">
+									<label class="control-label bold" for="description">Descripción:</label>
+									<textarea ng-model="request.description" style="overflow:auto;resize:none" title="Descripción detallada de la actividad que se le asignó." class="form-control" id="description" name="description" rows="4" required ></textarea>
+									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.description.$invalid && frm.description.$touched">Por favor describa la actividad realizada.</tt>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+				<div class="card-footer p-2" >
+					<div class="d-flex justify-content-end">
+						<div class="btn-toolbar " role="toolbar">
+							<button class="btn btn-outline-secondary btn-xs mr-1" ng-click="saveRequest(hora);" ng-disabled="!frm.$valid" ng-class="{'btn-success':frm.$valid}"><i class="fa fa-send"/> Enviar</button>
+							<button class="btn btn-outline-secondary btn-xs" data-dismiss="modal"><i class="fa fa-close"></i> Cancelar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="overDetailForm" tabindex="-1" role="dialog" data-backdrop="static">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="card d-print-none" ng-show="request.state=='Aprobada' ">
+				<div class="card-header m-0 p-2" >
+					<div class="d-flex justify-content-end">
+						<div class="mr-auto mr-2">Detalle de Actividades</div>
+						<div class="btn-toolbar " role="toolbar">
+							<button class="btn btn-default btn-outline btn-xs mr-1" title="Refresh List" ng-click="refreshScreen(detailForm);"><i class="fa fa-repeat"></i></button>
+						</div>
+					</div>
+				</div>
+				<div class="card-body m-0 p-2 d-print-none">
+					<form id="detailForm" name="detailForm" novalidate>
+						<div class="row">
+							<div class="col-md-2">
+								<label class="control-label bold" for="date">Fecha: </label>
+								<!-- <input ng-model="activity.activityDate" id="actDate" name="date" type="date" class="form-control input-sm" ng-disabled="request.state=='Cerrada'" > -->
+								<input ng-model="activity.activityDate" id="actDate" name="date" type="date" class="form-control input-sm" ng-disabled="true">
+							</div>
+							<div class="col-md-2" ng-class="{ 'has-error' : detailForm.start.$invalid && detailForm.start.$touched}">
+								<label class=" control-label bold" for="start">Hora de inicio:</label>  
+								<input ng-model="activity.startTime" id="actStart" name="start" type="time" class="form-control input-sm" min="{{minStart}}" required ng-disabled="request.state=='Cerrada'" title="{{activity.startTime|date:'medium'}}"> 
+								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.start.$invalid && detailForm.start.$touched">De {{minStart|date:'h:mm a'}} en adelante.</tt>
+							</div>
+							<div class="col-md-2" ng-class="{ 'has-error' : detailForm.end.$invalid && detailForm.end.$touched}">
+								<label class=" control-label bold" for="end">Hora de finalización:</label>  
+								<input ng-model="activity.endTime" title="Hora en que terminó la actividad, {{activity.endTime|date:'medium'}}" id="actEnd" name="end" type="time" class="form-control input-sm" min="{{minEnd}}" required  ng-disabled="request.state=='Cerrada'">
+								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.end.$invalid && detailForm.end.$touched">Rango: {{activity.startTime|date:'h:mm a'}} - 11:59 p.m.</tt>
+							</div>
+							<div class="col-md-6 mb5">
+								<label class="control-label bold" for="description">Descripción:</label>
+								<textarea ng-model="activity.activities" class="form-control" id="actDesc" name="description" rows="2" ng-required="request.state!='Cerrada'" ng-disabled="request.state=='Cerrada'" ></textarea>
+								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.description.$invalid">Por favor describa la actividad realizada.</tt>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer mb-2 p-2">
+					<div class="d-flex justify-content-end">
+						<div class="btn-toolbar" role="toolbar">
+							<button class="btn btn-default btn-outline btn-xs" title="Agregar esta actividad al detalle" ng-disabled="!detailForm.$valid||request.state=='Cerrada'" ng-click="addDetailRow(detailForm)" ng-class="{'btn-success':detailForm.$valid}"  ng-hide="request.state=='Cerrada'"><i class="fa fa-plus-circle"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-header p-2">
+					<div class="d-flex justify-content-end">
+						<div class="mr-auto">Desglose por Horas</div>	
+						<!-- <button class="btn btn-primary btn-outline btn-xs mr-1 d-print-none" title="Validar el detalle" ng-click="validateDetail()"><i class="fa fa-calculator"></i></button>
+						<div ><a href="javascript:window.print()" class="btn btn-outline-success btn-xs d-print-none" title="Imprimir Detalle" ><i class="fa fa-print"></i></a> </div> -->
+					</div>
+				</div>
+				<div class="card-body m-0 p-2">
+					<table class="table table-bordered m-0">
+						<thead>
+							<th>Fecha</th>
+							<th>Inicio</th>
+							<th>Fin</th>
+							<th>Actividades</th>
+						</thead>
+						<tbody>
+							<tr ng-repeat="a in detail">
+								<td>{{ a.activityDate |date:'EEE, dd-MMM-yyyy'}}</td>
+								<td>{{ a.activityDate+'T'+a.startTime |date:'h:mm a'}}</td>
+								<td>{{ a.activityDate+'T'+a.endTime |date:'h:mm a'}}</td>
+								<td>{{ a.activities }}</td>
+							</tr>
+						</tbody>
+					</table>
+					<!-- <div class="text-right">Totales:<tt  style="color:green">{{estado}}</tt></div> -->
+				</div>
+				<div class="card-footer m-0 p-2">
+					<div class="d-flex justify-content-end">
+						<div class="btn-toolbar d-print-none " role="toolbar">
+							<button class="btn btn-default btn-outline btn-xs mr-1" ng-disabled="!enableCloseButton" ng-class="{'btn-success':enableCloseButton,'btn-danger':!enableCloseButton }" ng-click="closeRequest()" ng-show="request.state=='Aprobada'"><i class="fa fa-send"/> Cerrar Detalle</button>
+							<button class="btn btn-default btn-outline btn-xs" data-dismiss="modal" ng-click="closeDetail(detailForm)"><i class="fa fa-close"></i> Salir</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

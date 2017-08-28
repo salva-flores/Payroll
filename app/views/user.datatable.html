@@ -1,0 +1,99 @@
+<div>
+	<form class="form-inline" ng-submit="addPerson()">
+		<table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="row-border hover">
+			<thead>
+			<tr>
+				<th>
+					<div class="form-group">
+							<input ng-disabled="disable" maxlength="15" minlength="5" ng-model="frm_user.login" id="login" name="Login" type="text" class="form-control input-sm" required>
+					</div>
+				</th>
+				<th>
+					<div class="form-group" ng-show = "!mostrar">
+							<input maxlength="12" minlength="5" ng-model="frm_user.password" id="password" name="password" type="password" class="form-control input-sm" required>
+					</div>
+				</th>
+				<th>
+					<div class="form-group">
+							<input minlength="10" maxlength="25" ng-model="frm_user.email" id="login" name="email" type="email" class="form-control input-sm"  required>
+					</div>
+				</th>
+				<th>
+					<div class="form-group">
+							<input maxlength="8" minlength ="8"  ng-model="frm_user.phone" id="phone" name="phone" type="text" class="form-control input-sm" required>
+					</div>
+				</th>
+				<th>
+					<div class="form-group">
+							<select ng-model="frm_user.profile_id" ng-options="item.id as item.name for item in profiles" class="form-control" required>
+							</select>
+					</div>
+				</th>
+
+			</tr>
+
+				<fieldset>
+					<div class="col-sm-10">
+						</div>
+					</div>
+					<div class="form-group" ng-show = "mostrar" >
+						<label class="col-sm-2 control-label" for="estado">Estado</label>
+						<div class="col-sm-10">
+							<select ng-model="frm_user.state" class="form-control" required>
+								<option value="1">Activo</option>
+								<option value="0">Inactivo</option>
+							</select>
+						</div>
+					</div>
+				</fieldset>
+			</thead>
+
+			<tr>
+				<th>
+					<div class="form-group">
+						<label>
+							<input class="form-control" type="number" name="id" ng-model="showCase.person2Add.id" value="">
+						</label>
+					</div>
+				</th>
+				<th>
+					<div class="form-group">
+						<label>
+							<input type="text" class="form-control" name="firstName" ng-model="showCase.person2Add.firstName" value="">
+						</label>
+					</div>
+				</th>
+				<th>
+					<div class="form-group">
+						<label>
+							<input type="text" class="form-control" name="lastName" ng-model="showCase.person2Add.lastName" value="">
+						</label>
+					</div>
+				</th>
+				<th>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success"><i class="fa fa-plus"></i></button>
+					</div>
+				</th>
+			</tr>
+			<tr>
+				<th>ID</th>
+				<th>FirstName</th>
+				<th>LastName</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="person in showCase.persons">
+				<td>{{ person.id }}</td>
+				<td>{{ person.firstName }}</td>
+				<td>{{ person.lastName }}</td>
+				<td>
+					<button type="button" ng-click="showCase.modifyPerson($index)" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+					<button type="button" ng-click="showCase.removePerson($index)" class="btn btn-danger"><i class="fa fa-trash-o"></i></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+</div>

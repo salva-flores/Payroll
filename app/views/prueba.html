@@ -1,0 +1,22 @@
+<div class="panel">
+	<div class="container">
+		<div class="col-md-4">
+			<label class="control-label bold">Date(): {{today}}</label><br>
+			<hr>
+			<label class="control-label bold">Filtro 'fullDate':{{today|date:'fullDate'}}</label><br>
+			<label class="control-label bold">Filtro 'medium':{{today|date:'medium'}}</label><br>
+			<label class="control-label bold">Filtro 'mediumDate':{{today|date:'mediumDate'}}</label><br>
+			<label class="control-label bold">.toJSON: {{today.toJSON()}}</label><br>
+			<label class="control-label bold">.toDateString(): {{today.toDateString()}}</label><br>
+		</div>
+		<div class="col-md-4">
+		</div>
+		<div class="col-md-4">
+			<label class="control-label bold">Date(): {{today}}</label><br>
+			<hr>
+			<label class="control-label bold">Filtro 'mediumTime':{{today|date:'mediumTime'}}</label><br>
+			<label class="control-label bold">Filtro 'shortTime':{{today|date:'shortTime'}}</label><br>
+			<label class="control-label bold">.getTime:{{today.getTime()}}</label><br>
+		</div>
+	</div>
+</div>

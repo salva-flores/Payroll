@@ -1,0 +1,63 @@
+<div class="row mb25">
+	<div class="col-sm-6">
+		<div class="panel mb25">
+			<div class="panel-heading border">
+				Datos Generales
+			</div>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12 mb25">
+					<p> Nombre de la Empresa</p>
+
+
+						<select data-placeholder="Your Favorite Football Team" class="text" >
+						</select>
+					</div>
+
+					<div class="col-xs-12 mb25">
+						<p>Multiple Select</p>
+						<select data-placeholder="Your Favorite Types of Bear" multiple class="chosen" chosen style="width: 100%;" ng-model="multipleSelect" ng-options="opt.name for opt in bears">
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="panel mb25">
+			<div class="panel-heading border">
+				Dirección
+			</div>
+			<div class="panel-body">
+				<p>Teléfono</p>
+				<input type="tel" class="form-control telephone-input">
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="panel mb25">
+			<div class="panel-heading border">
+				Datos del Contacto
+
+			</div>
+			<div class="panel-body">
+
+				<div class="input-group">
+					<input type="text" class="form-control time-picker" ui-jq="timepicker" />
+					<span class="input-group-addon add-on">
+						<i class="fa fa-clock-o"></i>
+					</span>
+				</div>
+
+				<br/>
+
+				<p>Hora de inicio:</p>
+				<div class="input-group input-group-lg clockpicker w200" ui-jq="clockpicker" ui-options="clockOpt">
+					<input type="text" class="form-control" value="07:00">
+					<span class="input-group-addon">
+						<span class="fa fa-clock-o"></span>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,1 @@
+SELECT id, firstName FROM main_employee WHERE id NOT IN (select employeeId from sec_user_emp);

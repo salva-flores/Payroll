@@ -1,0 +1,27 @@
+<div class="d-flex w-100">
+	<div class="card p-2 col-md-12">
+		<div class="card-block">
+			<h5 class="card-title">Card title</h5>
+			<table datatable="ng" class="table table-bordered table-condensed" >
+				<thead>
+					<tr> 
+						<th>Nombre</th>
+						<th><i class="fa fa-phone"> </i></th>
+						<th>@</th>
+						<th>ID</th>
+						<th><i class="fa fa-group"> </i></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="e in employees "> 
+						<td>{{ e.firstName }}</td>
+						<td>{{ e.mobilePhone }}</td>
+						<td>{{ e.email }}</td>
+						<td>{{ e.idCard }}</td>
+						<td>{{ e.companyUnit }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

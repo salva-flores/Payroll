@@ -1,0 +1,37 @@
+<div class="center-wrapper">
+	<div class="center-content">
+		<div class="row no-margin">
+			<div class="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+				<form name="form" role="form" class="form-layout" novalidate>
+					<div class="text-center mb15">
+						<img data-ng-src="images/logo-dark.png" />
+					</div>
+					<p class="text-center mb30">Crear cuenta</p>
+					<div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required, 'has-success' : form.firstName.$valid }">
+						<input type="text" ng-model="user.fname" name="firstName" id="1" class="form-control input-md" placeholder="Nombre" required/>
+						<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="form.firstName.$dirty && form.firstName.$error.required">Escriba su nombre por favor.</tt>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required, 'has-success' : form.lastName.$valid }">
+						<input type="text" ng-model="user.lname" name="lastName" id="2" class="form-control input-md" placeholder="Apellido" required />
+						<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="form.lastName.$dirty && form.lastName.$error.required">Escriba su apellido por favor.</tt>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required, 'has-success' : form.username.$valid }">
+						<input type="text" ng-model="user.login" name="username" id="3" class="form-control input-md" placeholder="Usuario" autofocus required maxlength="10" pattern="^[a-zA-Z]*$" ng-pattern-restrict>
+						<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="form.username.$dirty && form.username.$error.required">Escriba su nombre de usuario por favor.</tt>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required, 'has-success' : form.password.$valid }">
+						<input type="password" ng-model="user.password" name="password" id="4" class="form-control input-md" placeholder="Contraseña" required/>
+						<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="form.password.$dirty && form.password.$error.required">Escriba su contraseña por favor.</tt>
+					</div>
+<!-- 					<div class="form-inputs">
+						<input type="text" id="1" class="form-control input-md" placeholder="Nombre">
+						<input type="text" class="form-control input-md" placeholder="Apellido">
+						<input type="text" class="form-control input-md" placeholder="Correo electrónico">
+						<input type="password" class="form-control input-md" placeholder="Contraseña">
+					</div> -->
+					<button class="btn btn-success btn-block btn-md mb15" type="submit" ng-click="signup()">Crear la cuenta</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

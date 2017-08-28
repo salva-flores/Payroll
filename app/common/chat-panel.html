@@ -1,0 +1,53 @@
+<div class="chat-inner">
+	<div class="chat-users">
+		<tabset justified="true" class="nav-justified-xs">
+			<tab heading="Indicadores" >
+				<div class="favourite-list"  ng-show="user.profile==1">
+					<a href="#">
+						<div class="media-left relative">
+							<div class="status bg-success border-white mr10" ></div>
+						</div>
+						<div class="media-body">
+							<span class="block" ng-model="kpi">{{kpi[0].he.Horas}} Horas Extras en {{ clock | date:'MMMM'}}</span>
+							<!-- <span class="text-muted">en {{ clock | date:'MMMM'}}</span> -->
+						</div>
+					</a>
+					<a href="javascript:;"">
+						<div class="media-left relative">
+							<!-- <i class="fa fa-clock-o mr5"></i> -->
+							<div class="status bg-success border-white mr10"></div>
+						</div>
+						<div class="media-body">
+							<span class="block" ng-model="kpi">{{kpi[0].emp.Empleados}}  Empleados</span>
+							<!-- <span class="text-muted">Julio</span> -->
+						</div>
+					</a>
+				</div>
+			</tab>
+			<tab heading="Actividad">
+				<ol class="activity-feed">
+					<!-- <li class="feed-item">
+						<span>Ingresó</span>
+						<time datetime="2015-01-30 00:00">Hace 2 segundos</time>
+					</li> -->
+					<li class="feed-item inactive" ng-show="user.profile==1">
+						<span class="block" ng-model="kpi">{{kpi[0].he.Pendientes}} Solicitudes de HHEE Pendientes de Aprobación</span>
+					</li>
+					<!-- <li class="feed-item active">
+						<span>Aprobó una solicitud de Horas Extras</span>
+						<time datetime="2015-01-20 00:00">26 de Julio</time>
+					</li>
+					<li class="feed-item inactive">
+						<span>Calcular Planilla de Horas Extras</span>
+						<time datetime="2014-12-12 00:00">HOY</time>
+					</li>
+					<li class="feed-item active">
+						<span>Otra</span>
+						<time datetime="2014-12-12 00:00">HOY</time>
+					</li> -->
+				</ol>
+			</tab>
+		</tabset>
+	</div>
+
+</div>

@@ -1,0 +1,49 @@
+<div class="d-flex w-100" ng-hide="user.userName!='root'">
+	<div class="card" style="width: 20rem;">
+		<div class="card-body">
+			<h4 class="card-title">Pendiente</h4>
+			<h6 class="card-subtitle mb-2 text-muted">Formualrio  - Ingreso de Solicitud:</h6>
+			<p class="card-text">Habilitar temporalmente el campo para ingresar la fecha (para poder meter datos de prueba)???.</p>
+		</div>
+	</div>
+	<div class="card w-100 p-0 border-dark d-print-none" id="overReqsForm">
+		<div class="card-header m-0 p-2" >
+			<div class="d-flex justify-content-end align-items-center">
+				<div class="text-dark font-weight-bold mr-auto">Solicitudes de Horas Extras</div>
+				<div class="btn-toolbar " role="toolbar">
+					<a href="javascript:window.print()" class="btn btn-outline-success btn-xs" title="Imprimir Planilla" ng-show="showPrinter==true"><i class="fa fa-print"></i></a> 
+					<button class="btn btn-outline-dark btn-xs mr-1" title="Calcular..." ng-click="calcFooter();"><i class="fa fa-repeat"></i></button>
+				</div>
+			</div>
+		</div>
+		<div class="card-body p-2">
+			<table id="reqsTable" class="display">
+				<thead>
+					<th>Empleado</th>
+					<th>Fecha</th>
+					<th>Estimado</th>
+					<th>Real</th>
+					<th ng-repeat="o in overtime" class="text-right">{{o.name}} </th>
+					<th>Salario</th>
+					<th>Devengado</th>
+					<th>Estado</th>
+				</thead>
+				<tfoot>
+					<tr>
+						<th>Totales...</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+						<th>-</th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,45 @@
+<div class="panel" ng-hide="false">
+	<div class="panel-heading">
+		<button class="btn btn-default btn-xs pull-right" ng-click="add()">Agregar</button>
+		<button class="btn btn-default btn-xs pull-right" ng-click="$state.reload();">Refrescar</button>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover table-condensed align-middle">
+			<tr class="bold">
+				<th>Nombre</th>
+				<th>Descripcion</th>
+				<th>Estado</th>
+				<th class="center">Eliminar</th>
+				<!-- <th class="center">Editar</th> -->
+				<!-- <th class="center">Recursos</th> -->
+			</tr>
+			<tr ng-repeat="profile in profiles | orderBy:'id'">
+				<td><span editable-text="profile.name" e-name="name" e-form="rowform" required pattern="^[a-zA-Z]*$" ng-pattern-restrict onbeforesave="checkName($data, profile.id)" e-required>{{ profile.name || 'Vacío' }}</span></td>
+				<td><span editable-text="profile.description" e-name="description" e-form="rowform" e-reqired>{{ profile.description }}</span>  </td>
+				<td><span editable-text="profile.state" e-name="state" e-form="rowform" e-required>{{ profile.state || 'Vacío' }}</span></td>
+				<td style="white-space: nowrap">
+					<form editable-form name="rowform" onbeforesave="saveUser($data, profile.id, profile.name, profile.state)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == profile">
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">Guardar</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">Cancelar</button>
+					</form>
+					<div class="buttons" ng-show="!rowform.$visible">
+						<button class="btn btn-primary btn-xs" ng-click="rowform.$show()">editar</button>
+						<button class="btn btn-danger btn-xs" ng-click="remove($index)">borrar</button>
+					</div>
+				</td>
+
+			</tr>
+		</table>
+	</div>
+	<div class="panel-heading">
+		<button class="btn btn-default btn-xs pull-right" ng-click="updateTable()">Guardar</button>
+	</div>
+</div>
+<div class="alpha modal">
+	<div class="background"></div>
+	<div class="modal">
+		<div class="close" ng-click="closeModal()"><i class="fa fa-close"></i></div>
+		<div ng-show="mostrarEdita" ng-include="templates[0].url"></div> 
+		<div ng-show="mostrarAsignacion" ng-include="templates[1].url"></div> 
+	</div> 
+</div>

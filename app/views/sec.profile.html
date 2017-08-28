@@ -1,0 +1,54 @@
+    <div class="main-content">
+      <div class="clearfix">
+        <div class="pull-right">
+          <button ng-click="nueva()" type="button" id="nuevoPerfil" class="btn btn-success btn-sm btn-icon loading-demo mr5"><i class="fa fa-plus"></i>Nuevo Perfil</button>
+        </div>
+      </div>
+      <div class="panel-body">
+        <h1 class="mainTitle fix">Listado de perfiles</h1>
+        <table datatable="ng" class="table table-bordered bordered table-striped table-condensed datatable" >
+          <thead>
+            <tr> 
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Estado</th>
+              <th class="center">Eliminar</th>
+              <th class="center">Editar</th>
+              <th class="center">Recursos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="profile in profiles | orderBy:'id'"> 
+              <td>{{ profile.name }}</td>
+              <td>{{ profile.description }}</td>
+              <td>{{ profile.state_name}}</td>
+              <td class="center">
+                <button type="button"  ng-click="elimina(profile,$index)" class="btn btn-danger btn-xs">
+                  <i class="fa fa-trash-o"></i>
+                  <!-- <span>Eliminar</span> -->
+                </button>
+              <td class="center">
+                <button type="button" ng-click="edita(profile)" class="btn btn-success btn-xs">
+                  <i class="fa fa-edit"></i>
+                  <!-- <span>Editar</span> -->
+                </button>
+              </td>
+               <td class="center">
+                <button type="button" ng-click="recursos(profile)" class="btn btn-info btn-xs">
+                  <i class="fa fa-edit"></i>
+                  <span>Editar</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<div class="alpha modal">
+  <div class="background"></div>
+  <div class="modal">
+    <div class="close" ng-click="closeModal()"><i class="fa fa-close"></i></div>
+    <div ng-show="mostrarEdita" ng-include="templates[0].url"></div> 
+    <div ng-show="mostrarAsignacion" ng-include="templates[1].url"></div> 
+  </div> 
+</div> 

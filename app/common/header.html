@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-1 w-100 h-100  justify-content-end align-items-center">
+	<a class="navbar-toggler p-2 no-border style=" data-toggle="collapse" ><offscreen></offscreen></a>
+	<a class="nav-item mr-auto" title="Recargar la Página" href="javascript:;" ng-click="" reload-app><i class="fa fa-refresh"></i></a>
+	<a class="nav-item p-1" title="Aplicaciones" href="javascript:;" quick-launch><i class="fa fa-plus-square-o"></i></a>
+	<a class="nav-item p-1" title="Config Panel" href="javascript:;" ng-click="app.isConfigOpen = !app.isConfigOpen"><i class="fa fa-toggle-off"></i></a>
+	<a class="nav-item p-1" title="Indicadores" href="javascript:;" ng-click="app.layout.isChatOpen = !app.layout.isChatOpen" ><i class="fa fa-line-chart"></i></a>
+	<div class="dropdown pl-2 pr-2">
+		<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button"><img data-ng-src="src/images/{{user.avatar}}" class="header-avatar img-circle " alt="User?" title="{{user.fname}}"></a>
+		<ul class="dropdown-menu p-0" style="right:0;left:auto">
+			<li><a class="dropdown-item" href="javascript:;">{{user.email}}</a></li>
+			<li class="dropdown-divider"></li>
+			<li><a class="dropdown-item" href="javascript:;">Ayuda</a></li>
+			<li><a class="dropdown-item" href="javascript:;">Perfil</a></li>
+			<li class="dropdown-divider"></li>
+			<li><a class="dropdown-item" ui-sref="user.lockscreen">Bloquear<i class="fa fa-lock pull-right"></i></a></li>
+			<li><a class="dropdown-item" ui-sref="login">Cerrar sesion<i class="fa fa-power-off pull-right"></i></a></li>
+		</ul>
+	</div>
+	<a id="header" class="nav-item p-1" alt="Pantalla Completa" href="javascript:;" ng-click="app.layout.isFullScreen = !app.layout.isFullScreen" full-screen><i ng-class="{'fa fa-expand':!app.layout.isFullScreen, 'fa fa-compress':app.layout.isFullScreen }"></i></a>
+</nav>

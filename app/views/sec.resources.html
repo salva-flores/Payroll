@@ -1,0 +1,113 @@
+<div class="panel" ng-show="!isVisible">
+	<div class="panel-heading border">Catálogo de Recursos
+		<button class="btn btn-default btn-outline btn-xs pull-right btn-xs" ng-click="$state.reload()"><i class="fa fa-refresh"></i></button>
+		<button class="btn btn-default btn-outline btn-xs pull-right" ng-click="addUser()"><i class="fa fa-plus mr5"></i>Nuevo</button>
+	</div>
+	<div class="panel-body">
+		<table datatable="ng" dt-options="">
+			<thead>
+				<tr> 
+					<th>Nombre</th>
+					<th>Descripción</th>
+					<th>Menu</th>
+					<th>Ruta</th>
+					<th>Eliminar</th>
+					<th>Editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="r in resources | orderBy:'id'">
+					<td>{{ r.name }}</td>
+					<td>{{ r.description }}</td>
+					<td>{{ showMenu(r) }}</td>
+					<!-- <td><select ng-model="r.typeId" ng-options="item.id as item.name for item in menu" class="form-control" ng-disabled="true"></select></td> -->
+					<td>{{ r.state }} </td>
+					<td align="center">
+						<button type="button" ng-click="elimina(recurso,$index)" class="btn btn-danger btn-xs ">
+							<i class="fa fa-trash-o"></i>
+						</button>
+					</td>
+					<td align="center">
+						<button type="button" ng-click="edita(recurso)" class="btn btn-success btn-xs ">
+							<i class="fa fa-edit"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+
+<div class="alpha modal">
+  <div class="background"></div>
+  <div class="modal">
+	 <div class="close"  ng-click="closeModal()"><i class="fa fa-close"></i></div>
+	 <!--<div ng-include="templatesrecursosMant.url"></div>-->
+	 <form class="form-horizontal bordered-group" id="frm" name="frm" novalidate role="form" ng-submit="submit()">
+		<div class="panel-heading border">
+		  <div class="clearfix">
+			 <h1 class="mainTitle algLeft">{{accion}}</h1>
+			 <div class="pull-right">
+				<button type="submit" class="btn btn-primary btn-sm btn-icon loading-demo mr5" ng-disabled="frm.$invalid ">
+				  <i class="fa fa-send mr5"></i>
+				  <span>Guardar</span>
+				</button>
+			 </div>
+		  </div>
+		</div>
+		<div class="panel-body scroll">
+		  <div class="row no-margin">
+			 <div class="col-lg-12">
+				<fieldset>
+				  <div class="form-group" ng-show="mostrar">
+					 <label class="col-sm-4 control-label-left" for="estado">Menu al que pertenece</label>
+					 <div class="col-sm-8">
+						<select ng-model="recurso.idType" ng-options="item.id as item.name for item in tipos" class="form-control" ng-required="mostrar">
+						  <!--<option value="">--Seleccione un estado--</option>-->
+						</select>
+					 </div>
+				  </div>
+				  <div class="form-group" ng-class="{ 'has-error' : frm.recurso.$invalid && frm.recurso.$touched }">
+					 <label class="col-sm-4 control-label-left" for="recurso">Nombre</label>
+					 <div class="col-sm-8">
+						<input ng-model="recurso.name" id="recurso" name="recurso" type="text" placeholder="Nombre que aparece en el menu." class="form-control input-sm" minlength="5" maxlength="25" required>
+						<tt style="color:maroon;" class="pull-right" ng-show="frm.recurso.$invalid && frm.recurso.$touched">Introduzca el nombre del recurso</tt>
+					 </div>
+				  </div>
+				  <div class="form-group" ng-class="{ 'has-error' : frm.descripcion.$invalid && frm.descripcion.$touched }">
+					 <label class="col-sm-4 control-label-left" for="descripcion">Descripción</label>
+					 <div class="col-sm-8">                     
+						<textarea ng-model="recurso.description" class="form-control" id="descripcion" name="descripcion" required minlength="5" maxlength="50"></textarea>
+						<tt style="color:maroon;" class="pull-right" ng-show="frm.descripcion.$invalid && frm.descripcion.$touched">Introduzca ladescripción.</tt>
+					 </div>
+				  </div>
+				  <div class="form-group" ng-class="{ 'has-error' : frm.ruta.$invalid && frm.ruta.$touched }">
+					 <label class="col-sm-4 control-label-left" for="ruta">Ruta</label>
+					 <div class="col-sm-8">
+						<input ng-model="recurso.Object" id="ruta" name="ruta" type="text" placeholder="Ruta de acceso al recurso" class="form-control input-sm" minlength="5" maxlength="50" required>
+						<tt style="color:maroon;" class="pull-right" ng-show="frm.ruta.$invalid && frm.ruta.$touched">Introduzca la ruta de acceso al recurso</tt>
+					 </div>
+				  </div>
+				  <!-- <div class="form-group" ng-show="false">
+					 <label class="col-sm-4 control-label-left" for="estado">Estado</label>
+					 <div class="col-sm-8">
+						<select ng-model="recurso.estado" ng-options="item.idestado as item.nombre for item in estados" class="form-control" ng-required="mostrar">
+						  <option value="">--Seleccione un estado--</option>
+						</select>
+					 </div>
+				  </div> -->
+				</fieldset>
+			 </div>
+		  </div>
+		</div>
+	 </form>
+  </div>
+</div>
+
+
+
+
+
+

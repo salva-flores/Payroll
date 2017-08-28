@@ -1,0 +1,118 @@
+<div class="card mb-2 no-print" style="max-width: 20rem;">
+	<div class="card-header p-2">Cálculo de la Planilla de Horas Extras</div>
+	<div class="card-body p-2">
+		<form class="form-inline d-flex justify-content-end">
+			<div class="form-group sm pr-2 mr-auto">
+				<label class="control-label bold pr-1 align-self-auto">Período:</label>
+				<input class="form-control input-xs p-1" ng-model="rango" type="text" name="daterange"  value="2017-06-01 - 2017-07-31" required/>
+			</div>
+			<div class="btn-toolbar">
+				<button class="btn btn-outline-primary  btn-xs mr-1 " title="Calcular la Planilla" ng-click="calcPayroll(rango)" ><i class="fa fa-calculator"></i></button>
+				<a href="javascript:window.print()" class="btn btn-outline-success btn-xs" title="Imprimir Planilla" ng-show="showPrinter==true"><i class="fa fa-print"></i></a> 
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="card" id="planilla" ng-show="showPayroll" ng-class="{'animated fadeIn 0.5': showPayroll==true}">
+	<div class="card-header p-2">
+		<div class="d-flex">Planilla de Horas Extras</div>
+		<div class="d-flex">Periodo de {{rango}}</div>
+	</div>
+	<div class="card-body m-2 p-0">
+		<table datatable="ng" class="row-border hover"> 
+			<thead>
+				<th>Fecha</th>
+				<th>Empleado</th>
+				<th class="text-right">Salario</th>
+				<th class="text-right">por Hora</th>
+				<th ng-repeat="o in overtime" class="text-right">{{o.name}} </th>
+				<th class="text-right">Total</th>
+				<th class="no-print">Estimado</th>
+				<th class="no-print">Real</th>
+				<th>Estado</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="r in requests" ng-class="{'text-info':r.state=='Pendiente','text-muted':r.state=='Cerrada','text-danger':r.state=='Rechazada'||r.state=='Devuelta' }" >
+					<td>{{ r.date | date : 'EEE, dd-MMM-yyyy' }}</td>
+					<td>{{ r.firstName }}</td>
+					<td class="text-right">{{ r.salary | number:2}}</td>
+					<td class="text-right">{{r.salary/30/8 | number:2}}</td>
+					<td ng-repeat="o in overtime" class="text-right">{{r.t[$index]>0 ? r.t[$index]+' = '+(r.t[$index]*((1+o.percent*1)*r.salary/30/8) | number:2) : '' }}</td>
+					<td class="text-right">{{r.totDev | number:2}}</td>
+					<td class="text-right no-print">{{ r.estimatedTime | number:1}}</td>
+					<td class="text-right no-print">{{ r.totalHoras }}</td>
+					<td>
+						<button type="button" ng-click="changeState(r)" class="btn btn-outline btn-xs" ng-class="{'btn-primary':r.state=='Autorizada','btn-success':r.state=='Aprobada', 'dtn-default':r.state=='Cerrada','btn-info':r.state=='Pendiente','btn-danger':r.state=='Rechazada'||r.state=='Devuelta'}">
+							<i ng-class="{'fa fa-thumbs-up':r.state=='Autorizada','fa fa-thumbs-o-up':r.state=='Aprobada','fa fa-warning':r.state=='Pendiente'||r.state=='Devuelta', 'fa fa-thumbs-o-down':r.state=='Rechazada', 'fa fa-pencil-square-o':r.state=='Cerrada' }"></i>
+						</button> {{r.state}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer">	<!-- Totales... --></div>
+</div>
+
+<div id="estado" ng-show="showState" ng-class="{'animated fadeInDown 0.5': showState==true,'animated fadeOutUp 0.5': showState==false}">
+	<div class="d-flex w-100 justify-content-between">
+		<div class="card w-50" >
+			<div class="card-header p-2">Solicitud</div>
+			<div class="card-body p-2">
+				<div class="container">
+					<form id="stateForm" name="stateForm" novalidate>
+						<fieldset disabled>
+							<div class="form-group row mb-1">
+								<label for="employee" class="col-sm-2 col-form-label">Empleado</label>
+								<div class="col-sm-10"><input ng-model="req.firstName" type="text" class="form-control" id="employee"></div>
+							</div>
+							<div class="form-group row mb-1">
+								<label for="date" class="col-sm-2 col-form-label">Fecha</label>
+								<div class="col-sm-10"><input ng-model="req.date" type="text" class="form-control" id="date"></div>
+							</div>
+							<div class="form-group row mb-1">
+								<label for="startTime" class="col-sm-2 col-form-label">Hora de Inicio</label>
+								<div class="col-sm-10"><input ng-model="req.startTime" type="text" class="form-control" id="startTime"></div>
+							</div>
+							<div class="form-group row mb-1">
+								<label for="estimatedTime" class="col-sm-2 col-form-label">Tiempo Estimado</label>
+								<div class="col-sm-4"><input ng-model="req.estimatedTime" type="text" class="form-control" id="estimatedTime"></div>
+								<label for="realTime" class="col-sm-2 col-form-label">Tiempo Real</label>
+								<div class="col-sm-4"><input ng-model="req.totalHoras" type="text" class="form-control" id="realTime"></div>
+							</div>
+							<div class="form-group row mb-1">
+								<label for="requestedBy" class="col-sm-2 col-form-label">Persona que Solicita</label>
+								<div class="col-sm-10"><input ng-model="req.requestedBy" type="text" class="form-control" id="requestedBy"></div>
+							</div>
+							<div class="form-group row mb-1">
+								<label for="description" class="col-sm-2 col-form-label">Descripción</label>
+								<div class="col-sm-10"><input ng-model="req.description" type="text" class="form-control" id="description"></div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="card w-50 align-self-start ">
+			<div class="card-header p-2">Estado</div>
+			<div class="card-body p-2 ">
+				<form class="form-horizontal" id="stateForm" name="stateForm" novalidate>
+					<div class="form-row ">
+						<div class="col-sm-4">
+							<div class="radio"><label class="text"><input ng-model="req.state" type="radio" name="optionsRadios" id="1" value="Autorizada">Autorizar</label></div>
+							<div class="radio"><label class="text"><input ng-model="req.state" type="radio" name="optionsRadios" id="2" value="Rechazada">Rechazar</label></div>
+						</div>
+						<div class="col-sm-8">
+							<label class="text m5">Notas:</label>
+							<textarea class="form-control" type="text" ng-model="req.observations" name="notas" id="notas" rows="4" required></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="card-footer d-flex justify-content-end p-2">
+				<button class="btn btn-outline btn-xs mr-1" ng-click="updateState(req)" ng-class="{'btn-success' : stateForm.$valid}"><i class="fa fa-send"/> Actualizar</button>
+				<button class="btn btn-outline-secondary btn-xs" ng-click="changeState(0)"><i class="fa fa-close"></i> Salir</button>
+			</div>
+		</div>
+	</div>
+</div>

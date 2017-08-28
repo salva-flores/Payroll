@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+	<!-- <div class="panel-body m15"> -->
+		<form class="form-horizontal bordered-group" id="form" name="form" novalidate>
+			<fieldset>
+				<div class="form-group">
+					<h3 class="panel-title">My Profile</h3>
+				</div>
+				<div class="row">
+					<div class="form-group">
+						<div class="col-md-1">
+							<label class="control-label bold" for="id">Id:</label>
+							<input ng-model="rootScope.user.id" id="1" name="id" type="text" class="form-control input-sm" disabled>
+						</div>
+						<div class="col-md-2">
+							<label class="control-label bold" for="id">Nombre:</label>
+							<input ng-model="rootScope.user.fname" id="2" name="name" type="text" class="form-control input-sm" disabled>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+		<div class="panel-footer right">
+		<div class="row">
+			<!-- <div class="btn-group"> -->
+				<button class="btn btn-default btn-xs pull-right" ng-click="$state.reload();">Refrescar</button>
+				<button class="btn btn-default btn-xs pull-right" ng-click="reset_form()">Cancelar</button>
+				<button class="btn btn-success btn-outline btn-xs pull-right" ng-disabled="!form.$valid" ng-click="save(request)"><i class="fa fa-send"/> Enviar</button>
+			</div>
+		</div>
+</div>

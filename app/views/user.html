@@ -1,0 +1,106 @@
+<!-- <div class="card" id="usersList" ng-show="showUsersList"> -->
+<div class="card" id="usersList">
+	<div class="card-header p-2 align-items-center">
+		<div class="d-flex justify-content-end align-items-center">
+			<div class="mr-auto">Listado de usuarios</div>
+			<button class="btn btn-primary btn-outline btn-xs mr-1" title="Add User" ng-click="addUser()" data-toggle="modal" data-target="#userForm"><i class="fa fa-plus mr5"></i>Nuevo</button>
+			<button class="btn btn-dark btn-outline btn-xs" title="Refresh List" ng-click="loadUsers()"><i class="fa fa-refresh"></i></button>
+		</div>
+	</div>
+	<div class="card-body p-2">
+		<table datatable="ng" dt-options="">
+			<thead>
+				<tr> 
+					<th>Usuario</th>
+					<th>Nombre</th>
+					<th>Perfil</th>
+					<th>Correo</th>
+					<th>Teléfono</th>
+					<th>Empleado</th>
+					<th>Estado</th>
+					<th>Eliminar</th>
+					<th>Editar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="user in users | orderBy:'id'"> 
+					<td>{{ user.userName || 'Vacío' }}</td>
+					<td>{{ user.firstName || 'Vacío' }}</td>
+					<td>{{showProfile(user)}}</td>
+					<td>{{ user.email || 'Vacío' }}</td>
+					<td>{{ user.phone || 'Vacío' }}</td>
+					<td>{{showEmployee(user)}}</td>
+					<td>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || 'Vacío' }}</td>
+					<td align="center">
+						<button type="button" ng-click="elimina(user,$index)" class="btn btn-danger btn-outline btn-xs"><i class="fa fa-trash-o"></i></button>
+						<td align="center"><button type="button" ng-click="editUser(user)" id="editButton" class="btn btn-success btn-outline btn-xs" data-toggle="modal" data-target="#userForm" ><i class="fa fa-pencil"></i></button>
+						</td>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="modal fade" id="userForm" tabindex="-1" role="dialog" aria-labelledby="userFormLabel" aria-hidden="true" data-backdrop="static">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="userFormLabel">{{accion}} usuario</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form name="frm" novalidate>
+				<div class="form-group m-1" ng-class="{ 'has-error' : frm.userName.$invalid && frm.userName.$touched, 'has-success' : frm.userName.$valid }">
+					<label class="form-control-label m-1" for="userName">Usuario</label>  
+					<input type="text" class="form-control form-control-sm" id="1" name="userName" minlength="5" maxlength="15" pattern="^[a-zA-Z]*$" ng-model="user.userName" ng-pattern-restrict required ng-disabled="!canEditUser">
+					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.userName.$invalid && frm.userName.$touched">Ingrese un nombre de 5 a 15 caracteres.</small>
+				</div>
+				<div class="form-group m-1" ng-hide="!canEditUser">
+					<label class="form-control-label m-1"  for="password">Contraseña</label>  
+					<input type="password" class="form-control form-control-sm" minlength="5" maxlength="12" id="2" name="password" ng-model="user.password" ng-required="canEditUser"  >
+				</div>
+				<div class="form-group m-1" ng-class="{ 'has-error' : frm.employeeId.$invalid && frm.employeeId.$touched, 'has-success' : frm.employeeId.$valid }"  ng-hide="!canEditUser">
+					<label class="form-control-label m-1" ><input type="checkbox" ng-model="isEmployee" ng-change="showNotUser(0)"> Es empleado</label>
+					<select class="form-control form-control-sm" name="employeeId" ng-model="user.employeeId" ng-options="e.id as e.firstName for e in notUsers | orderBy:'firstName'" ng-show="isEmployee" ng-required="isEmployee&&!canEditUser" ng-change="showNotUser(user)" ></select>
+					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.employeeId.$invalid && frm.employeeId.$touched">Selecciones un empleado.</small>
+				</div>
+				<div class="form-group m-1" ng-show="!canEditUser">
+					<label class="form-control-label m-1"  for="userName">Empleado</label>  
+					<input type="text" class="form-control form-control-sm" ng-model="userName" ng-disabled="!canEditUser">
+				</div>
+				<div class="form-group m-1" ng-class="{ 'has-error' : frm.email.$invalid && frm.email.$touched, 'has-success' : frm.email.$valid }">
+					<label class="form-control-label m-1"  for="email">Correo</label>
+					<input type="email" class="form-control form-control-sm" id="3" name="email" ng-model="user.email" ng-pattern-restrict required>
+					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.email.$invalid && frm.email.$touched">Dirección inválida.</small>
+				</div>
+				<div class="form-group m-1" ng-class="{ 'has-error' : frm.phone.$invalid && frm.phone.$touched, 'has-success' : frm.phone.$valid }">
+					<label class="form-control-label m-1"  for="phone">Telefono</label>
+					<input type="text" class="form-control form-control-sm" id="4" name="phone" minlength ="8" maxlength="8" ng-model="user.phone" pattern="^[0-9]*$" ng-pattern-restrict required>
+					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.phone.$invalid && frm.phone.$touched">Número telefónico inválido.</small>
+				</div>
+				<div class="form-group m-1" ng-class="{ 'has-error' : frm.profileId.$invalid && frm.profileId.$touched, 'has-success' : frm.profileId.$valid }">
+					<label class="form-control-label m-1"  for="profileId">Perfil</label>
+					<select class="form-control form-control-sm" name="profileId" ng-model="user.profileId" ng-options="p.id as p.name for p in profiles" required>
+						<option value="">-- Seleccione un Perfil --</option>
+					</select>
+					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.profileId.$invalid && frm.profileId.$touched">Seleccione un perfil.</small>
+				</div>
+				<div class="form-group m-1" ng-hide="canEditUser">
+					<label class="form-control-label m-1"  for="estado">Estado</label>
+					<select class="form-control form-control-sm" name="isActive" ng-model="user.isActive" required ng-disabled="canEditUser">
+						<option value="1">Activo</option>
+						<option value="0">Inactivo</option>
+					</select>
+				</div>
+			</form>
+			</div>
+			<div class="modal-footer">
+			<button class="btn btn-default btn-outline btn-xs pull-right " ng-click="saveUser(user)" ng-disabled="!frm.$valid"><i class="fa fa-send mr5"></i><span>Guardar</span></button>
+				<button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Cancelar</button>
+				<!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+			</div>
+		</div>
+	</div>
+</div>
