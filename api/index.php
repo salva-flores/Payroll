@@ -470,7 +470,7 @@
 			$data=array();
 			$phql ="SELECT e.firstName as Empleado, wh.name as Jornada, wh.overtimeStart as Permitido, wh.maxOverPerWeek as Semana
 			from mainEmployee e
-			inner join catWorkingHours wh on e.shiftId = wh.id 
+			inner join catWorkingHours wh on e.shift = wh.id 
 			where e.id = '$id'";
 			$data = $app->modelsManager->executeQuery($phql);
 			if(count($data)>0){http_response_code(200);}else{http_response_code(406);}
