@@ -4,26 +4,31 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.initVars = function() {
 		$scope.requests=[];
 		$scope.showDetail=false;
+		$scope.showReqs=false;
 		$scope.hora='';
 		$scope.estado='';
 		$scope.fecha=$filter('date')(new Date(),'dd-MMMM-yyyy');
-		if($rootScope.user.userName=='root' || $rootScope.user.profile==1){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data},function(response){console.log('Hubo un error!')})}
-			else{payrollService.fetch('GET','pendingOvertimeRequestbyBoss/'+$rootScope.user.employee).then(function(response){$scope.requests=response.data.data},function(response){console.log('Hubo un error!')})};
+		$scope.rango="";
+		$scope.startDate= $filter('date')(new Date(), 'yyyy-MM-dd');  ;
+		$scope.endDate="";
 		$scope.loadOvertime();
-		$scope.loadRequests();
+		// $('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.loadOvertime(e.currentTarget.value)});
 	};
 	$scope.loadOvertime = function () {
-		payrollService.fetch('GET','overtime').then(function(response) { $scope.overtime = response.data.data}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
+		payrollService.fetch('GET','overtime').then(function(response) { $scope.overtime = response.data.data;$scope.loadRequests()}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
 	};
 	$scope.loadRequests = function () { 
+		// if($rootScope.user.userName=='root' ){payrollService.fetch('GET','overReqByRange/'+rango).then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		if($rootScope.user.userName=='root' ){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
-		else{$http.get('../planilla/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate();})};
+		//agregar un if para ver si el usuario es un jefe y hacer el siguiente get que devuelve las solicitudes por Jefe:
+		// else{payrollService.fetch('GET','pendingOvertimeRequestbyBoss/'+$rootScope.user.employee).then(function(response){$scope.requests=response.data.data;$scope.calculate()},function(response){console.log('Hubo un error!')})};
+		else{payrollService.fetch('GET','overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 	};
 	$scope.calculate = function () {
 		if ($scope.requests.length) {for (var i = 0; i <= $scope.requests.length - 1; i++) {$scope.calcDetail(i)}};
 	};
 	$scope.calcDetail = function (i) {
-		return $http.get('../planilla/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calc(i)});
+		payrollService.fetch('GET','overDetail/'+$scope.requests[i].id).then(function(response) {$scope.detail = response.data.data;	$scope.calc(i);$scope.showReqs=true});	
 	};
 	$scope.calc = function(i) {
 		$scope.status=[]; $scope.totalHoras=0;
@@ -124,6 +129,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$http.get('../planilla/api/employeeBoss/'+$rootScope.user.employee).success(function (response) {new Noty({text:'Enviar notificación a...'+response.data.data[0].email, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show()});
 	};
 	$scope.initVars();
+	
 }
 
 angular

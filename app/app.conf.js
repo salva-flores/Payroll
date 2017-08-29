@@ -93,7 +93,16 @@ angular
 		url: '/approve',
 		templateUrl: 'app/views/overtime.approve.html',
 		controller: 'overtimeApproveCtrl',
-		resolve: {deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/overtime.approve.js')}]},
+		resolve: {
+			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{insertBefore: '#load_styles_before',files:['src/vendor/bootstrap-daterangepicker/daterangepicker.css']},
+					{serie:true,files:['src/vendor/bootstrap-daterangepicker/moment.min.js','src/vendor/bootstrap-daterangepicker/daterangepicker.js']},
+					])
+				.then(function () {return $ocLazyLoad.load('app/controllers/overtime.approve.js')});
+			}]
+		},
+		// resolve: {deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/overtime.approve.js')}]},
 		data: {title: 'Aprobación de Horas Extras'}
 		})
 	.state('app.over.detail', {	

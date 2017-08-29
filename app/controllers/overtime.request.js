@@ -17,19 +17,18 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.detail = [];
 		$scope.activity = {id:'',requestId:'',entryDate:'',activityDate:'',startTime:'',startTimeStamp:'',endTime:'',endTimeStamp:'',activities:''};
 		$scope.isAdmin=false;
-		// $scope.showReqs=true;
+		$scope.showReqs=false;
 		// $scope.showDetail=false;
 		$scope.enableCloseButton=false;
 		$scope.loadOvertime ();
-		$scope.loadRequests();
 		};
 	$scope.loadOvertime = function () {
 		payrollService.fetch('GET','overtime')
-		.then(function(response) { $scope.overtime = response.data.data}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
+		.then(function(response) { $scope.overtime = response.data.data;$scope.loadRequests()}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
 		};
 	$scope.loadRequests = function () { 
 		if($rootScope.user.userName=='root' ){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
-		else{$http.get('../planilla/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate();})};
+		else{$http.get('../planilla/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};
 	$scope.loadDetail = function () {
 		payrollService.fetch('GET','overDetail/'+$scope.activity.requestId).then(function(response){
@@ -193,7 +192,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		if ($scope.requests.length) {for (var i = 0; i <= $scope.requests.length - 1; i++) {$scope.calcDetail(i)}};
 		};
 	$scope.calcDetail = function (i) {
-		return $http.get('../planilla/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calc(i)});
+		return $http.get('../planilla/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calc(i);$scope.showReqs=true});
 		};
 	$scope.calc = function(i) {
 		$scope.status=[]; $scope.totalHoras=0;
