@@ -27,7 +27,8 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		.then(function(response) { $scope.overtime = response.data.data;$scope.loadRequests()}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
 		};
 	$scope.loadRequests = function () { 
-		if($rootScope.user.userName=='root' ){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
+		console.log($rootScope.user);
+		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		else{$http.get('../planilla/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};
 	$scope.loadDetail = function () {

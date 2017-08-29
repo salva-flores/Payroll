@@ -19,9 +19,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	};
 	$scope.loadRequests = function () { 
 		// if($rootScope.user.userName=='root' ){payrollService.fetch('GET','overReqByRange/'+rango).then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
-		if($rootScope.user.userName=='root' ){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
-		//agregar un if para ver si el usuario es un jefe y hacer el siguiente get que devuelve las solicitudes por Jefe:
-		// else{payrollService.fetch('GET','pendingOvertimeRequestbyBoss/'+$rootScope.user.employee).then(function(response){$scope.requests=response.data.data;$scope.calculate()},function(response){console.log('Hubo un error!')})};
+		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		else{payrollService.fetch('GET','overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 	};
 	$scope.calculate = function () {
