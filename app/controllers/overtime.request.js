@@ -1,5 +1,12 @@
 'use strict';
-
+/*
+Reglas del negocios a considerar. Verificación en HHEE.
+- Maximo de Horas Extras a la semana [Default: Ley, admin] ok-en el catalogo de jornadas de trabajo
+- No tener solicitudes abiertas. Esta validacion es requerida al momento de hacer la solicitud -pendiente.
+- Requiere aprobación si está en horario habil - pendiente.
+- Quien Aprueba [Default : Jefe inmediato, Definido por el admin] definir Roles (por el momento el sistema busca al jefe inmediato del empleado.) 
+- Quien Autoriza [Default: Gerente General, Definido por el admin] definir Roles (por el momento el sistema busca al gerente general)
+*/
 function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payrollService, parametros) {
 
 	$scope.initVars = function() {

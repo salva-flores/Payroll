@@ -194,7 +194,7 @@ class MainEmployee extends \Phalcon\Mvc\Model
      * Validations and business logic
      *
      * @return boolean
-     */
+     * Disabled due to validatioin error
     public function validation()
     {
         $validator = new Validation();
@@ -211,6 +211,7 @@ class MainEmployee extends \Phalcon\Mvc\Model
 
         return $this->validate($validator);
     }
+     */
 
     /**
      * Initialize method for model.
