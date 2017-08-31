@@ -21,11 +21,11 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.showPayroll=false;
 		$scope.showState=false;
 		$scope.requests = [];
-		return $http.get('../planilla/api/overtime').then(function (response) {
+		return $http.get('../hhrr/api/overtime').then(function (response) {
 			$scope.overtime = response.data.data; $scope.loadRequests(rango)});
 		};
 	$scope.loadRequests = function (rango) {
-		return $http.get('../planilla/api/overReqByRange/'+rango)
+		return $http.get('../hhrr/api/overReqByRange/'+rango)
 		.then(function (response) {
 			$scope.requests = response.data.data; 
 			if ($scope.requests.length) {
@@ -40,7 +40,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		});
 		};
 	$scope.loadDetail = function (i) {
-		return $http.get('../planilla/api/overDetail/'+$scope.requests[i].id)
+		return $http.get('../hhrr/api/overDetail/'+$scope.requests[i].id)
 		.then(function (response) {
 			$scope.detail = response.data.data;
 			// $scope.calcOver(i);
@@ -94,7 +94,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		};
 	$scope.updateState = function(req){
 		angular.extend(req, {authorizedBy:$rootScope.user.id},{authorizationDate:$filter('date')(new Date(),'yyyy-MM-dd hh:mm:ss')});
-		$http.put('../planilla/api/overReq/', req)
+		$http.put('../hhrr/api/overReq/', req)
 		.then(function(response){
 			new Noty({text:response.data.message,type:response.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
 			.show()

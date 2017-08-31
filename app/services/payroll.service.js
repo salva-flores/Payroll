@@ -2,7 +2,7 @@
 
 function payrollService($q, $http, $rootScope, $localStorage, $state) {
 	var service = {};
-	var api_url = '../planilla/api/';
+	var api_url = '../hhrr/api/';
 	service.fetch = function(method, api, data) {
 		var deferred = $q.defer();
 		var req = {method:method,url:api_url+api,headers:{'Content-Type':'application/json;charset=utf-8'},data:data };
@@ -23,8 +23,8 @@ function payrollService($q, $http, $rootScope, $localStorage, $state) {
 	service.loadSidebar = function(){//Need to fix: Make an API that retuens all resources and put them in the token...
 		$rootScope.menu = [];
 		$rootScope.list = [];
-		$rootScope.menu.length ? null : $http.get('../planilla/api/mainResource').then(function(response){$rootScope.menu = response.data.data});
-		$rootScope.list.length ? null : $http.get('../planilla/api/resourceById/'+$rootScope.user.profile).then(function(response){$rootScope.list = response.data.data});
+		$rootScope.menu.length ? null : $http.get('../hhrr/api/mainResource').then(function(response){$rootScope.menu = response.data.data});
+		$rootScope.list.length ? null : $http.get('../hhrr/api/resourceById/'+$rootScope.user.profile).then(function(response){$rootScope.list = response.data.data});
 		};
 	service.checkResource = function(i) {if(angular.isDefined($rootScope.list)){return JSON.stringify($rootScope.list).indexOf(i)}else{return 0}};
 	service.openModal = function(show, width, height){

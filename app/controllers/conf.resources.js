@@ -2,7 +2,7 @@
 function resourcesCtrl($rootScope, $scope, $filter, $http, payrollService, $resource, DTOptionsBuilder, DTColumnDefBuilder) {
 
     $scope.resources = [];
-    $scope.resources.length ? null : $http.get('../planilla/api/resource').success(function (data) {$scope.resources = data.data});
+    $scope.resources.length ? null : $http.get('../hhrr/api/resource').success(function (data) {$scope.resources = data.data});
 
     $scope.showMenu = function (r) {
         if (r.typeId && $scope.resources.length) {

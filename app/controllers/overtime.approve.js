@@ -124,7 +124,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.showDetail=false; stateForm.$setUntouched(); stateForm.$setPristine();
 	};
 	$scope.notify = function () {
-		$http.get('../planilla/api/employeeBoss/'+$rootScope.user.employee).success(function (response) {new Noty({text:'Enviar notificación a...'+response.data.data[0].email, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show()});
+		$http.get('../hhrr/api/employeeBoss/'+$rootScope.user.employee).success(function (response) {new Noty({text:'Enviar notificación a...'+response.data.data[0].email, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show()});
 	};
 	$scope.initVars();
 	

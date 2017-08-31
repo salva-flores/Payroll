@@ -15,10 +15,10 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 		$scope.loadNotUsers();
 		};
 	$scope.initUser = function() {$scope.user={avatar:'',email:'',employeeId:'',firstName:'',id:'',isActive:1,lastName:'',password:'',phone:'',profileId:'',userName:''}};
-	$scope.loadUsers = function () {return $http.get('../planilla/api/user').then(function (response) {$scope.users = response.data.data})};
-	$scope.loadProfiles = function () {return $scope.profiles.length ? null : $http.get('../planilla/api/profile').then(function (response) {$scope.profiles = response.data.data})};
-	$scope.loadEmployees = function () {return $scope.employees.length ? null : $http.get('../planilla/api/employee').then(function (response) {$scope.employees = response.data.data})};
-	$scope.loadNotUsers = function () {return $scope.notUsers.length ? null : $http.get('../planilla/api/notUser').then(function (response) {$scope.notUsers = response.data.data})};
+	$scope.loadUsers = function () {return $http.get('../hhrr/api/user').then(function (response) {$scope.users = response.data.data})};
+	$scope.loadProfiles = function () {return $scope.profiles.length ? null : $http.get('../hhrr/api/profile').then(function (response) {$scope.profiles = response.data.data})};
+	$scope.loadEmployees = function () {return $scope.employees.length ? null : $http.get('../hhrr/api/employee').then(function (response) {$scope.employees = response.data.data})};
+	$scope.loadNotUsers = function () {return $scope.notUsers.length ? null : $http.get('../hhrr/api/notUser').then(function (response) {$scope.notUsers = response.data.data})};
 	$scope.showProfile = function (user) {
 		if (user.profileId && $scope.profiles.length) {
 			var selectedProfile = $filter('filter')($scope.profiles, {id: user.profileId});
@@ -67,13 +67,13 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 		if (selected[0].gender==1){user.avatar="man.png"}else{user.avatar="female.png"};
 		if (user.password.length==0){user.password=$scope.tempPass};
 		if ($scope.action=='POST'){
-			return $http.post('../planilla/api/user', user).then(function(response){
+			return $http.post('../hhrr/api/user', user).then(function(response){
 				new Noty({text:response.data.message, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 			},function(response){
 				new Noty({text:'Error:'+response.data.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 			});
 		}else{
-			return $http.put('../planilla/api/user', user).then(function(response){
+			return $http.put('../hhrr/api/user', user).then(function(response){
 				new Noty({text:'Registro actualizado!'+response.data, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 			},function(response){
 				new Noty({text:'Error al actualizar!...'+response.message, type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();

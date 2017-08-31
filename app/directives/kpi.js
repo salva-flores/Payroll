@@ -4,7 +4,7 @@ function kpi($timeout, $http) {
 		restrict: 'EA',
 		link: function (scope, element, attrs) {
 			var body = angular.element('body');
-			element.on('click', function (e) {	e.preventDefault();$http.get('../planilla/api/kpi').success(function (data) {kpi=data.data})});			
+			element.on('click', function (e) {	e.preventDefault();$http.get('../hhrr/api/kpi').success(function (data) {kpi=data.data})});			
 		}
 	};
 };

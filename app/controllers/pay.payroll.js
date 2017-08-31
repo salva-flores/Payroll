@@ -22,15 +22,15 @@ function payrollCtrl($scope, $filter, $http, editableOptions, editableThemes, $q
 	};
 
 	$scope.types=[];
-	$scope.loadTypes = function () {return $scope.types.length ? null : $http.get('../planilla/api/payrolltypes').success(function (data) {$scope.types = data.data})};
+	$scope.loadTypes = function () {return $scope.types.length ? null : $http.get('../hhrr/api/payrolltypes').success(function (data) {$scope.types = data.data})};
 	$scope.loadTypes();
 
 	$scope.payrolls = [];
-	$scope.loadPayrolls = function(){return $scope.payrolls.length ? null : $http.get('../planilla/api/payrolls').success(function (data) {$scope.payrolls = data.data})};
+	$scope.loadPayrolls = function(){return $scope.payrolls.length ? null : $http.get('../hhrr/api/payrolls').success(function (data) {$scope.payrolls = data.data})};
 	$scope.loadPayrolls();
 
 	$scope.employees = [];
-	$scope.loadEmployees = function(){return $scope.employees.length ? null : $http.get('../planilla/api/employees').success(function (data) {$scope.employees = data.data})};
+	$scope.loadEmployees = function(){return $scope.employees.length ? null : $http.get('../hhrr/api/employees').success(function (data) {$scope.employees = data.data})};
 	$scope.loadEmployees();
 
 	$scope.consulta_planilla = function(){

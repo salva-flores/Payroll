@@ -21,7 +21,7 @@
 				<th>Descripción</th>
 				<th>Estimado</th>
 				<th ng-show="isAdmin">Real</th>
-				<th ng-repeat="o in overtime" class="text-right" ng-show="isAdmin">{{o.name}} </th>
+				<th ng-repeat="o in overtime" class="text-right" ng-show="isAdmin">{{o.start|date:'h'}}-{{o.end|date:'h'}}</th>
 				<th>Estado</th>
 				<th>Observaciones</th>
 			</thead>
@@ -49,7 +49,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="overReqForm" tabindex="-1" role="dialog" data-backdrop="static">
+<div class="modal fade" id="overReqForm" draggable="" tabindex="-1" role="dialog" data-backdrop="static">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="card">
@@ -103,7 +103,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="overDetailForm" tabindex="-1" role="dialog" data-backdrop="static">
+<div class="modal fade" id="overDetailForm" draggable="" tabindex="-1" role="dialog" data-backdrop="static">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="card d-print-none" ng-show="request.state=='Aprobada' ">

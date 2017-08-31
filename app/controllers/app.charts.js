@@ -60,8 +60,8 @@ function chartsCtrl($scope, $rootScope, $http, $filter, $state, payrollService) 
 			options: {title:{text:'Horas Extras por Día'}}
 			});
 		};
-	$scope.loadBarData = function () {return  $http.get('../planilla/api/overtimeBar').then(function (response) {$scope.bar = response.data.data;$scope.barGraph()})};
-	$scope.loadLineData = function () {return  $http.get('../planilla/api/overtimeLine').then(function (response) {$scope.line = response.data.data;$scope.lineGraph()})};
+	$scope.loadBarData = function () {return  $http.get('../hhrr/api/overtimeBar').then(function (response) {$scope.bar = response.data.data;$scope.barGraph()})};
+	$scope.loadLineData = function () {return  $http.get('../hhrr/api/overtimeLine').then(function (response) {$scope.line = response.data.data;$scope.lineGraph()})};
 	$scope.showBar = function	(){
 		$scope.showBarChart=!$scope.showBarChart;
 		$scope.showLineChart=false;

@@ -36,7 +36,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.loadRequests = function () { 
 		console.log($rootScope.user);
 		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
-		else{$http.get('../planilla/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
+		else{$http.get('../hhrr/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};
 	$scope.loadDetail = function () {
 		payrollService.fetch('GET','overDetail/'+$scope.activity.requestId).then(function(response){
@@ -64,7 +64,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			});
 		};
 	$scope.notifyBoss = function () {
-		$http.get('../planilla/api/employeeBoss/'+$rootScope.user.employee).then(function (response) {
+		$http.get('../hhrr/api/employeeBoss/'+$rootScope.user.employee).then(function (response) {
 			new Noty({text:'Su solicitud ha sido enviada a '+response.data.data[0].email, type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
 			.show().on('onClose', function() {$('#overReqForm').modal('hide')});
 			//Hacer API para mandar el correo
@@ -200,7 +200,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		if ($scope.requests.length) {for (var i = 0; i <= $scope.requests.length - 1; i++) {$scope.calcDetail(i)}};
 		};
 	$scope.calcDetail = function (i) {
-		return $http.get('../planilla/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calc(i);$scope.showReqs=true});
+		return $http.get('../hhrr/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calc(i);$scope.showReqs=true});
 		};
 	$scope.calc = function(i) {
 		$scope.status=[]; $scope.totalHoras=0;

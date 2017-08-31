@@ -33,7 +33,7 @@ angular
 		if (angular.isDefined($localStorage.layout)) {$scope.app.layout = $localStorage.layout} else {$localStorage.layout = $scope.app.layout};
 		$scope.$watch('app.layout', function () {$localStorage.layout = $scope.app.layout}, true);
 		if (angular.isDefined($localStorage.user)) {$rootScope.user = $localStorage.user} else {$localStorage.user = $rootScope.user};
-		$scope.$watch('app.layout.isChatOpen', function () {if ($scope.app.layout.isChatOpen) {$http.get('../planilla/api/kpi').then(function (response) {$scope.kpi=response.data.data})}},true);
+		$scope.$watch('app.layout.isChatOpen', function () {if ($scope.app.layout.isChatOpen) {$http.get('../hhrr/api/kpi').then(function (response) {$scope.kpi=response.data.data})}},true);
 		$rootScope.$watch('user', function () {$localStorage.user = $rootScope.user}, true);
 		$scope.events = [];
 		$scope.$on('IdleTimeout', function() {
