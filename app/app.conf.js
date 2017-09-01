@@ -219,7 +219,7 @@ angular
 		})
 	}])
 .config(['IdleProvider','KeepaliveProvider', function (IdleProvider, KeepaliveProvider) {
-	IdleProvider.idle(60*4); IdleProvider.timeout(1); KeepaliveProvider.interval(2);
+	IdleProvider.idle(60*15); IdleProvider.timeout(1); KeepaliveProvider.interval(2);
 	}])
 .config(['$ocLazyLoadProvider', function ($ocLazyLoadProvider) {
 	$ocLazyLoadProvider.config({debug: false,events: false});

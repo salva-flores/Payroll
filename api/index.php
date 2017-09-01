@@ -291,8 +291,8 @@
 			$data=array();
 			$phql = "SELECT e.id, e.firstName, cs.unitId, cs.parentUnitId, ee.firstName as Jefe, ee.email as email
 			from mainCompanyStructure cs
-			inner join mainEmployee e ON cs.unitId = e.companyUnitId
-			inner join mainEmployee ee ON cs.parentUnitId = ee.companyUnitId
+			inner join mainEmployee e ON cs.unitId = e.companyUnit
+			inner join mainEmployee ee ON cs.parentUnitId = ee.companyUnit
 			inner join catCompanyUnit cu on cs.unitId = cu.id
 			where e.id = '$id'";
 			$data = $app->modelsManager->executeQuery($phql);

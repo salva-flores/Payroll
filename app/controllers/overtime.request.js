@@ -25,16 +25,18 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.activity = {id:'',requestId:'',entryDate:'',activityDate:'',startTime:'',startTimeStamp:'',endTime:'',endTimeStamp:'',activities:''};
 		$scope.isAdmin=false;
 		$scope.showReqs=false;
-		// $scope.showDetail=false;
 		$scope.enableCloseButton=false;
-		$scope.loadOvertime ();
+		new Noty({text:'Cargando data...',type:'info',layout:'topLeft',theme:'relax',timeout:100,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}})
+		.show()
+		$scope.loadOvertime();
 		};
 	$scope.loadOvertime = function () {
 		payrollService.fetch('GET','overtime')
-		.then(function(response) { $scope.overtime = response.data.data;$scope.loadRequests()}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
+		.then(function(response) { 
+			$scope.overtime = response.data.data;$scope.loadRequests()}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
 		};
 	$scope.loadRequests = function () { 
-		console.log($rootScope.user);
+		$scope.showReqs=false;
 		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		else{$http.get('../hhrr/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};
@@ -119,45 +121,10 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			};
 			$scope.totalHoras=$scope.totalHoras+diff;
 		};
-		var horas = $filter('number')($scope.totalHoras/60/60/1000,1); var estimado = $filter('number')($scope.request.estimatedTime,1);
-		if ($scope.detail.length) { $scope.calcOver(); $scope.enableCloseButton=true };
-		$scope.estado=angular.fromJson($scope.status); 
-		if ($scope.request.state=='Cerrada'){
-			$scope.enableCloseButton=false;
-			// var texto = 'La solicitud está Cerrada. Tiene un total de '+horas+' horas. \n'; 
-			// new Noty({text:texto,type:'warning',theme:'relax',timeout:4000,animation:{open:'animated fadeInDown',close:'animated fadeOutDown'}}).show();
-		} else {
-			horas=horas*1; estimado=estimado*1;
-			// var texto = 'El detalle de actividades tiene '+horas+' horas. \n';
-			if (horas>=estimado){
-				// new Noty({text:texto,type:'warning',theme:'relax',timeout:4000,animation:{open:'animated fadeInDown',close:'animated fadeOutDown'}}).show();
-				$scope.enableCloseButton=true;
-			} else {
-				var texto = 'El detalle tiene '+horas+' horas. \n\r'+'Por favor ingrese las actividades realizadas para completarlo.';
-				// new Noty({text:texto ,type:'success',theme:'relax',timeout:2500,animation:{open:'animated fadeInDown',close:'animated fadeOutDown'}}).show();
-			};
-		}};
-	$scope.calcOver = function() {
-		var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
-		var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
-		var tot = $scope.totalHoras*1; var diff = 0; var j = 0;
-		$scope.t = []; $scope.u=0;
-		for (j = 0; j <= $scope.overtime.length - 1; j++) {$scope.t[j] = 0};
-		for (j = 0; j <= $scope.overtime.length - 2; j++) {
-			var oStart = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[j].start, 'HH:mm:ss'));
-			var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[j].end, 'HH:mm:ss'));
-			diff = oEnd.getTime() - dStart.getTime();
-			if (diff < 0) {diff = diff+24*60*60*1000}; 
-			tot = tot - diff; var horas = $filter('number')(diff/60/60/1000,1);
-			$scope.t[j] = $scope.t[j] + horas*1;
-			if (tot < 0) {$scope.t[j] = $scope.t[j] + $filter('number')(tot/60/60/1000,1)*1};
-			if ($scope.t[j] < 0){ $scope.t[j] = 0};
-			dStart = oEnd; 
-		};
-		for (j = 0; j <= $scope.overtime.length - 1; j++) {
-			var $l=$scope.overtime[j].name+': '+$scope.t[j]; $scope.status.push($l);
-		};
-		var $l='Total: '+$filter('number')($scope.totalHoras/60/60/1000,1); $scope.status.push($l);
+		// var horas = $filter('number')($scope.totalHoras/60/60/1000,1), estimado = $filter('number')($scope.request.estimatedTime,1);
+		if ($scope.detail.length) { $scope.enableCloseButton=true };
+		if ($scope.request.state=='Cerrada'){$scope.enableCloseButton=false}
+		// else {horas=horas*1; estimado=estimado*1;	if (horas>=estimado){$scope.enableCloseButton=true}};
 		};
 	$scope.closeRequest = function() {
 		$scope.request.state="Cerrada";
@@ -174,13 +141,13 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			$scope.enableCloseButton=false;
 		};
 	$scope.closeDetail = function (detailForm) {
-		// $scope.showDetail=false;
+		$scope.showDetailRow=false;
+		$scope.showDetail=false;
 		detailForm.$setUntouched();
 		detailForm.$setPristine();
 		$scope.activity = {id:'',requestId:'',entryDate:'',activityDate:'',startTime:'',startTimeStamp:'',endTime:'',endTimeStamp:'',activities:''};
 		$scope.estado='';
 		$scope.enableCloseButton=false;
-		// $scope.showList=true;
 		};
 	$scope.resetForm = function(frm) { 
 		$scope.initVars(); frm.$setUntouched(); frm.$setPristine(); document.getElementById("1").focus();
@@ -200,40 +167,34 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		if ($scope.requests.length) {for (var i = 0; i <= $scope.requests.length - 1; i++) {$scope.calcDetail(i)}};
 		};
 	$scope.calcDetail = function (i) {
-		return $http.get('../hhrr/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calc(i);$scope.showReqs=true});
+		$http.get('../hhrr/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calcOver(i);$scope.showReqs=true});
 		};
-	$scope.calc = function(i) {
+	$scope.calcOver = function(i) {
 		$scope.status=[]; $scope.totalHoras=0;
 		for (var j=0; j<=($scope.detail.length-1); j++){
-			var diff = 0; var dStart = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].startTime);
+			var diff = 0; 
 			var dEnd = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].endTime);
-			var diff = (dEnd - dStart);
+			var dStart = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].startTime);
+			diff = (dEnd - dStart);
 			if (diff < 0) { diff=diff+24*60*60*1000 };
 			$scope.totalHoras=$scope.totalHoras+diff;
-			var tot = $scope.totalHoras*1;
 		};
-		var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1);
-		if ($scope.detail.length) { 
+		if ($scope.totalHoras>0){
+			var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = totalHoras*1, a=0, isHoliday=false;
 			var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
 			var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
 			$scope.t = []; 
 			for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0};
 			for (var k = 0; k <= $scope.overtime.length - 2; k++) {
-					var oStart = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].start, 'HH:mm:ss'));
-					var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));
-					diff = oEnd.getTime() - dStart.getTime();
-					if (diff < 0) {diff = diff+24*60*60*1000}; 
-					tot = tot - diff; var horas = $filter('number')(diff/60/60/1000,1);
-					$scope.t[k] = $scope.t[k] + horas*1;
-					if (tot < 0) {$scope.t[k] = $scope.t[k] + $filter('number')(tot/60/60/1000,1)*1};
-					if ($scope.t[k] < 0){ $scope.t[k] = 0};
-					dStart = oEnd; 
-				};
+				var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));
+				diff = $filter('number')((oEnd.getTime() - dStart.getTime())/60/60/1000,1)*1;
+				if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if (diff==-16){a=tot};
+				if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.t[$scope.overtime.length-1]=$scope.t[$scope.overtime.length-1]+a } else {$scope.t[k] = $scope.t[k] + a};
+			}
 			var totalDevengado=0;
 			for (var k = 0; k <= $scope.overtime.length - 1; k++) {totalDevengado = totalDevengado + $scope.t[k]*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8};
 			angular.extend($scope.requests[i], {t:$scope.t}, {totalHoras:totalHoras},{totDev:totalDevengado});
-			$scope.estado=angular.fromJson($scope.status);
-			};
+		};
 		};
 
 	$scope.calcFooter = function() {};
