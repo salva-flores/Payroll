@@ -39,17 +39,16 @@
 		</table>
 	</div>
 </div>
-
-<div class="row" ng-show="showDetail" ng-class="{'animated fadeInDown 0.5': showDetail==true,'animated fadeOutUp 0.5': showDetail==false}">
-	<div class="col-sm-7">
-		<div class="card p-1">
-			<div class="card-header p-2">
+<div class="d-flex flex-row" ng-show="showDetail" ng-class="{'animated fadeInDown 0.5': showDetail==true,'animated fadeOutUp 0.5': showDetail==false}">
+	<div class="col-sm-8">
+		<div class="card" >
+			<div class="card-header p-2" >
 				<div class="d-flex justify-content-end">
-					<div class="mr-auto">{{ estado }}</div>	
+					<div class="mr-auto">Desglose por Horas</div>	
 				</div>
 			</div>
-			<div class="card-body p-2">
-				<table class="table table-bordered m-0 p-0">
+			<div class="card-body m-0 p-2">
+				<table class="table table-bordered m-0">
 					<thead>
 						<th>Fecha</th>
 						<th>Inicio</th>
@@ -66,12 +65,42 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="card-footer p-2">
-				<div class="d-flex justify-content-end">
-					<div class="bg-success text-white">{{estado}}</div>
-				</div>
+			<div class="card-footer m-0 p-2"></div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="card p-1" >
+			<div class="card-header p-2">Estado</div>
+			<div class="card-body p-2 ">
+			<form class="form-horizontal" id="stateForm" name="stateForm" novalidate>
+					<div class="form-row ">
+						<div class="col-sm-4">
+							<div class="radio"><label class="text"><input ng-model="req.state" type="radio" name="optionsRadios" id="1" value="Aprobada" ng-checked="true">Aprobada</label></div>
+							<div class="radio"><label class="text"><input ng-model="req.state" type="radio" name="optionsRadios" id="2" value="Rechazada">Rechazada</label></div>
+							<div class="radio"><label class="text"><input ng-model="req.state" type="radio" name="optionsRadios" id="3" value="Devuelta">Devuelta</label></div>
+							<div class="radio"><label class="text"><input ng-model="req.state" type="radio" name="optionsRadios" id="4" value="Cerrada" ng-disabled>Cerrada</label></div>
+							<div class="radio"><label class="text"><input ng-model="req.state" type="radio" name="optionsRadios" id="5" value="Autorizada">Autorizada</label></div>
+						</div>
+						<div class="col-sm-8">
+							<label class="text m5">Notas:</label>
+							<textarea class="form-control" type="text" ng-model="req.observations" name="notas" id="notas" rows="5" required></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="card-footer d-flex justify-content-end p-2">
+				<button class="btn btn-outline btn-xs mr-1" ng-click="updateState(req)" ng-class="{'btn-success' : stateForm.$valid}"><i class="fa fa-send"/> Actualizar</button>
+				<button class="btn btn-outline-secondary btn-xs" ng-click="closeDetail(stateForm)"><i class="fa fa-close"></i> Salir</button>
 			</div>
 		</div>
+	</div>
+</div>
+
+<!-- 
+
+<div class="row" ng-show="showDetail" ng-class="{'animated fadeInDown 0.5': showDetail==true,'animated fadeOutUp 0.5': showDetail==false}">
+	<div class="col-sm-7">
+		
 	</div>
 	<div class="col-sm-5">
 		<div class="card p-1" >
@@ -99,4 +128,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
