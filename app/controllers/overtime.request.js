@@ -24,7 +24,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.detail = [];
 		$scope.activity = {id:'',requestId:'',entryDate:'',activityDate:'',startTime:'',startTimeStamp:'',endTime:'',endTimeStamp:'',activities:''};
 		$scope.isAdmin=false;
-		$scope.showReqs=false;
+		$scope.showReqs=true;
 		$scope.enableCloseButton=false;
 		new Noty({text:'Cargando data...',type:'info',layout:'topLeft',theme:'relax',timeout:100,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}})
 		.show()
@@ -36,7 +36,6 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			$scope.overtime = response.data.data;$scope.loadRequests()}, function(response) { new Noty({text:'Error... '+response.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
 		};
 	$scope.loadRequests = function () { 
-		$scope.showReqs=false;
 		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		else{$http.get('../hhrr/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};
