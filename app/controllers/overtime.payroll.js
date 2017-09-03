@@ -16,7 +16,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.rango="";
 		$scope.startDate= $filter('date')($scope.today, 'yyyy-MM-dd');  ;
 		$scope.endDate="";
-		$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.calcPayroll(e.currentTarget.value)});
+		$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.calcPayroll(e.currentTarget.value);});
 		};
 	$scope.calcPayroll = function (rango) {
 		$scope.showPayroll=false; $scope.showState=false; $scope.requests = [];
@@ -30,7 +30,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 				for (var i = 0; i <= $scope.requests.length - 1; i++) {$scope.calcDetail(i)};
 				new Noty({text:'Calculando la Planilla...',type:'info',layout:'topLeft',theme:'relax',timeout:750,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}})
 				.show()
-				.on('onClose', function() {$('#planilla').collapse('show');$scope.showPrinter=true;$scope.showPayroll=true});
+				.on('onClose', function() {$('#planilla').collapse('show');$scope.showPrinter=true;$scope.showPayroll=true;$scope.calcFooter()});
 			};
 		}, function(response) {
 			new Noty({text:response.data.message,type:'error',layout:'topLeft',theme:'relax',timeout:750,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}}).show();
@@ -38,7 +38,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		});
 		};
 	$scope.calcDetail = function (i) {
-		$http.get('../hhrr/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;	$scope.calcOver(i);$scope.showReqs=true});
+		$http.get('../hhrr/api/overDetail/'+$scope.requests[i].id).then(function (response) {$scope.detail = response.data.data;$scope.calcOver(i);$scope.showReqs=true});
 		};
 	$scope.loadDetail = function (req) {
 		$http.get('../hhrr/api/overDetail/'+req.id).then(function (response) {$scope.detail = response.data.data;$scope.showReqs=true});
@@ -61,17 +61,19 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		for (var k = 0; k <= $scope.overtime.length - 2; k++) {
 			var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));
 			diff = $filter('number')((oEnd.getTime() - dStart.getTime())/60/60/1000,1)*1;
-			if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if (diff==-16){a=tot};
+			if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if ($filter('number')(diff,0)*1==-16){a=tot};
+			// console.log('diff',diff,'tot',tot,$scope.overtime[k].name,'acum',a);
 			if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.t[$scope.overtime.length-1]=$scope.t[$scope.overtime.length-1]+a } else {$scope.t[k] = $scope.t[k] + a};
 		}
 		var totalDevengado=0;
 		for (var k = 0; k <= $scope.overtime.length - 1; k++) {totalDevengado = totalDevengado + $scope.t[k]*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8};
-		angular.extend($scope.requests[i], {t:$scope.t}, {totalHoras:totalHoras},{totDev:totalDevengado});
+		angular.extend($scope.requests[i], {t:$scope.t}, {totalHoras:totalHoras},{totDev:$filter('number')(totalDevengado, 2)});
 		};
 	$scope.changeState = function(req){
-		$scope.showDetail=true; $scope.req=req; 
-		if (req==0){$scope.showState=false;$scope.showPayroll=true} else {$scope.loadDetail($scope.req);$scope.showState=true};
+		$scope.showDetail=true; $scope.req=req; $scope.enableUpdateButton=false;
+		if (req==0){$scope.showState=false;$scope.showDetail=false;$scope.showPayroll=true} else {$scope.loadDetail($scope.req);$scope.showState=true};
 		};
+
 	$scope.updateState = function(req){
 		angular.extend(req, {authorizedBy:$rootScope.user.id},{authorizationDate:$filter('date')(new Date(),'yyyy-MM-dd hh:mm:ss')});
 		$http.put('../hhrr/api/overReq/', req)
@@ -89,6 +91,8 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.resetForm = function() {};
 	$scope.calcFooter = function() {
 		$('#reqsTable').DataTable( {
+			// "scrollY": "350px",
+			// "paging": false,
 			data: $scope.requests,
 			columns: [{data:'firstName'},{data:'date'},{data:'estimatedTime'},{data:'totalHoras'},{data:'t.0'},{data:'t.1'},{data:'t.2'},{data:'t.3'},{data:'salary'},{data:'totDev'},{data:'state'}],
 			"footerCallback": function ( row, data, start, end, display ) {
@@ -98,9 +102,17 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 				.column( 9 ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
 				var pageTotal = api
 				.column( 9, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 9 ).footer() ).html(''+pageTotal +' ( L.'+ total +' total)'	);
+				$( api.column( 9 ).footer() ).html('L.'+$filter('number')(pageTotal, 2) +' de (L.'+ $filter('number')(total, 2) +' total)');
+
 			}
-		})};
+		} );
+		// $('a.toggle-vis').on( 'click', function (e) {
+		// 	e.preventDefault();
+		// 	var column = table.column( $(this).attr('data-column') );
+		// 	column.visible( ! column.visible() );
+		// } );
+		$scope.showPayroll=true;
+	};
 	$scope.initVars();
 };
 

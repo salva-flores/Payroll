@@ -49,7 +49,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			for (var k = 0; k <= $scope.overtime.length - 2; k++) {
 				var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));
 				diff = $filter('number')((oEnd.getTime() - dStart.getTime())/60/60/1000,1)*1;
-				if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if (diff==-16){a=tot};
+				if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if ($filter('number')(diff,0)*1==-16){a=tot};
 				if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.t[$scope.overtime.length-1]=$scope.t[$scope.overtime.length-1]+a } else {$scope.t[k] = $scope.t[k] + a};
 			}
 			var totalDevengado=0;
@@ -68,7 +68,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	
 
 	$scope.changeState = function(req) {
-			$scope.showDetail=true; $scope.req=req; $scope.estado= 'Empleado: '+req.firstName+' Fecha: '+$filter('date')(req.date,'dd-MMM-yyyy' )+'Estimado: '+req.estimatedTime;
+			$scope.showDetail=true; $scope.req=req; 
 			$scope.loadDetail($scope.req);
 		};
 	
@@ -83,10 +83,10 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			{authorizationDate:''});
 		payrollService.fetch('PUT','overReq',req)
 		.then(function(response){
+			$scope.showDetail=false;
 			new Noty({text:response.data.message,type:response.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
 			.show()
 			.on('onClose', function() {
-				$scope.showState=!$scope.showState;
 				new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
 				.show();
 			});

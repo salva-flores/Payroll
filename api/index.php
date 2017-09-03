@@ -170,14 +170,15 @@
 		return $response; });
 	$app->put('/user', function() use($app){
 		$response = new Phalcon\Http\Response();
-		$request_data = $app->request->getJsonRawBody();
+		$req = $app->request->getJsonRawBody();
 		try {
-			validateToken();
-			$user = new secUser();
+			$decoded = validateToken();
+			$req = $app->request->getJsonRawBody();
+			$user = secUser::findFirst($req->id);
 			$user->userName = strtolower($req->userName);
 			$user->firstName = $req->firstName;
 			$user->lastName = $req->lastName;
-			if ($req->password.length==0){$user->password = generarClave($userName, $password);};
+			// $user->password = generarClave(strtolower($req->userName), $req->password);
 			$user->profileId = $req->profileId;
 			$user->employeeId = $req->employeeId;
 			$user->email = $req->email;

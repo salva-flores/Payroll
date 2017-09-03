@@ -37,29 +37,21 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 			$scope.user.firstName=selectedNotUser[0].firstName;
 			$scope.user.email=selectedNotUser[0].email;
 			$scope.user.phone=selectedNotUser[0].mobilePhone;
-		}else{
-			$scope.user.employeeId='';
-			$scope.user.firstName='';
-			$scope.user.email='';
-			$scope.user.phone='';
-		}
+		}else{$scope.user.employeeId=''; $scope.user.firstName=''; $scope.user.email=''; $scope.user.phone=''};
 		};
 	$scope.addUser = function () {
-		$scope.initUser();
-		$scope.action='POST';
-		$scope.canEditUser=true;
-		$scope.accion = "Agregar";
+		$scope.initUser(); $scope.action='POST';	$scope.canEditUser=true; $scope.accion = "Agregar";
 		};
 
-		$scope.editUser = function(u){
-			$scope.canEditUser = false;
-			$scope.user=u;
-			$scope.action='PUT';
-			$scope.typeSubmit = 2;
-			$scope.accion = "Editar";
-			$scope.tempPass=$scope.user.password;
-			$scope.user.password="";
-			$scope.userName = $scope.showEmployee(u);
+	$scope.editUser = function(u){
+		$scope.canEditUser = false;
+		$scope.user=u;
+		$scope.action='PUT';
+		$scope.typeSubmit = 2;
+		$scope.accion = "Editar";
+		$scope.tempPass=$scope.user.password;
+		$scope.user.password="";
+		$scope.userName = $scope.showEmployee(u);
 		};
 
 	$scope.saveUser = function (user) {
@@ -81,6 +73,7 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 		};
 		$scope.action=='PUT';
 		};
+		
 	$scope.removeUser = function (user) {$scope.users.splice(user, 1)};
 	$scope.filterUser = function (user) {return user.isDeleted !== true};
 	$scope.deleteUser = function (id) {

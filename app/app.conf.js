@@ -186,13 +186,13 @@ angular
 		templateUrl: 'app/common/session.html',
 		})
 	.state('user.signup', {
-		url: '/signup', templateUrl: 'app/views/signup.html', controller: 'sessionCtrl',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/session.js')}]},
+		url: '/signup', templateUrl: 'app/views/sec.signup.html', controller: 'sessionCtrl',
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/sec.session.js')}]},
 		data: {appClasses: 'bg-white usersession',contentClasses: 'full-height'}
 		})
 	.state('user.forgot', {
-		url: '/forgot', templateUrl: 'app/views/forgot.html',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/session.js')}]},
+		url: '/forgot', templateUrl: 'app/views/sec.forgot.html',
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/sec.session.js')}]},
 		data: {appClasses: 'bg-white usersession', contentClasses: 'full-height'}
 		})
 	.state('user.lockscreen', {
