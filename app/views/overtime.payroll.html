@@ -1,29 +1,32 @@
-<div class="card w-100 p-0 d-print-none" id="" ng-hide="user.userName!='root'">
+<!-- <div class="card w-100 p-0 d-print-none" id="" ng-hide="user.userName!='root'"> -->
+<div class="card w-100 p-0 mb-2 ">
 	<div class="card-header p-2">
-		<div class="d-flex text font-weight-bold">Planilla de Horas Extras</div>
+		<div class="d-flex text font-weight-bold">Cálculo de Solicitudes de Horas Extras</div>
 		<form class="form-inline d-flex justify-content-end">
 			<div class="form-group sm pr-2 mr-auto">
 				<label class="control-label bold pr-1 align-self-auto">Período:</label>
-				<input class="form-control input-xs p-1" ng-model="rango" type="text" name="daterange"  value="2017-06-01 - 2017-07-31" required/>
+				<input class="form-control input-xs p-1" ng-model="rango" type="text" name="daterange" required/>
 			</div>
 			<div class="btn-toolbar">
-				<button class="btn btn-outline-dark btn-xs mr-1" title="Calcular..." ng-click="calcFooter();"><i class="fa fa-repeat"></i></button>
+				<button class="btn btn-outline-dark btn-xs mr-1" title="Generar la Planilla..." ng-click="calcPayroll();" ng-show="showPrinter==true"><i class="fa fa-calculator"></i></button>
 				<a href="javascript:window.print()" class="btn btn-outline-success btn-xs d-print-none" title="Imprimir Planilla" ng-show="showPrinter==true"><i class="fa fa-print"></i></a> 
 			</div>
 		</form>
 	</div>
-	<div class="card-body p-2" ng-show="showPayroll" ng-class="{'animated fadeIn 0.5': showPayroll==true}">
+	<div class="card-body p-2" ng-show="showReqs" ng-class="{'animated fadeIn 0.5': showReqs==true}">
 		<table id="reqsTable" >
 			<thead>
 				<th>Empleado</th>
+				<th>Salario</th>
 				<th>Fecha</th>
 				<th>Estimado</th>
 				<th>Real</th>
 				<th ng-repeat="o in overtime" class="text-right">{{o.name}} </th>
-				<th>Salario</th>
 				<th>Devengado</th>
 				<th>Estado</th>
 			</thead>
+			<tbody class="text-right">
+			</tbody>
 			<tfoot>
 				<tr>
 					<th>Totales...</th>
@@ -31,11 +34,11 @@
 					<th>-</th>
 					<th>-</th>
 					<th>-</th>
-					<th>-</th>
-					<th>-</th>
-					<th>-</th>
-					<th>-</th>
-					<th>-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
 					<th>-</th>
 				</tr>
 			</tfoot>
@@ -43,8 +46,87 @@
 	</div>
 </div>
 
+<div class="card w-100 p-0 "  ng-show="showPayroll" ng-class="{'animated fadeIn 0.5': showPayroll==true}">
+	<div class="card-header p-2">
+		<div class="d-flex text font-weight-bold">Planilla de Horas Extras</div>
+		<form class="form-inline d-flex justify-content-end">
+			<div class="form-group sm pr-2 mr-auto">
+				<label class="control-label bold pr-1 align-self-auto">Período:</label>
+				<input class="form-control input-xs p-1" ng-model="rango" type="text" name="daterange" required/>
+			</div>
+			<div class="btn-toolbar">
+				<!-- <button class="btn btn-outline-dark btn-xs mr-1" title="Calcular..." ng-click="calcPayroll();"><i class="fa fa-calculator"></i></button> -->
+				<a href="javascript:window.print()" class="btn btn-outline-success btn-xs d-print-none" title="Imprimir Planilla" ng-show="showPrinter==true"><i class="fa fa-print"></i></a> 
+			</div>
+		</form>
+	</div>
+	<div class="card-body p-2">
+		<table id="payrollTable" >
+			<thead>
+				<th>Empleado</th>
+				<th class="text-right">Salario</th>
+				<th class="text-right">por Hora</th>
+				<th ng-repeat="o in overtime" class="text-right">{{o.name}} </th>
+				<th class="text-right">Total</th>
+			</thead>
+			<tbody class="text-right">
+			</tbody>
+			<tfoot class="text-right">
+				<tr>
+					<th>Totales...</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th>-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
+					<th class="text-primary text-right p-0">-</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
 
-<div class="card" id="planilla" ng-hide="user.userName=='root'">
+<div class="card" id="planilla" ng-hide="true">
+	<div class="card-header p-2">
+		<div class="d-flex text font-weight-bold">Planilla de Horas Extras</div>
+		<form class="form-inline d-flex justify-content-end">
+			<div class="form-group sm pr-2 mr-auto">
+				<label class="control-label bold pr-1 align-self-auto">Período:</label>
+				<input class="form-control input-xs p-1" ng-model="rango" type="text" name="daterange"  required/>
+			</div>
+			<div class="btn-toolbar">
+				<!-- <button class="btn btn-default btn-outline btn-xs" title="Refrescar..." ng-click="show();"><i class="fa fa-repeat"></i></button> -->
+				<a href="javascript:window.print()" class="btn btn-outline-success btn-xs d-print-none" title="Imprimir Planilla" ng-show="showPrinter==true"><i class="fa fa-print"></i></a> 
+			</div>
+		</form>
+	</div>
+	<!-- <div class="card-body m-2 p-0" ng-show="showPayroll" ng-class="{'animated fadeIn 0.5': showPayroll==true}"> -->
+	<div class="card-body m-2 p-0" >
+		<table datatable="ng" class="row-border hover"> 
+			<thead>
+				<th>Empleado</th>
+				<th class="text-right">Salario</th>
+				<th class="text-right">por Hora</th>
+				<th ng-repeat="o in overtime" class="text-right">{{o.name}} </th>
+				<th class="text-right">Total</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="p in payroll">
+					<td>{{ p.firstName }}</td>
+					<td class="text-right">{{ p.salary | number:2}}</td>
+					<td class="text-right">{{ p.salary/30/8 | number:2}}</td>
+					<td ng-repeat="o in overtime" class="text-right">{{p.tot[$index] | number:2}}</td>
+					<td class="text-right">{{p.totDev | number:2}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="card-footer">-- Totales --</div>
+</div>
+
+<!-- <div class="card" id="planilla" ng-hide="user.userName=='root'"> -->
+<div class="card" id="planilla" ng-hide="true">
 	<div class="card-header p-2">
 		<div class="d-flex text font-weight-bold">Planilla de Horas Extras</div>
 		<form class="form-inline d-flex justify-content-end">

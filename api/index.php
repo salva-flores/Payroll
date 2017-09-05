@@ -392,7 +392,7 @@
 		try {
 			// $tok=validateToken();
 			$data=array();
-			$phql="SELECT e.firstName, r.id, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.decidedBy, r.decisionDate , r.observations, e.salary
+			$phql="SELECT e.id as employeeId, e.firstName, r.id, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.decidedBy, r.decisionDate , r.observations, e.salary
 			from payOvertimeRequest r
 			inner join mainEmployee e on r.employeeId = e.id
 			where r.date>='$startDate ' and r.date<='$endDate' and (r.state='Cerrada' or r.state='Autorizada')
