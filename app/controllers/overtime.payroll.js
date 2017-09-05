@@ -115,6 +115,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		};
 	$scope.resetForm = function() {};
 	$scope.initReqsTable = function() {
+		console.log($scope.requests);
 		if ($scope.instantiate>0){console.log($scope.instantiate);$('#reqsTable').DataTable().destroy()};
 		$('#reqsTable').DataTable( {  
 			data: $scope.requests,
@@ -124,31 +125,29 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 				{data:'date',className:'text-left'},
 				{data:'estimatedTime'},
 				{data:'totalHoras'},
-				{data:'u.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'u.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'u.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'u.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				// {data:'totDev', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}},
-				{data:'state',className:'text-left'}
+				{data:'t.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'t.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'t.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'t.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}}
 				],
 			"footerCallback": function ( row, data, start, end, display ) {
 				var api = this.api(), data;
 				var intVal = function ( i ) {return typeof i === 'string'  ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ?  i : 0};
-				var total = api
-				.column( 9 ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
 				var totI = api
 				.column( 5, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 5 ).footer() ).html('L.'+$filter('number')(totI, 2) );
+				$( api.column( 5 ).footer() ).html($filter('number')(totI, 2) );
 				var totII = api
 				.column( 6, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 6 ).footer() ).html('L.'+$filter('number')(totII, 2) );
+				$( api.column( 6 ).footer() ).html($filter('number')(totII, 2) );
 				var totIII = api
 				.column( 7, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 7 ).footer() ).html('L.'+$filter('number')(totIII, 2) );
+				$( api.column( 7 ).footer() ).html($filter('number')(totIII, 2) );
 				var totIV = api
 				.column( 8, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 8 ).footer() ).html('L.'+$filter('number')(totIV, 2) );
+				$( api.column( 8 ).footer() ).html($filter('number')(totIV, 2) );
+				var total = api
+				.column( 9 ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
 				var pageTotal = api
 				.column( 9, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
 				$( api.column( 9 ).footer() ).html('L.'+$filter('number')(pageTotal, 2) +' de (L.'+ $filter('number')(total, 2) +' total)');

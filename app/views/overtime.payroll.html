@@ -8,8 +8,7 @@
 				<input class="form-control input-xs p-1" ng-model="rango" type="text" name="daterange" required/>
 			</div>
 			<div class="btn-toolbar">
-				<button class="btn btn-outline-dark btn-xs mr-1" title="Generar la Planilla..." ng-click="calcPayroll();" ng-show="showPrinter==true"><i class="fa fa-calculator"></i></button>
-				<a href="javascript:window.print()" class="btn btn-outline-success btn-xs d-print-none" title="Imprimir Planilla" ng-show="showPrinter==true"><i class="fa fa-print"></i></a> 
+				<button class="btn btn-outline-dark btn-xs mr-1 d-print-none" title="Generar la Planilla..." ng-click="calcPayroll();" ng-show="showPrinter==true"><i class="fa fa-calculator"></i></button>
 			</div>
 		</form>
 	</div>
@@ -17,20 +16,18 @@
 		<table id="reqsTable" >
 			<thead>
 				<th>Empleado</th>
-				<th>Salario</th>
+				<th class="text-right">Salario</th>
 				<th>Fecha</th>
-				<th>Estimado</th>
-				<th>Real</th>
+				<th class="text-right">Estimado</th>
+				<th class="text-right">Real</th>
 				<th ng-repeat="o in overtime" class="text-right">{{o.name}} </th>
-				<th>Devengado</th>
-				<th>Estado</th>
+				<th class="text-right">Devengado</th>
 			</thead>
 			<tbody class="text-right">
 			</tbody>
 			<tfoot>
 				<tr>
 					<th class="text-primary">Totales...</th>
-					<th class="text-primary text-right p-1">-</th>
 					<th class="text-primary text-right p-1">-</th>
 					<th class="text-primary text-right p-1">-</th>
 					<th class="text-primary text-right p-1">-</th>
@@ -55,7 +52,6 @@
 				<input class="form-control input-xs p-1" ng-model="rango" type="text" name="daterange" required/>
 			</div>
 			<div class="btn-toolbar">
-				<!-- <button class="btn btn-outline-dark btn-xs mr-1" title="Calcular..." ng-click="calcPayroll();"><i class="fa fa-calculator"></i></button> -->
 				<a href="javascript:window.print()" class="btn btn-outline-success btn-xs d-print-none" title="Imprimir Planilla" ng-show="showPrinter==true"><i class="fa fa-print"></i></a> 
 			</div>
 		</form>
