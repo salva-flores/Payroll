@@ -90,7 +90,6 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		}
 		var totalDevengado=0;
 		for (var k = 0; k <= $scope.overtime.length - 1; k++) {totalDevengado = totalDevengado + $scope.t[k]*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8};
-		// angular.extend($scope.requests[i], {t:$scope.t}, {u:$scope.u}, {totalHoras:totalHoras},{totDev:$filter('number')(totalDevengado, 2)});
 		angular.extend($scope.requests[i], {t:$scope.t}, {u:$scope.u}, {totalHoras:totalHoras},{totDev:totalDevengado});
 		};
 	$scope.changeState = function(req){
@@ -121,15 +120,16 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			data: $scope.requests,
 			columns: [
 				{data:'firstName',className:'text-left'},
-				{data:'salary'},
+				{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
 				{data:'date',className:'text-left'},
 				{data:'estimatedTime'},
 				{data:'totalHoras'},
-				{data:'u.0', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'u.1', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'u.2', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'u.3', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'totDev', render: function (data, type, row) {return data.toFixed(2)}},
+				{data:'u.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'u.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'u.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'u.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				// {data:'totDev', render: function (data, type, row) {return data.toFixed(2)}},
+				{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}},
 				{data:'state',className:'text-left'}
 				],
 			"footerCallback": function ( row, data, start, end, display ) {
@@ -161,14 +161,14 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			data: $scope.payroll,
 			columns: [
 				{data:'firstName',className:'text-left'},
-				{data:'salary'},
-				{data: 'salary', render: function (data, type, row) {return (data/30/8).toFixed(2)}}, 
-				{data:'tot.0', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'tot.1', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'tot.2', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'tot.3', render: function (data, type, row) {return data.toFixed(2)}},
-				{data:'totDev', render: function (data, type, row) {return data.toFixed(2)}}
-				// {data:'totDev', render: function (data, type, row) {return $filter('number')(data, 2)}}
+				{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
+				// {data: 'salary', render: function (data, type, row) {return (data/30/8).toFixed(2)}}, 
+				{data: 'salary', render: function (data, type, row) {return $filter('number')(data/30/8,2)}}, 
+				{data:'tot.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'tot.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'tot.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'tot.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+				{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}}
 			],
 			"footerCallback": function ( row, data, start, end, display ) {
 				var api = this.api(), data;

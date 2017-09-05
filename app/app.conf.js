@@ -22,15 +22,7 @@ angular
 		})
 	.state('app.dashboard', {
 		url: '/dash',templateUrl: 'app/views/app.dashboard.html',	controller: 'dashboardCtrl',
-		resolve: {
-			parametros: ['$rootScope','$http', function($rootScope, $http){return $http.get('../hhrr/api/overParams/'+$rootScope.user.employee)}],
-			deps: ['parametros','$ocLazyLoad', function (parametros, $ocLazyLoad) {
-				return $ocLazyLoad.load([
-					{insertBefore: '#load_styles_before',files:['src/vendor/bootstrap-daterangepicker/daterangepicker.css']},
-					{serie:true,files:['src/vendor/Charts/Chart.js','src/vendor/bootstrap-daterangepicker/moment.min.js','src/vendor/bootstrap-daterangepicker/daterangepicker.js']}
-				]).then(function () {return $ocLazyLoad.load('app/controllers/app.dashboard.js')});
-			}]
-		},
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/app.dashboard.js')}]},
 		data: {Auth: false,title: 'Dashboard'}
 		})
 	.state('app.charts', {
