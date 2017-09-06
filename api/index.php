@@ -245,7 +245,7 @@
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
-			$data = secResourcetype::find();
+			$data = secResourceType::find();
 			$response->setJsonContent(array('status'=> http_response_code(),'message'=>'Success','data'=> $data));
 		}catch(\Firebase\JWT\ExpiredException $e){
 			http_response_code(440);

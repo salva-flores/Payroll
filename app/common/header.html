@@ -5,7 +5,8 @@
 	<a class="nav-item p-1" title="Config Panel" href="javascript:;" ng-click="app.isConfigOpen = !app.isConfigOpen"><i class="fa fa-toggle-off"></i></a>
 	<a class="nav-item p-1" title="Indicadores" href="javascript:;" ng-click="app.layout.isChatOpen = !app.layout.isChatOpen" ><i class="fa fa-line-chart"></i></a>
 	<div class="dropdown pl-2 pr-2">
-		<a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button"><img data-ng-src="src/images/{{user.avatar}}" class="header-avatar img-circle " alt="User?" title="{{user.fname}}"></a>
+		<!-- <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button"><img data-ng-src="src/images/{{user.avatar}}" class="header-avatar img-circle " alt="User?" title="{{user.fname}}"></a> -->
+		<a data-toggle="dropdown" href="javascript:;" role="button"><img data-ng-src="src/images/{{user.avatar}}" class="header-avatar img-circle " alt="User?" title="{{user.fname}}"></a>
 		<ul class="dropdown-menu p-0" style="right:0;left:auto">
 			<li><a class="dropdown-item" href="javascript:;">{{user.email}}</a></li>
 			<li class="dropdown-divider"></li>

@@ -41,12 +41,29 @@ class SecResourceType extends \Phalcon\Mvc\Model
     public $state;
 
     /**
+     *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=true)
+     */
+    public $isVisible;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("hhrr");
         $this->hasMany('id', 'SecResource', 'typeId', ['alias' => 'SecResource']);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'sec_resource_type';
     }
 
     /**
@@ -69,16 +86,6 @@ class SecResourceType extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'sec_resource_type';
     }
 
 }

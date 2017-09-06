@@ -11,13 +11,16 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.overtime = [];
 		$scope.requests = [];
 		$scope.detail = [];
+		$scope.total=0;
 		$scope.totalHoras = 0;
 		$scope.overPayHeader=[];
 		$scope.overPayDetail=[];
 		$scope.rango="";
 		$scope.startDate= $filter('date')($scope.today, 'yyyy-MM-dd');  ;
 		$scope.endDate="";
-		$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.calcReqs(e.currentTarget.value);});
+		$scope.reqsTableInst = false; 
+		$scope.payrollTableInst = false; 
+		$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.showReqs=false;$scope.calcReqs(e.currentTarget.value);});
 		};
 	$scope.calcPayroll = function () {
 		$scope.showPayroll=true;
@@ -40,12 +43,13 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		for (var j = 0; j <= $scope.overtime.length - 1; j++) {totDev=totDev+$scope.tot[j]};
 		angular.extend($scope.payrollRecord, {tot:$scope.tot}, {totDev:totDev});	
 		$scope.payroll.push($scope.payrollRecord);
-		// console.log($scope.payroll);
 		$scope.initPayrollTable();
+		$scope.total = 0;
+		angular.forEach($scope.payroll, function(p) {$scope.total += p.totDev});
 		};
 	$scope.calcReqs = function (rango) {
-		$scope.showPayroll=false; $scope.showState=false; $scope.requests = [];
-		return $http.get('../hhrr/api/overtime').then(function (response) {$scope.overtime = response.data.data; $scope.loadRequests(rango)});
+		$scope.showPayroll = false; $scope.showState = false; $scope.requests = [];
+		return $http.get('../hhrr/api/overtime').then(function (response) {$scope.overtime = response.data.data;$scope.loadRequests(rango)});
 		};
 	$scope.loadRequests = function (rango) {
 		return $http.get('../hhrr/api/overReqByRange/'+rango)
@@ -84,7 +88,6 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));
 			diff = $filter('number')((oEnd.getTime() - dStart.getTime())/60/60/1000,1)*1;
 			if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if ($filter('number')(diff,0)*1==-16){a=tot};
-			// console.log('diff',diff,'tot',tot,$scope.overtime[k].name,'acum',a);
 			if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.t[$scope.overtime.length-1]=$scope.t[$scope.overtime.length-1]+a } else {$scope.t[k] = $scope.t[k] + a};
 			if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.u[$scope.overtime.length-1]=$scope.u[$scope.overtime.length-1]+a*(1+$scope.overtime[$scope.overtime.length-1].percent*1)*$scope.requests[i].salary/30/8} else { $scope.u[k] = $scope.u[k] +a*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8};
 		}
@@ -113,88 +116,77 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			},function(response){console.log('Hubo un error!')});	
 		// $scope.reset();
 		};
-	$scope.resetForm = function() {};
 	$scope.initReqsTable = function() {
-		console.log($scope.requests);
-		if ($scope.instantiate>0){console.log($scope.instantiate);$('#reqsTable').DataTable().destroy()};
-		$('#reqsTable').DataTable( {  
-			data: $scope.requests,
-			columns: [
-				{data:'firstName',className:'text-left'},
-				{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
-				{data:'date',className:'text-left'},
-				{data:'estimatedTime'},
-				{data:'totalHoras'},
-				{data:'t.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'t.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'t.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'t.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}}
-				],
-			"footerCallback": function ( row, data, start, end, display ) {
-				var api = this.api(), data;
-				var intVal = function ( i ) {return typeof i === 'string'  ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ?  i : 0};
-				var totI = api
-				.column( 5, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 5 ).footer() ).html($filter('number')(totI, 2) );
-				var totII = api
-				.column( 6, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 6 ).footer() ).html($filter('number')(totII, 2) );
-				var totIII = api
-				.column( 7, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 7 ).footer() ).html($filter('number')(totIII, 2) );
-				var totIV = api
-				.column( 8, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 8 ).footer() ).html($filter('number')(totIV, 2) );
-				var total = api
-				.column( 9 ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				var pageTotal = api
-				.column( 9, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 9 ).footer() ).html('L.'+$filter('number')(pageTotal, 2) +' de (L.'+ $filter('number')(total, 2) +' total)');
-			},
-		} ).draw();
+		if ($scope.reqsTableInst){$('#reqsTable').DataTable().clear().rows.add($scope.requests).draw()}else{
+			$('#reqsTable').DataTable( {  
+				data: $scope.requests,
+				columns: [
+					{data:'firstName',className:'text-left'},
+					{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
+					{data:'date',className:'text-left'},
+					{data:'estimatedTime'},
+					{data:'totalHoras'},
+					{data:'t.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'t.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'t.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'t.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}}
+					],
+				"footerCallback": function ( row, data, start, end, display ) {
+					var api = this.api(), data;
+					var intVal = function ( i ) {return typeof i === 'string'  ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ?  i : 0};
+					var totHrs = api	.column( 4, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totI = api.column( 5, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totII = api.column( 6, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totIII = api.column( 7, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totIV = api.column( 8, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var total = api.column( 9 ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var pageTotal = api.column( 9, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					$( api.column( 4 ).footer() ).html($filter('number')(totHrs, 2) );
+					$( api.column( 5 ).footer() ).html($filter('number')(totI, 2) );
+					$( api.column( 6 ).footer() ).html($filter('number')(totII, 2) );
+					$( api.column( 7 ).footer() ).html($filter('number')(totIII, 2) );
+					$( api.column( 8 ).footer() ).html($filter('number')(totIV, 2) );
+					$( api.column( 9 ).footer() ).html(pageTotal==total  ?  'L.'+$filter('number')(pageTotal, 2) : 'L.'+$filter('number')(pageTotal, 2) + ' de (L.'+ $filter('number')(total, 2) +' total)');
+				},
+			} ).draw();
+		};
+		$scope.reqsTableInst=true;
 		};
 	$scope.initPayrollTable = function() {
-		if ($scope.instantiate>0){console.log($scope.instantiate);$('#payrollTable').DataTable().destroy()};
-		$('#payrollTable').DataTable( {  
-			data: $scope.payroll,
-			columns: [
-				{data:'firstName',className:'text-left'},
-				{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
-				// {data: 'salary', render: function (data, type, row) {return (data/30/8).toFixed(2)}}, 
-				{data: 'salary', render: function (data, type, row) {return $filter('number')(data/30/8,2)}}, 
-				{data:'tot.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'tot.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'tot.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'tot.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
-				{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}}
-			],
-			"footerCallback": function ( row, data, start, end, display ) {
-				var api = this.api(), data;
-				var intVal = function ( i ) {return typeof i === 'string'  ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ?  i : 0};
-				var totSal = api
-				.column( 1, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 1 ).footer() ).html('L.'+$filter('number')(totSal, 2) );
-				var totI = api
-				.column( 3, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 3 ).footer() ).html('L.'+$filter('number')(totI, 2) );
-				var totII = api
-				.column( 4, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 4 ).footer() ).html('L.'+$filter('number')(totII, 2) );
-				var totIII = api
-				.column( 5, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 5 ).footer() ).html('L.'+$filter('number')(totIII, 2) );
-				var totIV = api
-				.column( 6, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 6 ).footer() ).html('L.'+$filter('number')(totIV, 2) );
-				var total = api
-				.column( 7 ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				var pageTotal = api
-				.column( 7, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
-				$( api.column( 7 ).footer() ).html('L.'+$filter('number')(pageTotal, 2) +' de (L.'+ $filter('number')(total, 2) +' total)');
-			}
-		} ).draw();
-		$scope.instantiate++;
+		if ($scope.payrollTableInst){$('#payrollTable').DataTable().clear().rows.add($scope.payroll).draw()}else{
+			$('#payrollTable').DataTable( {  
+				data: $scope.payroll,
+				columns: [
+					{data:'firstName',className:'text-left'},
+					{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
+					{data: 'salary', render: function (data, type, row) {return $filter('number')(data/30/8,2)}}, 
+					{data:'tot.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'tot.1', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'tot.2', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'tot.3', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},
+					{data:'totDev', render: function (data, type, row) {return $filter('number')(data,2)}}
+				],
+				"footerCallback": function ( row, data, start, end, display ) {
+					var api = this.api(), data;
+					var intVal = function ( i ) {return typeof i === 'string'  ? i.replace(/[\$,]/g, '')*1 : typeof i === 'number' ?  i : 0};
+					var totSal = api.column( 1, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totI = api.column( 3, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totII = api.column( 4, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totIII = api.column( 5, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var totIV = api.column( 6, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var total = api.column( 7 ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					var pageTotal = api.column( 7, { page: 'current'} ).data().reduce( function (a, b) {return intVal(a) + intVal(b)}, 0 );
+					$( api.column( 1 ).footer() ).html('L.'+$filter('number')(totSal, 2) );
+					$( api.column( 3 ).footer() ).html('L.'+$filter('number')(totI, 2) );
+					$( api.column( 4 ).footer() ).html('L.'+$filter('number')(totII, 2) );
+					$( api.column( 5 ).footer() ).html('L.'+$filter('number')(totIII, 2) );
+					$( api.column( 6 ).footer() ).html('L.'+$filter('number')(totIV, 2) );
+					$( api.column( 7 ).footer() ).html(pageTotal==total  ?  'L.'+$filter('number')(pageTotal, 2) : 'L.'+$filter('number')(pageTotal, 2) + ' de (L.'+ $filter('number')(total, 2) +' total)');
+				}
+			} ).draw();
+		};
+		$scope.payrollTableInst=true;
 		$scope.showPayroll=true;
 		};
 	$scope.initVars();
