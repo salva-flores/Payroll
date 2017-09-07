@@ -13,7 +13,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.endDate="";
 		$scope.loadOvertime();
 		// $('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.loadOvertime(e.currentTarget.value)});
-	};
+		};
 	$scope.loadOvertime = function () {
 		payrollService.fetch('GET','overtime')
 		.then(function(response) { 
@@ -21,7 +21,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		};
 	$scope.loadRequests = function () { 
 		$scope.showReqs=false;
-		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
+		if($rootScope.user.userName=='root' || $rootScope.user.profile<=2){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		else{$http.get('../hhrr/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};
 	$scope.calculate = function () {
@@ -57,7 +57,6 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			angular.extend($scope.requests[i], {t:$scope.t}, {totalHoras:totalHoras},{totDev:totalDevengado});
 		};
 		};
-	
 	$scope.refresh = function(){
 			if($rootScope.user.userName=='root' || $rootScope.user.profile==1){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data},function(response){console.log('Hubo un error!')})}
 				else{payrollService.fetch('GET','pendingOvertimeRequestbyBoss/'+$rootScope.user.employee).then(function(response){$scope.requests=response.data.data},function(response){console.log('Hubo un error!')})};
@@ -65,13 +64,10 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.reset = function(frm) {
 			$scope.initVars(); frm.$setUntouched(); frm.$setPristine(); document.getElementById("1").focus();
 		};
-	
-
 	$scope.changeState = function(req) {
 			$scope.showDetail=true; $scope.req=req; 
 			$scope.loadDetail($scope.req);
 		};
-	
 	$scope.loadDetail = function (req) {
 			payrollService.fetch('GET','overDetail/'+req.id).then(function(response) {$scope.detail=response.data.data; $scope.calcOver(req.id)},function(response) {console.log('Error:',response)});
 		};
@@ -95,12 +91,11 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.closeDetail = function (stateForm) {
 		$scope.showDetail=false; 
 		stateForm.$setUntouched(); stateForm.$setPristine();
-	};
+		};
 	$scope.notify = function () {
 		$http.get('../hhrr/api/employeeBoss/'+$rootScope.user.employee).success(function (response) {new Noty({text:'Enviar notificación a...'+response.data.data[0].email, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show()});
-	};
+		};
 	$scope.initVars();
-	
 }
 
 angular

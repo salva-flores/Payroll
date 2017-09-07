@@ -20,7 +20,10 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.endDate="";
 		$scope.reqsTableInst = false; 
 		$scope.payrollTableInst = false; 
-		$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.showReqs=false;$scope.calcReqs(e.currentTarget.value);});
+		$http.get('../hhrr/api/overtime').then(function (response) {
+			$scope.overtime = response.data.data;
+			$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.showReqs=false;$scope.calcReqs(e.currentTarget.value);});
+		});
 		};
 	$scope.calcPayroll = function () {
 		$scope.showPayroll=true;
@@ -49,9 +52,6 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		};
 	$scope.calcReqs = function (rango) {
 		$scope.showPayroll = false; $scope.showState = false; $scope.requests = [];
-		return $http.get('../hhrr/api/overtime').then(function (response) {$scope.overtime = response.data.data;$scope.loadRequests(rango)});
-		};
-	$scope.loadRequests = function (rango) {
 		return $http.get('../hhrr/api/overReqByRange/'+rango)
 		.then(function (response) {
 			$scope.requests = response.data.data; 
