@@ -1,6 +1,11 @@
 'use strict';
 
 function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payrollService) {
+	$scope.run = function(){
+		$scope.initVars();
+		new Noty({text:'Cargando data...',type:'info',layout:'topLeft',theme:'relax',timeout:1000,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}}).show();
+		$scope.loadOvertime();
+		};
 	$scope.initVars = function() {
 		$scope.requests=[];
 		$scope.showDetail=false;
@@ -11,7 +16,6 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.rango="";
 		$scope.startDate= $filter('date')(new Date(), 'yyyy-MM-dd');  ;
 		$scope.endDate="";
-		$scope.loadOvertime();
 		// $('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.loadOvertime(e.currentTarget.value)});
 		};
 	$scope.loadOvertime = function () {
@@ -81,11 +85,11 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		.then(function(response){
 			$scope.showDetail=false;
 			new Noty({text:response.data.message,type:response.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
-			.show()
-			.on('onClose', function() {
-				new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
-				.show();
-			});
+			.show();
+			// .on('onClose', function() {
+			// 	new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
+			// 	.show();
+			// });
 		},function(response){console.log('Hubo un error!')});	
 		};
 	$scope.closeDetail = function (stateForm) {
@@ -95,7 +99,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.notify = function () {
 		$http.get('../hhrr/api/employeeBoss/'+$rootScope.user.employee).success(function (response) {new Noty({text:'Enviar notificación a...'+response.data.data[0].email, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show()});
 		};
-	$scope.initVars();
+	$scope.run();
 }
 
 angular

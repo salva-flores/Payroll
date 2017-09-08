@@ -10,29 +10,35 @@
 			<thead>
 				<th>Empleado</th>
 				<th>Fecha</th>
-				<th>Estimado</th>
-				<th>Ejecutado</th>
-				<th ng-repeat="o in overtime" class="text-right" ng-show="isAdmin">{{o.name}} </th>
+				<th>Solicitante</th>
+				<th>Descripción</th>
 				<th>Tipo</th>
+				<th>Est.</th>
+				<th ng-repeat="o in overtime" class="text-right" ng-show="isAdmin">{{o.name}} </th>
+				<th>Real</th>
 				<th>Estado</th>
+				<th ng-show="!isAdmin">Observaciones</th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="r in requests | orderBy:'date'" ng-class="{'text-primary':r.state=='Autorizada','text-warning':r.state=='Pendiente','text-muted':r.state=='Cerrada','text-danger':r.state=='Rechazada'||r.state=='Devuelta' }" >
 					<td>{{ r.firstName }}</td>
 					<td title="{{r.date}}">{{ r.date |date : 'dd-MMM-yyyy, EEE'}}</td>
-					<td class="text-center">{{ r.estimatedTime }}</td>
-					<td class="text-right">{{ r.totalHoras }}</td>
-					<td ng-repeat="o in overtime" class="text-center" ng-show="isAdmin">{{r.t[$index]>0 ? r.t[$index] : '-'}}</td>
+					<td>{{ r.requestedBy }}</td>
+					<td>{{ r.description }}</td>
 					<td>
 						<i ng-class="{'fa fa-windows':r.class=='Ventana','fa fa-building-o':r.class=='Normal','fa fa-home':r.class=='Interna'}"></i>
 						-{{ r.class }}
 					</td>
+					<td class="text-center">{{ r.estimatedTime }}</td>
+					<td ng-repeat="o in overtime" class="text-center" ng-show="isAdmin">{{r.t[$index]>0 ? r.t[$index] : '-'}}</td>
+					<td class="text-right">{{ r.totalHoras }}</td>
 					<td>
 						<button type="button" ng-click="changeState(r)" class="btn btn-outline btn-xs" ng-class="{'btn-primary':r.state=='Autorizada','btn-success':r.state=='Aprobada', 'dtn-default':r.state=='Cerrada','btn-warning':r.state=='Pendiente','btn-danger':r.state=='Rechazada'||r.state=='Devuelta'}" >
 							<i ng-class="{'fa fa-thumbs-up':r.state=='Autorizada','fa fa-thumbs-o-up':r.state=='Aprobada','fa fa-warning':r.state=='Pendiente'||r.state=='Devuelta', 'fa fa-thumbs-o-down':r.state=='Rechazada', 'fa fa-pencil-square-o':r.state=='Cerrada' }"></i>
 						</button>
 						-{{ r.state }}
 					</td>
+					<td ng-show="!isAdmin">{{ r.observations }}</td>
 				</tr>
 			</tbody>
 		</table>

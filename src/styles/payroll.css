@@ -14,7 +14,7 @@ html {
   width: 100%;
 }
 .app {
-  background: #f5eaea;
+  background: #e9ecef;
   width: 100%;
   min-height: 100%;
   position: relative;
@@ -909,23 +909,29 @@ blockquote p {
   }
 }
 .main-panel > .header {
-  background-color: #ffffff;
+  background-color: rgba(190, 190, 190, 0.5);
+  /*background-color: #ffffff;*/
 }
 .main-panel > .header .navbar-text {
   color: #616161;
+}
+.main-panel > .header .navbar >a:hover{
+/*.main-panel > .header .navbar >a:focus  {*/
+  background-color: #9a9a76;
+  color: #474747;
 }
 .main-panel > .header .nav > li > a {
   color: #616161;
 }
 .main-panel > .header .nav > li > a:hover,
 .main-panel > .header .nav > li > a:focus {
-  background-color: #f8f8f8;
+  background-color: #9a9a76;
   color: #474747;
 }
 .main-panel > .header .nav .open > a,
 .main-panel > .header .nav .open > a:hover,
 .main-panel > .header .nav .open > a:focus {
-  background-color: #f8f8f8;
+  background-color: #9a9a76;
   color: #474747;
 }
 .main-panel > .header .hamburger-icon span {
@@ -988,7 +994,8 @@ blockquote p {
   }
 }
 .main-panel {
-  background: #f5eaea;
+  /*background: #f5eaea;*/
+  background: #e9ecef;
 }
 .main-panel::before,
 .main-panel::after {
@@ -2065,7 +2072,8 @@ footer.content-footer li a:active {
   .layout-fixed-footer footer.content-footer {
     position: fixed;
     bottom: 0;
-    background: #f5eaea;
+    background: rgba(190, 190, 190, 0.5);
+    /*background: #f5eaea;*/
     padding-left: 255px;
   }
   .layout-fixed-footer.layout-small-menu footer.content-footer {

@@ -107,12 +107,12 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$http.put('../hhrr/api/overReq/', req)
 		.then(function(response){
 			new Noty({text:response.data.message,type:response.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
-			.show()
-				.on('onClose', function() {
-					$scope.showState=false;$scope.showPayroll=true;
-					new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
-					.show();
-				});
+			.show();
+			// .on('onClose', function() {
+			// 	$scope.showState=false;$scope.showPayroll=true;
+			// 	new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
+			// 	.show();
+			// });
 			},function(response){console.log('Hubo un error!')});	
 		// $scope.reset();
 		};

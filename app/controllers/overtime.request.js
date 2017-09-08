@@ -86,13 +86,13 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.request.date=$filter('date')($scope.today, 'yyyy-MM-dd');
 		payrollService.fetch('POST','overReq',JSON.stringify($scope.request))
 		.then(function(response){$scope.loadRequests();$scope.notifyBoss()},function(response){
-			if(response.isValid==false){$state.go('login')}else{new Noty({text:'Error... '+response.data.message,type:'error',theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
+			if(response.isValid==false){$state.go('login')}else{new Noty({text:'Error... '+response.data.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
 			.show().on('onClose', function() {$('#overReqForm').modal('hide')})};
 			});
 		};
 	$scope.notifyBoss = function () {
 		$http.get('../hhrr/api/employeeBoss/'+$rootScope.user.employee).then(function (response) {
-			new Noty({text:'Su solicitud ha sido enviada a '+response.data.data[0].email, type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:3000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
+			new Noty({text:'Su solicitud ha sido enviada a '+response.data.data[0].email, type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
 			.show().on('onClose', function() {$('#overReqForm').modal('hide')});
 			//Hacer API para mandar el correo
 		});
@@ -168,11 +168,11 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		payrollService.fetch('PUT','overReq',$scope.request)
 		.then(function(response){
 			new Noty({text:response.message,type:response.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
-			.show()
-			.on('onClose', function() {
-				new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
-				.show().on('onClose', function() { $scope.loadRequests(); $('#overDetailForm').modal('hide')});
-				});
+			.show();
+			// .on('onClose', function() {
+			// 	new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
+			// 	.show().on('onClose', function() { $scope.loadRequests(); $('#overDetailForm').modal('hide')});
+			// 	});
 			},function(response){console.log('Hubo un error!',response)});	
 			$scope.enableCloseButton=false;
 		};
