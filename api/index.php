@@ -17,66 +17,9 @@
 	$di->set('db', function() {return new PdoMysql( array("host" => "localhost","username" => "user","password" => "user","dbname" => "hhrr", "options" => array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')));});
 	$app = new Micro($di);
 	$app->notFound(function () use ($app) {$app->response->setStatusCode(404, "API Not Found!")->sendHeaders();$app->response->setJsonContent(array('status' => 404,'message' => 'API Not Found!','error' => 'API Not Found!' ))->send();});
-//Funciones
-	function new_id() {	$planillas = RrhhPlanilla::find(); if (count($planillas)>0) {$ultima = $planillas->getLast(); $ultimo_id=$ultima->idplanilla+1;} else {$ultimo_id=1;}; return $ultimo_id;};
-	function payroll_head($app) {
-		$response = new Response();
-		$request = $app->request->getJsonRawBody();
-		$fecha = substr($request->fechapago, 0, 10); 
-		$parametros = "idtipoplanilla = '" . $request->idtipoplanilla . "' AND fechapago = '" . $fecha ."'" ;
-		$existe=RrhhPlanilla::find($parametros);
-		if( count($existe) > 0 ){
-			$response->setJsonContent(array('status' => 404,'message' => 'La Planilla ya existe!')); 
-			return $response;
-		}
-		try{
-			$request = $app->request->getJsonRawBody();
-			$planilla=new RrhhPlanilla();
-			$planilla->idplanilla = $ultima;
-			$planilla->idtipoplanilla = $request->idtipoplanilla;
-			$planilla->periodo = $request->periodo;
-			$planilla->fechainicio = $request->fechainicio;
-			$planilla->fechafin = $request->fechafin;
-			$planilla->fechapago = $request->fechapago;
-			$planilla->estado = $request->estado;
-		} catch(\Exception $e){$response->setJsonContent(array('status' => 500,'message' => 'No se pudo crear el encabezado de planilla!','error' => $e));};
-		return  $planilla;};
-	function generarClave($username, $password){
-		$key = pack('H*', findParameterGeneral("key"));
-		$llave = substr($username, 0,2).substr($username, -1);
-		$llave = strtoupper($llave);
-		$llave = encrypt($llave,$key);
-		$complement = encrypt($password,$key);
-		$password_encrypted = $llave.$complement;
-		$password_encrypted = encrypt($password_encrypted,$key);
-		return $password_encrypted;};
-	function encrypt($data, $key){return md5(mcrypt_encrypt(MCRYPT_RIJNDAEL_128,$key,$data,MCRYPT_MODE_CBC,"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"));};
-	function findParameterToken($key){$data = sysTokenparameter::findFirst(array("conditions"=>"name = :value:",	'bind' => array('value' =>  $key)));	return $data->value;};
-	function findParameterGeneral($key){$data = sysGeneralparameter::findFirst(array("conditions"=>"name = :value:",	'bind' => array('value' =>  $key)));	return $data->value;};
-	function validateToken() {
-		$response=new Response();
-		try{
-			$jwt = getallheaders()[findParameterToken("HeaderToken")];
-			$key = findParameterToken("KeyToken");
-			$decoded = JWT::decode($jwt, $key, array('HS256'));
-			return $decoded;
-		}catch(\Firebase\JWT\ExpiredException $e) {$response->setStatusCode(440, "Token expired!"); $response->setJsonContent(array('isValid'=>false, 'message'=>'Token expired!'));
-		}catch (\UnexpectedValueException $e) {	$response->setStatusCode(500); $response->setJsonContent(array('isValid'=>false, 'message'=>'Unexpected value exception...'));
-		}catch (\Exception $e) {$response->setStatusCode(500); $response->setJsonContent(array('isValid'=>false, 'message'=>'Unexpected exception...'));};
-		$response->send(); die();};
-	function addLog($id,$action,$table,$enum) {
-		$ip = getenv('HTTP_CLIENT_IP')?:	getenv('HTTP_X_FORWARDED_FOR')?:	getenv('HTTP_X_FORWARDED')?: getenv('HTTP_FORWARDED_FOR')?: getenv('HTTP_FORWARDED')?:	getenv('REMOTE_ADDR');
-		$record = new SysLog();
-		$record->userId = $id;
-		$record->action = $action;
-		$record->table = $table;
-		$record->actionEnum = $enum;
-		$record->userName = $ip;
-		$isCommit=$record->save($record);
-		return $isCommit;};
-	function getUserId($id){$phql="SELECT u.id from SecUser u inner join MainEmployee e on u.employeeId = e.id where u.employeeId='$id'"; return $app->modelsManager->executeQuery($phql);};
 //APIs
-	$app->get('/ip', function() { $response=new Response();
+	$app->get('/ip', function() { 
+		$response=new Response();
 		try{
 			$ip = getenv('HTTP_CLIENT_IP')?:	getenv('HTTP_X_FORWARDED_FOR')?:	getenv('HTTP_X_FORWARDED')?: getenv('HTTP_FORWARDED_FOR')?: getenv('HTTP_FORWARDED')?:	getenv('REMOTE_ADDR');
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $ip));
@@ -227,9 +170,9 @@
 		try {
 			validateToken();
 			$data=array();
-			$phql ="SELECT e.id, e.firstName FROM mainEmployee e LEFT OUTER JOIN secUserEmp ue ON e.id = ue.employeeId WHERE ue.employeeId IS NULL";
+			$phql ="SELECT e.id, e.firstName FROM mainEmployee e LEFT OUTER JOIN secUserEmp ue ON e.id = ue.employeeId WHERE (ue.employeeId IS NULL AND e.firstName!='root') ";
 			$data = $app->modelsManager->executeQuery($phql);
-			if(count($data)>0){http_response_code(200);}else{http_response_code(406);}
+			if(count($data)>0){http_response_code(200);}else{http_response_code(200);}
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e.message));}; 
 		return $response;	});
@@ -280,7 +223,8 @@
 		$response = new Response();
 		try {
 			validateToken();
-			$data = mainEmployee::find();
+			$params = "userName != 'root'" ;
+			$data = mainEmployee::find('userName' == 'root');
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
 		return $response;	});
@@ -534,19 +478,19 @@
 			group by r.date
 			order by r.date";
 			$data = $app->modelsManager->executeQuery($phql);
-			if(count($data)>0){http_response_code(200);}else{http_response_code(406);}
+			if(count($data)>0){http_response_code(200);}else{http_response_code(200);}
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));}; 
 		return $response; });
 	$app->get('/payrolltypes', function(){
-			$response = new Response();
-			try{
-				$data = array();
-				$types = catPayrollType::find();
-				$response->setJsonContent(array('status' => 200,'message' => 'success', 'data' => $types));
-			}catch(\Exception $e){$response->setJsonContent(array('status' => 500,'message' => 'Internal error services'));};
-			return $response;	});
-
+		$response = new Response();
+		try{
+			$data = array();
+			$types = catPayrollType::find();
+			$response->setJsonContent(array('status' => 200,'message' => 'success', 'data' => $types));
+		}catch(\Exception $e){$response->setJsonContent(array('status' => 500,'message' => 'Internal error services'));};
+		return $response;	
+		});
 	$app->get('/kpi', function() use($app){
 		$response = new Response();
 		try {
@@ -675,4 +619,77 @@
 		};
 		fclose($payroll);
 		return $response;	});
+
+//Funciones
+	function new_id() {	
+		$planillas = RrhhPlanilla::find(); if (count($planillas)>0) {$ultima = $planillas->getLast(); $ultimo_id=$ultima->idplanilla+1;} else {$ultimo_id=1;}; return $ultimo_id;
+		};
+	function payroll_head($app) {
+		$response = new Response();
+		$request = $app->request->getJsonRawBody();
+		$fecha = substr($request->fechapago, 0, 10); 
+		$parametros = "idtipoplanilla = '" . $request->idtipoplanilla . "' AND fechapago = '" . $fecha ."'" ;
+		$existe=RrhhPlanilla::find($parametros);
+		if( count($existe) > 0 ){
+			$response->setJsonContent(array('status' => 404,'message' => 'La Planilla ya existe!')); 
+			return $response;
+		}
+		try{
+			$request = $app->request->getJsonRawBody();
+			$planilla=new RrhhPlanilla();
+			$planilla->idplanilla = $ultima;
+			$planilla->idtipoplanilla = $request->idtipoplanilla;
+			$planilla->periodo = $request->periodo;
+			$planilla->fechainicio = $request->fechainicio;
+			$planilla->fechafin = $request->fechafin;
+			$planilla->fechapago = $request->fechapago;
+			$planilla->estado = $request->estado;
+		} catch(\Exception $e){$response->setJsonContent(array('status' => 500,'message' => 'No se pudo crear el encabezado de planilla!','error' => $e));};
+		return  $planilla;};
+	function generarClave($username, $password){
+		$key = pack('H*', findParameterGeneral("key"));
+		$llave = substr($username, 0,2).substr($username, -1);
+		$llave = strtoupper($llave);
+		$llave = encrypt($llave,$key);
+		$complement = encrypt($password,$key);
+		$password_encrypted = $llave.$complement;
+		$password_encrypted = encrypt($password_encrypted,$key);
+		return $password_encrypted;};
+	function encrypt($data, $key){
+		return md5(mcrypt_encrypt(MCRYPT_RIJNDAEL_128,$key,$data,MCRYPT_MODE_CBC,"\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0"));
+		};
+	function findParameterToken($key){
+		$data = sysTokenparameter::findFirst(array("conditions"=>"name = :value:",	'bind' => array('value' =>  $key)));
+		return $data->value;
+		};
+	function findParameterGeneral($key){
+		$data = sysGeneralparameter::findFirst(array("conditions"=>"name = :value:",	'bind' => array('value' =>  $key)));
+		return $data->value;
+		};
+	function validateToken() {
+		$response=new Response();
+		try{
+			$jwt = getallheaders()[findParameterToken("HeaderToken")];
+			$key = findParameterToken("KeyToken");
+			$decoded = JWT::decode($jwt, $key, array('HS256'));
+			return $decoded;
+		}catch(\Firebase\JWT\ExpiredException $e) {$response->setStatusCode(440, "Token expired!"); $response->setJsonContent(array('isValid'=>false, 'message'=>'Token expired!'));
+		}catch (\UnexpectedValueException $e) {	$response->setStatusCode(500); $response->setJsonContent(array('isValid'=>false, 'message'=>'Unexpected value exception...'));
+		}catch (\Exception $e) {$response->setStatusCode(500); $response->setJsonContent(array('isValid'=>false, 'message'=>'Unexpected exception...'));};
+		$response->send(); die();};
+	function addLog($id,$action,$table,$enum) {
+		$ip = getenv('HTTP_CLIENT_IP')?:	getenv('HTTP_X_FORWARDED_FOR')?:	getenv('HTTP_X_FORWARDED')?: getenv('HTTP_FORWARDED_FOR')?: getenv('HTTP_FORWARDED')?:	getenv('REMOTE_ADDR');
+		$record = new SysLog();
+		$record->userId = $id;
+		$record->action = $action;
+		$record->table = $table;
+		$record->actionEnum = $enum;
+		$record->userName = $ip;
+		$isCommit=$record->save($record);
+		return $isCommit;};
+	function getUserId($id){
+		$phql="SELECT u.id from SecUser u inner join MainEmployee e on u.employeeId = e.id where u.employeeId='$id'"; 
+		return $app->modelsManager->executeQuery($phql);
+		};
+
 $app->handle();

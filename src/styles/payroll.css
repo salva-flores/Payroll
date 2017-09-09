@@ -781,6 +781,7 @@ blockquote p {
   border-color: rgba(0, 0, 0, 0.1);
   border-top: 0;
   background-color: white;
+  /*background-color: rgba(190, 190, 190, 0.5) !important;*/
   -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
@@ -909,15 +910,16 @@ blockquote p {
   }
 }
 .main-panel > .header {
-  background-color: rgba(190, 190, 190, 0.5);
-  /*background-color: #ffffff;*/
+  /*background-color: rgba(190, 190, 190, 0.5);*/
+  background-color: #fff;
 }
 .main-panel > .header .navbar-text {
   color: #616161;
 }
 .main-panel > .header .navbar >a:hover{
 /*.main-panel > .header .navbar >a:focus  {*/
-  background-color: #9a9a76;
+  background-color: #ebe1e1;
+  /*background-color: #9a9a76;*/
   color: #474747;
 }
 .main-panel > .header .nav > li > a {

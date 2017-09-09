@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `cat_company_unit` (
 /*!40000 ALTER TABLE `cat_company_unit` DISABLE KEYS */;
 INSERT INTO `cat_company_unit` (`id`, `name`, `description`) VALUES
 	(1, 'Gerencia General', ''),
+	(2, 'Sub-Gerencia', ''),
 	(3, 'Gerencia Financiera', ''),
 	(4, 'Gerencia de Operaciones', ''),
 	(5, 'Gerencia Administrativa', ''),
@@ -104,7 +105,7 @@ CREATE TABLE IF NOT EXISTS `cat_contract_type` (
 INSERT INTO `cat_contract_type` (`id`, `name`, `description`) VALUES
 	(1, 'Permanente', ''),
 	(2, 'Temporal', ''),
-	(3, 'Practicante', '');
+	(3, 'Otro', '');
 /*!40000 ALTER TABLE `cat_contract_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_date_format
@@ -365,7 +366,7 @@ CREATE TABLE IF NOT EXISTS `cat_isr_percentage` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Catálogo de los porcentajes progresivos del impuesto sobre la renta';
 
--- Dumping data for table hhrr.cat_isr_percentage: ~1 rows (approximately)
+-- Dumping data for table hhrr.cat_isr_percentage: ~0 rows (approximately)
 /*!40000 ALTER TABLE `cat_isr_percentage` DISABLE KEYS */;
 INSERT INTO `cat_isr_percentage` (`id`, `lowerLlimit1`, `upperLimit1`, `percent1`, `lowerLimit2`, `upperLimit2`, `percent2`, `lowerLimit3`, `upperLimit3`, `percent3`, `lowerLimit4`, `upperLimit4`, `percent4`, `validFrom`, `validTo`) VALUES
 	(0, 0.00, 145667.10, 0.00, 145667.11, 222116.50, 0.15, 222116.51, 516550.00, 0.20, 516550.01, 99999999.99, 0.25, '2017-01-01', '2017-12-31');
@@ -386,8 +387,8 @@ CREATE TABLE IF NOT EXISTS `cat_job` (
 /*!40000 ALTER TABLE `cat_job` DISABLE KEYS */;
 INSERT INTO `cat_job` (`id`, `name`, `responsibilities`, `abilities`, `experience`) VALUES
 	(1, 'Gerente General', '', '', ''),
-	(2, 'Gerente Financiero', '', '', ''),
-	(3, 'Gerente Administrativo', '', '', ''),
+	(2, 'Sub-Gerente', '', '', ''),
+	(3, 'Gerente Financiero/Admin', '', '', ''),
 	(4, 'Asistente Administrativo', '', '', ''),
 	(5, 'Gerente de Operaciones', '', '', ''),
 	(6, 'Arquitecto', '', '', ''),
@@ -505,10 +506,10 @@ CREATE TABLE IF NOT EXISTS `cat_overtime` (
 -- Dumping data for table hhrr.cat_overtime: ~4 rows (approximately)
 /*!40000 ALTER TABLE `cat_overtime` DISABLE KEYS */;
 INSERT INTO `cat_overtime` (`id`, `name`, `start`, `end`, `percent`, `description`) VALUES
-	(1, 'Tipo I', '19:00:00', '21:00:00', 0.25, 'Art 330: Recargo sobre el salario de la jornada diurna cuando se efectúe en el período diurno.'),
-	(2, 'Tipo II', '21:00:00', '23:59:59', 0.50, 'Art 330: Recargo sobre el salario de la jornada diurna cuando se efectúe en el período nocturno.'),
-	(3, 'Tipo III', '23:59:59', '05:00:00', 0.75, 'Art 330: Recargo sobre el salario de la jornada nocturna cuando la jornada extraordinaria sea prolongación de aquélla.'),
-	(4, 'Tipo IV', '00:01:00', '23:59:59', 1.00, 'Art. 340: Recargo si se trabajare durante los días de descanso o los días feriados o de fiesta nacio');
+	(1, '25%', '17:00:00', '19:00:00', 0.25, 'Art 330: Recargo sobre el salario de la jornada diurna cuando se efectúe en el período diurno.'),
+	(2, '50%', '19:00:00', '21:00:00', 0.50, 'Art 330: Recargo sobre el salario de la jornada diurna cuando se efectúe en el período nocturno.'),
+	(3, '75%', '21:00:00', '05:00:00', 0.75, 'Art 330: Recargo sobre el salario de la jornada nocturna cuando la jornada extraordinaria sea prolongación de aquélla.'),
+	(4, 'Doble', '00:01:00', '23:59:59', 1.00, 'Art. 340: Recargo si se trabajare durante los días de descanso o los días feriados o de fiesta nacio');
 /*!40000 ALTER TABLE `cat_overtime` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll
@@ -586,8 +587,9 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_type` (
 /*!40000 ALTER TABLE `cat_payroll_type` DISABLE KEYS */;
 INSERT INTO `cat_payroll_type` (`id`, `name`, `description`, `howMany`, `status`) VALUES
 	(1, 'Sueldos y Salarios', 'Sueldos y Salarios', 24, 1),
-	(2, 'Aguinaldo', 'Decimo Tercer mes', 1, 1),
-	(3, 'Bono', 'Bonificacion anual', 1, 1);
+	(2, 'Horas Extras', 'Horas Extras', 12, 1),
+	(3, 'Aguinaldo', 'Decimo Tercer mes', 1, 1),
+	(4, 'Bono', 'Bonificacion anual', 1, 1);
 /*!40000 ALTER TABLE `cat_payroll_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_profession
@@ -680,7 +682,7 @@ CREATE TABLE IF NOT EXISTS `cat_working_hours` (
 -- Dumping data for table hhrr.cat_working_hours: ~3 rows (approximately)
 /*!40000 ALTER TABLE `cat_working_hours` DISABLE KEYS */;
 INSERT INTO `cat_working_hours` (`id`, `name`, `start`, `end`, `overtimeStart`, `maxOverPerWeek`, `description`) VALUES
-	(1, 'Diurna', '05:00:00', '19:00:00', '19:00:00', 16, 'Art 269'),
+	(1, 'Diurna', '05:00:00', '19:00:00', '17:00:00', 16, 'Art 269'),
 	(2, 'Mixta', '15:00:00', '22:00:00', '22:00:00', 16, 'Art 269'),
 	(3, 'Nocturna', '19:00:00', '05:00:00', '05:00:00', 16, 'Art 269');
 /*!40000 ALTER TABLE `cat_working_hours` ENABLE KEYS */;
@@ -739,8 +741,7 @@ CREATE TABLE IF NOT EXISTS `main_company` (
 -- Dumping data for table hhrr.main_company: ~2 rows (approximately)
 /*!40000 ALTER TABLE `main_company` DISABLE KEYS */;
 INSERT INTO `main_company` (`id`, `mipymeTypeId`, `economicBranchId`, `legalFormId`, `shortName`, `longName`, `foundationDate`, `commercialRegiterCertificate`, `phone`, `address`, `city`, `departmentId`, `postalCode`, `mission`, `vision`, `profile`, `logo`, `ip`, `legalRepName`, `legalRepIdCard`, `legalRepPhone`, `contactName`, `contactDesignation`, `contactPhone`, `contactEmail`) VALUES
-	(1, 1, 1, 5, 'CENTEC', NULL, '2017-05-30', '', '', '', '', 8, '', '', '', '', 'logo-dark.png', '', '', '', '0', '', '', '', ''),
-	(2, 1, 1, 7, 'Lufergo', NULL, '2017-05-30', '', '', '', '', 8, '', '', '', '', '', '', '', '', '0', '', '', '', '');
+	(1, 1, 1, 5, 'CENTEC', NULL, '2017-05-30', '', '', '', '', 8, '', '', '', '', 'logo-dark.png', '', '', '', '0', '', '', '', '');
 /*!40000 ALTER TABLE `main_company` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_company_structure
@@ -764,10 +765,10 @@ CREATE TABLE IF NOT EXISTS `main_company_structure` (
 -- Dumping data for table hhrr.main_company_structure: ~4 rows (approximately)
 /*!40000 ALTER TABLE `main_company_structure` DISABLE KEYS */;
 INSERT INTO `main_company_structure` (`companyId`, `unitId`, `parentUnitId`, `headJobId`, `headId`) VALUES
-	(1, 1, 1, 1, 29),
-	(1, 5, 1, 3, 31),
-	(1, 4, 1, 5, 4),
-	(1, 6, 4, 7, 3);
+	(1, 1, 1, 1, 1),
+	(1, 2, 1, 3, 2),
+	(1, 3, 1, 5, 3),
+	(1, 4, 2, 7, 4);
 /*!40000 ALTER TABLE `main_company_structure` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee
@@ -818,62 +819,10 @@ CREATE TABLE IF NOT EXISTS `main_employee` (
 -- Dumping data for table hhrr.main_employee: ~56 rows (approximately)
 /*!40000 ALTER TABLE `main_employee` DISABLE KEYS */;
 INSERT INTO `main_employee` (`id`, `companyUnit`, `academicLevel`, `profession`, `job`, `type`, `firstName`, `lastName`, `dob`, `gender`, `bloodType`, `nationality`, `idCard`, `maritalStatus`, `joined`, `address`, `city`, `departmentId`, `homePhone`, `officePhone`, `mobilePhone`, `email`, `salary`, `shift`, `creationDate`, `createdBy`) VALUES
-	(1, 6, 2, 1, 10, 0, 'Dennis Dassaeth Gonzales Mendoza', '', '1989-01-09', 1, '', '', '0801198902214', '0', '2014-02-03', 'Prados Universitarios, Bloque E, casa 6118.', '', 8, '22570069', '0', '32290345', 'dgonzales@hngsystems.com', 11000.00, 1, '2017-06-22 11:41:58', 0),
-	(2, 6, 1, 1, 10, 0, 'Oscar Noe Sevilla Urbina', '', '1990-12-21', 1, '', '', '1519199000006', '0', '2013-01-02', 'Col. San Jose de la Peña', '', 8, '0', '0', '96095496', 'osevilla@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(3, 6, 1, 1, 10, 0, 'Edwin David Zambrano Banegas', '', '1986-02-12', 1, '', '', '0801198603962', '0', '2013-01-01', 'Res. Villas de Concepción', '', 8, '0', '0', '33944024', 'ezambrano@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(4, 4, 1, 1, 5, 0, 'Hector Alberto Berrios Rodriguez', '', '1969-05-12', 1, '', '', '0801196903367', '1', '2010-08-07', 'Residencial plaza, bloque 33, casa 3108.', '', 8, '22286173', '0', '99372193', 'hberrios@hngsystems.com', 45000.00, 1, '2017-06-22 11:41:58', 0),
-	(5, 6, 1, 1, 10, 0, 'Katherynne Melissa Hidalgo Aguilar', '', '1991-05-09', 2, '', '', '0601199101689', '0', '2013-11-16', 'Barrio Sabana Grande', '', 8, '0', '0', '98496166', 'khidalgo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(6, 6, 1, 1, 10, 0, 'Vany Jetsibelh Castillo Guillen', '', '1986-05-14', 2, '', '', '1201198600461', '0', '2010-01-07', 'Col. las colinas, bloque RR, casa 1915.', '', 8, '0', '0', '98641568', 'vcastillo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(7, 6, 1, 1, 10, 0, 'Leonardo Antonio Vijil Scalici', '', '1990-01-24', 1, '', '', '0801199014267', '0', '2014-06-16', 'Col. Kennedy, 4ta Entrada, casa 3810, bloque 1.', '', 8, '22304507', '0', '87355440', 'lvijil@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(8, 6, 1, 1, 10, 0, 'Kenny Joseph Cooper Aleman', '', '1989-07-20', 1, '', '', '0801198902104', '0', '2012-01-01', 'Col. san Jose de la Peña, zona D, bloque 7A', '', 8, '0', '0', '96714867', 'kcooper@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(9, 6, 1, 1, 10, 0, 'Denis Oswaldo Jiron Rodriguez', '', '1983-07-13', 1, '', '', '0801198312047', '0', '2012-03-01', 'Col. Hato de Enmedio, sector 7, bloque 103, casa 5119', '', 8, '22551706', '0', '31781323', 'djiron@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(10, 6, 1, 1, 10, 0, 'Victor Alejandro Escober Zuniga', '', '1986-01-28', 1, '', '', '0819198600200', '0', '2012-10-08', 'Col. centro america oeste, zona 1 bloque H casa 4526', '', 8, '22274620', '0', '31875519', 'vescober@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(11, 6, 1, 1, 10, 0, 'Luisa Azucena Giron Gradiz', '', '1968-02-12', 2, '', '', '0615196800569', '1', '2012-04-09', 'Col. Kennedy, casa 3505, grupo 18, bloque 22, zona 2', '', 8, '22280971', '0', '98730062', 'lgiron@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(12, 6, 1, 1, 10, 0, 'Yadira Paola Avila Herrera', '', '1986-07-22', 2, '', '', '0801198613859', '0', '2012-06-04', 'Col. Centro américa oeste, zona 4, bloque z', '', 8, '22273540', '0', '96257601', 'yavila@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(13, 6, 1, 1, 10, 0, 'Kelly Pamela Perez Caceres', '', '1984-04-12', 2, '', '', '0801198421680', '1', '2011-11-23', 'Linaca, Tatumbla, atrás del Kínder Caridad de Ardon.', '', 8, '0', '0', '96928115', 'kperez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(14, 6, 1, 1, 10, 0, 'Danny Alberto Solorzano Rivera', '', '1986-07-15', 1, '', '', '0801198620461', '0', '2012-05-09', 'Residencial Agua Dulce, Col. Las Hadas', '', 8, '0', '0', '97605500', 'dsolorzano@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(15, 6, 1, 1, 10, 0, 'Ana Sofia Quintero Zapata', '', '1990-04-10', 2, '', '', '0801199005403', '0', '2012-06-25', 'Colonia Centro América Oeste, Bloque CC, casa 1316, Zona 1.', '', 8, '22271408', '0', '98272925', 'aquintero@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(16, 6, 1, 1, 10, 0, 'Guillermo Bustillo Alvarado', '', '1989-08-10', 1, '', '', '0801198916369', '0', '2012-12-01', 'Col Centro America Oeste, Zona 1, bloque E, casa 1417.', '', 8, '22274920', '0', '97203639', 'gbustillo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(17, 6, 1, 1, 10, 0, 'Dario Alberto Castro Martinez', '', '1989-03-08', 1, '', '', '0801198920345', '0', '2012-05-07', 'Residencial Centro América, 4ta etapa, calle 37', '', 8, '22273540', '0', '31817003', 'dcastro@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(18, 6, 1, 1, 10, 0, 'Olga Leticia Martinez Varela', '', '1988-03-31', 2, '', '', '0801198801929', '0', '2012-03-06', 'Col. Bella Vista, 8 y 9 calle, 12 ave, casa 916.', '', 8, '22234427', '0', '33191947', 'omartinez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(19, 6, 1, 1, 10, 0, 'Amy Larissa Gallardo Alvarez', '', '1984-07-24', 2, '', '', '0801198405040', '0', '2011-06-16', 'Col. Bella Oriente, Bloque H, casa 8, Apto No 1', '', 8, '0', '0', '33760250', 'agallardo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(20, 6, 1, 1, 10, 0, 'Julio Alejandro Castro Raudales', '', '1987-08-13', 1, '', '', '0501198710584', '0', '2011-03-17', 'Colonia Kennedy, Boca calle, escuela Oswaldo.', '', 8, '22285788', '0', '97011785', 'jcastro@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(21, 6, 1, 1, 10, 0, 'Wilfredo Estrada Matamoros', '', '1983-02-14', 1, '', '', '0801198305570', '0', '2011-10-20', 'Col. Venezuela, sector C, Bloque 21, lote 16.', '', 8, '22250360', '0', '98113809', 'westrada@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(22, 6, 1, 1, 10, 0, 'Amy Alizbeth Diaz Caceres', '', '1990-03-13', 2, '', '', '0801199015349', '0', '2012-04-10', 'CENTEC', '', 8, '22233744', '0', '98913980', 'adiaz@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(23, 6, 1, 1, 10, 0, 'Merlyn Carolina Palma Hernandez', '', '1981-03-02', 1, '', '', '0801198126270', '0', '2010-04-07', 'Residencial Villas del Real, bloque D, casa 7', '', 8, '22339318', '0', '95153204', 'mpalma@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(24, 6, 1, 1, 10, 0, 'Fernando Velasquez Marquez', '', '1980-04-15', 1, '', '', '0801198018149', '0', '2006-09-26', 'Col Bella Oriente, bloque L, casa 17.', '', 8, '22551956', '0', '99044777', 'fvelasquez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(25, 6, 1, 1, 10, 0, 'Claudio Jose Turcios Cerrato', '', '1974-02-14', 1, '', '', '0801197408138', '1', '2009-03-09', 'CENTEC', '', 8, '22304306', '0', '99014179', 'cturcios@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(26, 6, 1, 1, 10, 0, 'Wendy Carolina Gonzalez Sierra', '', '1983-09-21', 2, '', '', '0801198307630', '0', '2009-03-01', 'Col. Brisas del norte, bloque J, casa 10.', '', 8, '22017176', '0', '97366376', 'wgonzales@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(27, 6, 1, 1, 10, 0, 'David Eduardo Sanchez Aguilar', '', '1985-04-16', 1, '', '', '0801198519044', '0', '2012-08-06', 'Col. hato de Enmedio, Sector 7, bloque 103, casa 5115', '', 8, '0', '0', '32928085', 'dsanchez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(28, 5, 1, 1, 10, 0, 'Gabriela Mariel Henriquez Oyuela', '', '1981-05-19', 1, '', '', '0801198102890', '0', '2012-01-01', 'Col. lomas del Toncontin, casa 1704, bloque 44', '', 8, '22344330', '0', '99802498', 'ghenriquez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(29, 1, 2, 1, 1, 0, 'Juan Carlos Mercado', '', '1968-07-15', 1, '', '', '0801196806435', '1', '2011-01-01', 'Colonia Miraflores Sur, Avenida Santa Cristina, Calle 21, bloque 4 casa 1610', '', 8, '22324016', '0', '0', 'jmercado@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(30, 5, 1, 1, 10, 0, 'Vanessa Carolina Varela Pineda', '', '1986-07-15', 2, '', '', '0318198600333', '1', '2012-02-21', 'Col. Victor F Ardon, bloque F, casa 3822', '', 8, '22303915', '0', '32963124', 'vvarela@hngsystems.com', 14000.00, 1, '2017-06-22 11:41:58', 0),
-	(31, 5, 2, 12, 3, 0, 'Gabriel Reinaldo Osorio Velasquez', '', '1973-07-18', 1, '', '', '0801197300747', '1', '2014-07-24', 'Colonia Monte Verde, 1ª Av 2ª Calle Casa #14', '', 8, '22324016', '0', '0', 'gosorio@lufergo.com', 45000.00, 1, '2017-06-22 11:41:58', 0),
-	(32, 6, 1, 1, 10, 0, 'Jorge Alberto Ávila Sevilla', '', '1990-09-06', 1, '', '', '0801199019001', '0', '2014-10-01', 'Col. Sagastume No 2, calle principal, casa no 7', '', 8, '0', '0', '95706121', 'javila@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(33, 6, 1, 1, 10, 0, 'Alex Francisco Espinal Oyuela', '', '1990-05-20', 1, '', '', '0801199010220', '0', '2014-10-01', 'Cerrro Grande zona 4 bloque 37 casa 3207', '', 8, '22240579', '0', '99505590', 'aespinal@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(34, 6, 1, 1, 10, 0, 'Ana Hisamar Sorto Caceres', '', '1990-09-24', 2, '', '', '0801199023937', '0', '2014-08-20', 'Residencial Suyapita contiguo Hospital Maria', '', 8, '0', '0', '95730914', 'asorto@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(35, 6, 1, 1, 10, 0, 'Keidy Sarahi Rodriguez Duron', '', '1991-07-22', 2, '', '', '0801199115017', '0', '2015-01-15', 'col. modesto rodas alvarado, casa 3621', '', 8, '22344817', '0', '88655195', 'krodriguez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(36, 6, 1, 1, 10, 0, 'Ana Marcela Lanza Sandres', '', '1991-08-01', 2, '', '', '0801199102323', '0', '2015-01-15', 'Barrio la Cudarilla, Santa Lucia.', '', 8, '27790417', '0', '31909930', 'alanza@hngsystems.com', 15000.00, 3, '2017-06-22 11:41:58', 0),
-	(37, 6, 1, 1, 10, 0, 'Hugo Renan Rodriguez Garmendia', '', '1982-01-10', 1, '', '', '0801198210240', '0', '2014-12-01', 'Res. Roble Oeste, V etapa, bloque K casa 6', '', 8, '22348380', '0', '95172277', 'hugorenanrod@gmail.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(38, 6, 1, 1, 10, 0, 'Sergio Mauricio Canales Verde', '', '1987-05-08', 1, '', '', '0801198707988', '0', '2015-05-04', 'Col Santa Maria, bloque 26, Casa 41.', '', 8, '22708172', '0', '33792372', 'scanales@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(39, 6, 1, 1, 10, 0, 'Bryan Orlando Peña Mejia', '', '1989-06-23', 1, '', '', '0801198912973', '0', '2015-12-01', 'Col. El Sitio, 2da etapa, bloque 36, casa #90', '', 8, '22709339', '0', '97459699', 'bpena@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(40, 6, 1, 1, 10, 0, 'Jennyffer Carolina Mejia Meza', '', '1992-05-14', 2, '', '', '0801199210588', '0', '2015-12-01', 'Col. El Sitio, 2da etapa, bloque 36, casa #1816', '', 8, '22709551', '0', '94300006', 'jmejia@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(41, 6, 1, 1, 10, 0, 'Ingrid Aracely Nuñez Gomez', '', '1989-09-06', 2, '', '', '0703198904588', '0', '2015-11-16', 'Res. Bella Oriente, frente a Villas del Sol', '', 8, '0', '0', '95741764', 'inuñez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(42, 6, 1, 1, 10, 0, 'Javier Ernesto Saravia Sosa', '', '1987-03-28', 1, '', '', '0801198705966', '0', '2016-08-16', 'Villa Adela, Costado Sur del Estado Mayor Conjunto, entre 4 y 5 avenida, 15 calle', '', 8, '22201140', '0', '88709340', 'jsaravia@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(43, 6, 1, 1, 10, 0, 'Ingrid Lizeth Menjivar Bustillo', '', '1990-08-05', 2, '', '', '0801199102002', '0', '2016-08-16', 'Barrio Concepción, 6 calle, 8 avenida comayaguela casa 602', '', 8, '22201644', '0', '95588792', 'imenjivar@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(44, 6, 1, 1, 10, 0, 'Luis Fernando Carbajal Carbajal', '', '1989-06-27', 1, '', '', '0611198900680', '0', '2015-08-16', 'Col.Cerro Grande, zona #4, bloque #40, lote F', '', 8, '22241725', '0', '98355053', 'lcarbajal@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(45, 6, 1, 1, 10, 0, 'Eva Daniela Cardona Rosales', '', '1990-09-15', 2, '', '', '1518199000180', '0', '2016-09-01', 'Col. Las Colinas frente a Auto Escuela Tropical', '', 8, '0', '0', '94633803', 'ecardona@hngsystems.com', 11500.00, 1, '2017-06-22 11:41:58', 0),
-	(46, 6, 1, 1, 10, 0, 'Brian Enrique Barahona Zeron', '', '1993-01-21', 1, '', '', '0818199300028', '0', '2016-09-01', 'Santa Ana Fco. Morazan Km 21 media cuadra de la gasolinera TEXACO', '', 8, '22131035', '0', '98322306', 'bbarahona@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(47, 6, 1, 1, 10, 0, 'Arelis Yadira Matamoros Guzman', '', '1990-03-12', 2, '', '', '0801199005964', '0', '2016-09-01', 'Aldea Santa Rosa, carretera al sur Km. 11 contiguo al centro de salud', '', 8, '0', '0', '95071445', 'amatamoros@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(48, 6, 1, 1, 10, 0, 'Leonardo Fabian Medina Espinoza', '', '1990-02-19', 1, '', '', '0801199006523', '0', '2015-04-27', 'Col. Brisas de Olancho, Casa 1, Bloque A, Sector 2', '', 8, '22236826', '0', '32920485', 'lmedina@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(49, 6, 1, 1, 10, 0, 'Erick Roberto Rápalo Garcia', '', '1992-09-16', 1, '', '', '0801199219550', '0', '2016-03-28', 'Tegucigalpa, Col. Los Pinos, Sector F', '', 8, '0', '0', '89882132', 'erapalo@hngsystems.com', 12000.00, 1, '2017-06-22 11:41:58', 0),
-	(50, 6, 1, 1, 10, 0, 'Jonie Esteban Miralda Cruz', '', '1991-09-30', 1, '', '', '0801199119714', '0', '2016-04-01', 'Col. Smith #1, calle principal, peatonal 7 casa #602 color rosado fusia. Comayaguela M.D.C', '', 8, '2233944', '0', '95069826', 'jmiralda@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(51, 6, 1, 1, 10, 0, 'Alejandra Gabriela Gonzales Flores', '', '1992-04-03', 2, '', '', '0801199207416', '0', '2016-10-24', 'Col. villeda morales', '', 8, '22297613', '0', '98088944', 'agonzales@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(52, 6, 1, 1, 10, 0, 'David Josué Vasquez Aguilar', '', '1995-03-05', 1, '', '', '0801199508700', '0', '2016-12-13', 'col la esperanza calle dipílto casa c200', '', 8, '22211827', '0', '96071481', 'dvasquez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(53, 6, 1, 1, 10, 0, 'Oscar David Maradiaga Cárdenas', '', '1993-03-19', 1, '', '', '0801199305745', '0', '2017-01-03', 'Col. villa nueva sector 6 casa #5319', '', 8, '22283581', '0', '95720677', 'omaradiaga@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(54, 6, 1, 1, 10, 0, 'Claudia Yolanda Zuniga Ruiz', '', '1969-12-02', 2, '', '', '0801196908897', '1', '2017-01-03', 'Residencial Zarahemla, Bloque E, casa 25', '', 8, '22217190', '0', '96665026', 'czuniga@hngsystems', 20000.00, 1, '2017-06-22 11:41:58', 0),
-	(55, 6, 2, 1, 10, 0, 'Salvador Alberto Flores Aguilar', '', '1971-12-25', 1, 'o+', 'Honduran', '0501197200116', '1', '2016-01-11', 'Col. Bella Oriente', '', 8, '22550886', '0', '95535116', 'sflores@hngsystems.com', 13000.00, 1, '2017-07-14 19:14:56', 0),
-	(56, 6, 2, 3, 10, 0, 'Carlos Nahun García Cruz', '', '0000-00-00', 1, 'o+', '', '0801198611168', '0', '2017-07-24', '', '', 0, '', '', '97061674', 'cgarcia@hngsystems.com', 11500.00, 2, '2017-07-24 08:58:12', 0);
+	(1, 1, 2, 1, 1, 0, 'Juan Carlos Mercado', '', '1968-07-15', 1, '', '', '0801196806435', '1', '2011-01-01', 'Colonia Miraflores Sur, Avenida Santa Cristina, Calle 21, bloque 4 casa 1610', '', 8, '22324016', '0', '0', 'jmercado@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
+	(2, 2, 2, 12, 3, 0, 'Gabriel Reinaldo Osorio Velasquez', '', '1973-07-18', 1, '', '', '0801197300747', '1', '2014-07-24', 'Colonia Monte Verde, 1ª Av 2ª Calle Casa #14', '', 8, '22324016', '0', '0', 'gosorio@lufergo.com', 45000.00, 1, '2017-06-22 11:41:58', 0),
+	(3, 3, 1, 1, 5, 0, 'Hector Alberto Berrios Rodriguez', '', '1969-05-12', 1, '', '', '0801196903367', '1', '2010-08-07', 'Residencial plaza, bloque 33, casa 3108.', '', 8, '22286173', '0', '99372193', 'hberrios@hngsystems.com', 45000.00, 1, '2017-06-22 11:41:58', 0),
+	(4, 4, 1, 1, 10, 0, 'Vanessa Carolina Varela Pineda', '', '1986-07-15', 2, '', '', '0318198600333', '1', '2012-02-21', 'Col. Victor F Ardon, bloque F, casa 3822', '', 8, '22303915', '0', '32963124', 'vvarela@hngsystems.com', 14000.00, 1, '2017-06-22 11:41:58', 0);
 /*!40000 ALTER TABLE `main_employee` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_contact
@@ -1156,7 +1105,11 @@ CREATE TABLE IF NOT EXISTS `pay_overtime_detail` (
   PRIMARY KEY (`id`),
   KEY `requestId` (`requestId`),
   CONSTRAINT `FK_pay_overtime_detail_pay_overtime_request` FOREIGN KEY (`requestId`) REFERENCES `pay_overtime_request` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COMMENT='Detalle de actividades realizadas por horas.';
+) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8 COMMENT='Detalle de actividades realizadas por horas.';
+
+-- Dumping data for table hhrr.pay_overtime_detail: ~162 rows (approximately)
+/*!40000 ALTER TABLE `pay_overtime_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_overtime_detail` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_overtime_request
 DROP TABLE IF EXISTS `pay_overtime_request`;
@@ -1183,7 +1136,11 @@ CREATE TABLE IF NOT EXISTS `pay_overtime_request` (
   KEY `authorizedBy` (`authorizedBy`),
   KEY `employee` (`employeeId`),
   CONSTRAINT `FK_pay_overtime_request_main_employee` FOREIGN KEY (`employeeId`) REFERENCES `main_employee` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 COMMENT='Almacena la solicitud de horas extras.';
+) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COMMENT='Almacena la solicitud de horas extras.';
+
+-- Dumping data for table hhrr.pay_overtime_request: ~86 rows (approximately)
+/*!40000 ALTER TABLE `pay_overtime_request` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pay_overtime_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_detail
 DROP TABLE IF EXISTS `pay_payroll_detail`;
@@ -1308,9 +1265,9 @@ CREATE TABLE IF NOT EXISTS `sec_profile` (
 -- Dumping data for table hhrr.sec_profile: ~3 rows (approximately)
 /*!40000 ALTER TABLE `sec_profile` DISABLE KEYS */;
 INSERT INTO `sec_profile` (`id`, `name`, `description`, `isActive`) VALUES
-	(1, 'Administrador', 'admin del sistema', b'1'),
-	(2, 'Documentador', 'perfil basico xyz 1', b'1'),
-	(3, 'Operador', 'test 123', b'1');
+	(1, 'Gerente', 'Todos los privilegios', b'1'),
+	(2, 'Administrador', 'Administrador ', b'1'),
+	(3, 'Colaborador', 'Empleado normal', b'1');
 /*!40000 ALTER TABLE `sec_profile` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_profile_resource
@@ -1348,13 +1305,18 @@ INSERT INTO `sec_profile_resource` (`profileId`, `resourceId`) VALUES
 	(1, 19),
 	(1, 20),
 	(1, 21),
+	(1, 22),
 	(2, 1),
-	(2, 5),
-	(2, 12),
-	(3, 12),
-	(3, 10),
+	(2, 3),
+	(2, 8),
+	(2, 9),
 	(2, 10),
-	(1, 22);
+	(2, 12),
+	(2, 13),
+	(2, 18),
+	(3, 10),
+	(3, 12),
+	(3, 18);
 /*!40000 ALTER TABLE `sec_profile_resource` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_resource
@@ -1377,7 +1339,7 @@ CREATE TABLE IF NOT EXISTS `sec_resource` (
 INSERT INTO `sec_resource` (`id`, `name`, `typeId`, `description`, `icon`, `state`, `inMenu`) VALUES
 	(1, 'Usuarios', 1, 'registrod e usuario', '', 'app.sec.users', b'1'),
 	(2, 'Ajustes', 4, 'catalogo ajustes', '', 'app.cat.ajustes', b'1'),
-	(3, 'Charts', 6, 'Graficos de Indicadores', '', 'app.charts', b'0'),
+	(3, 'Gráficos', 6, 'Graficos de Indicadores', '', 'app.charts', b'1'),
 	(4, 'Deducciones', 4, 'Catalogo de deducciones', '', 'err.404', b'0'),
 	(5, 'Generacion de Planillas', 2, 'Generacion de Planillas', '', 'app.pay.payroll', b'1'),
 	(6, 'Deducciones', 3, 'Deducciones por Empleado', '', 'app.assign.deduction', b'1'),
@@ -1392,7 +1354,7 @@ INSERT INTO `sec_resource` (`id`, `name`, `typeId`, `description`, `icon`, `stat
 	(15, 'Recursos', 5, 'Catalogo de recursos del sistema', '', 'app.conf.resources', b'1'),
 	(16, 'Parametros', 5, 'Parametros', '', 'app.conf.parameters', b'1'),
 	(17, 'Menus', 5, 'Menus', NULL, 'app.conf.sidebar', b'1'),
-	(18, 'Login', 1, 'Login screen', 'fa fa-sign-out', 'login', b'0'),
+	(18, 'Login', 1, 'Login screen', 'fa fa-sign-out', 'login', b'1'),
 	(19, 'Empleados', 4, 'Empleados', NULL, 'app.cat.employees', b'1'),
 	(20, 'Empresas', 4, 'Empresas', NULL, 'app.cat.companies', b'1'),
 	(21, 'Niveles Academicos', 4, 'Niveles academicos', NULL, 'app.cat.acedemic', b'1'),
@@ -1407,18 +1369,19 @@ CREATE TABLE IF NOT EXISTS `sec_resource_type` (
   `description` varchar(100) NOT NULL,
   `icon` varchar(50) NOT NULL COMMENT 'Icono que se usará en el menu',
   `state` varchar(50) NOT NULL COMMENT 'se utiliza asignar los recursos al menu',
+  `isVisible` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Tipos de recurso - Menu principal.';
 
 -- Dumping data for table hhrr.sec_resource_type: ~6 rows (approximately)
 /*!40000 ALTER TABLE `sec_resource_type` DISABLE KEYS */;
-INSERT INTO `sec_resource_type` (`id`, `name`, `description`, `icon`, `state`) VALUES
-	(1, 'Seguridad', '', 'fa fa-unlock-alt', 'app.security'),
-	(2, 'Planillas', '', 'fa fa-money', 'app.pay'),
-	(3, 'Registro', '', 'fa fa-pencil', 'app.assign'),
-	(4, 'Catalogos', '', 'fa fa-folder-open-o', 'app.cat'),
-	(5, 'Configuracion', '', 'fa fa-cogs', 'app.conf'),
-	(6, 'Horas Extras', 'Módulo de Horas Extras', 'fa fa-clock-o', 'app.over');
+INSERT INTO `sec_resource_type` (`id`, `name`, `description`, `icon`, `state`, `isVisible`) VALUES
+	(1, 'Seguridad', '', 'fa fa-unlock-alt', 'app.security', 1),
+	(2, 'Planillas', '', 'fa fa-money', 'app.pay', 0),
+	(3, 'Registro', '', 'fa fa-pencil', 'app.assign', 0),
+	(4, 'Catalogos', '', 'fa fa-folder-open-o', 'app.cat', 0),
+	(5, 'Configuracion', '', 'fa fa-cogs', 'app.conf', 0),
+	(6, 'Horas Extras', 'Módulo de Horas Extras', 'fa fa-clock-o', 'app.over', 1);
 /*!40000 ALTER TABLE `sec_resource_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_user
@@ -1442,12 +1405,17 @@ CREATE TABLE IF NOT EXISTS `sec_user` (
   KEY `FK_sec_user_main_employee` (`employeeId`),
   CONSTRAINT `FK_sec_user_main_employee` FOREIGN KEY (`employeeId`) REFERENCES `main_employee` (`id`),
   CONSTRAINT `FK_sec_user_sec_profile` FOREIGN KEY (`profileId`) REFERENCES `sec_profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
--- Dumping data for table hhrr.sec_user: ~11 rows (approximately)
+-- Dumping data for table hhrr.sec_user: ~17 rows (approximately)
 /*!40000 ALTER TABLE `sec_user` DISABLE KEYS */;
 INSERT INTO `sec_user` (`id`, `userName`, `email`, `password`, `profileId`, `employeeId`, `firstName`, `lastName`, `phone`, `avatar`, `isActive`, `changePass`) VALUES
-	(1, 'root', 'sflores@hngsystems.com', '18d95a9364645d678cb8cc2fe357a15a', 1, 55, 'Salvador', 'Flores', '95535116', 'myAvatar.png', b'1', NULL);
+	(1, 'root', 'root', '18d95a9364645d678cb8cc2fe357a15a', 1, '', 'root', '', '', 'myAvatar.png', b'1', NULL),
+	(2, 'admin', 'admin@admin.com', '0847d7bbf3c41a20fe8b21795cb29e9f', 2, 1, 'Admin', '', '88888888', 'female.png', b'1', NULL),
+	(3, 'jcmercado', 'jmercado@hngsystems.com', '03aad7bfdcccad63ec30eace351ff21b', 1, 1, 'Juan Carlos', 'Mercado', '77777777', 'man.png', b'1', NULL),
+	(4, 'gosorio', 'gosorio@lufergo.com', 'a3fee4075b69c2de9cbb165b60ea925f', 1, 2, 'Gabriel', 'Osorio', '22324016', 'man.png', b'1', NULL),
+	(5, 'hberrios', 'hberrios@hngsystems.com', '1b9e336dd325c129cadb6165a88c379f', 1, 3, 'Hector', 'Berríos', '99372193', 'man.png', b'1', NULL),
+	(6, 'vvarela', 'vvarela@hngsystems.com', 'cfdcc1a7c8b75575575146e8b422dc4d', 2, 4, 'Vanessa', 'Varela', '32963124', 'female.png', b'1', NULL);
 /*!40000 ALTER TABLE `sec_user` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_user_emp
@@ -1461,12 +1429,17 @@ CREATE TABLE IF NOT EXISTS `sec_user_emp` (
   KEY `companyId` (`employeeId`),
   CONSTRAINT `FK_sec_user_emp_main_employee` FOREIGN KEY (`employeeId`) REFERENCES `main_employee` (`id`),
   CONSTRAINT `FK_sec_user_emp_sec_user` FOREIGN KEY (`userId`) REFERENCES `sec_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='Tabla intermedia para asignar la relacion entre el usuario y el empleado.';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='Tabla intermedia para asignar la relacion entre el usuario y el empleado.';
 
--- Dumping data for table hhrr.sec_user_emp: ~11 rows (approximately)
+-- Dumping data for table hhrr.sec_user_emp: ~17 rows (approximately)
 /*!40000 ALTER TABLE `sec_user_emp` DISABLE KEYS */;
 INSERT INTO `sec_user_emp` (`id`, `userId`, `employeeId`) VALUES
-	(1, 1, 55);
+	(1, 2, 1),
+	(2, 3, 1),
+	(3, 4, 2),
+	(4, 5, 3),
+	(5, 6, 4);
+/*!40000 ALTER TABLE `sec_user_emp` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_config
 DROP TABLE IF EXISTS `sys_config`;
@@ -1515,16 +1488,16 @@ CREATE TABLE IF NOT EXISTS `sys_general_parameter` (
 -- Dumping data for table hhrr.sys_general_parameter: ~10 rows (approximately)
 /*!40000 ALTER TABLE `sys_general_parameter` DISABLE KEYS */;
 INSERT INTO `sys_general_parameter` (`id`, `name`, `description`, `value`) VALUES
-	(3, 'company_form', 'Forma Jurídica de la empresa', ''),
-	(4, 'emp_ihss', 'Porcentaje de cotización al Seguro Social del empleado', '0.25'),
-	(6, 'isrTable', 'Indica la tabla de porcentajes a utilizar para el cáclculo del ISR', ''),
-	(9, 'key', 'key para encriptacion', 'bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3'),
-	(10, 'root', 'usuario del sistema', '1'),
-	(11, 'Administrador', 'Perfil del usuario root', '1'),
-	(12, 'keyToken', 'llave de token', 'example_key'),
-	(13, 'Expiration Time', 'Tiempo de expiración del token en segundos ejem: 1800=30min,900=15min,120=2min,60=1min', '30'),
-	(14, 'HeaderToken', 'Llave del header del token', 'token'),
-	(15, 'overStartTime', 'Hora permitida para el inicio de Horas Extras', '22:00');
+	(1, 'company_form', 'Forma Jurídica de la empresa', ''),
+	(2, 'emp_ihss', 'Porcentaje de cotización al Seguro Social del empleado', '0.25'),
+	(3, 'isrTable', 'Indica la tabla de porcentajes a utilizar para el cáclculo del ISR', ''),
+	(4, 'key', 'key para encriptacion', 'bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3'),
+	(5, 'root', 'usuario del sistema', '1'),
+	(6, 'Administrador', 'Perfil del usuario root', '1'),
+	(7, 'keyToken', 'llave de token', 'example_key'),
+	(8, 'Expiration Time', 'Tiempo de expiración del token en segundos ejem: 1800=30min,900=15min,120=2min,60=1min', '30'),
+	(9, 'HeaderToken', 'Llave del header del token', 'token'),
+	(10, 'overStartTime', 'Hora permitida para el inicio de Horas Extras', '22:00');
 /*!40000 ALTER TABLE `sys_general_parameter` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_log
@@ -1539,8 +1512,11 @@ CREATE TABLE IF NOT EXISTS `sys_log` (
   `when` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha y hora en que se ejecuta la acción',
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1569 DEFAULT CHARSET=utf8 COMMENT='Bitácora general del sistema';
+) ENGINE=InnoDB AUTO_INCREMENT=1820 DEFAULT CHARSET=utf8 COMMENT='Bitácora general del sistema';
 
+-- Dumping data for table hhrr.sys_log: ~1,766 rows (approximately)
+/*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_token_parameter
 DROP TABLE IF EXISTS `sys_token_parameter`;
@@ -1556,7 +1532,7 @@ CREATE TABLE IF NOT EXISTS `sys_token_parameter` (
 /*!40000 ALTER TABLE `sys_token_parameter` DISABLE KEYS */;
 INSERT INTO `sys_token_parameter` (`id`, `name`, `value`, `description`) VALUES
 	(1, 'keyToken', 'example_key', 'llave de token'),
-	(2, 'Expiration Time', '14400', 'tiempo en segundos ejem: 1800=30min,900=15min,120=2min,60=1min\n'),
+	(2, 'Expiration Time', '36000', 'tiempo en segundos ejem: 1800=30min,900=15min,120=2min,60=1min\n'),
 	(3, 'HeaderToken', 'token', 'llave del header');
 /*!40000 ALTER TABLE `sys_token_parameter` ENABLE KEYS */;
 
@@ -1569,7 +1545,7 @@ CREATE TABLE IF NOT EXISTS `sys_workflow` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Flujos de trabajo';
 
--- Dumping data for table hhrr.sys_workflow: ~1 rows (approximately)
+-- Dumping data for table hhrr.sys_workflow: ~0 rows (approximately)
 /*!40000 ALTER TABLE `sys_workflow` DISABLE KEYS */;
 INSERT INTO `sys_workflow` (`id`, `name`, `description`) VALUES
 	(1, 'Horas Extras', 'Horas Extras');
@@ -1598,8 +1574,8 @@ INSERT INTO `sys_workflow_detail` (`id`, `workflow`, `name`, `sequence`, `input`
 	(1, 1, 'Ingresar Solicitud', 1, 'Haber recibido una orden', 'Empleado', '', '', 1),
 	(2, 1, 'Aprobar Solicitud', 2, 'Solicitud', 'Jefe del Empleado', '', '', 0),
 	(3, 1, 'Ingresar Detalle de Actividades', 3, 'Solicitud Aprobada', 'Empleado', '', '', 1),
-	(4, 1, 'Calcular Planilla', 4, 'Detalles de Actividades', 'Recursos Humanos', '', '', 1),
-	(5, 1, 'Autorizar Pago', 5, 'Planilla Revisada', 'Gerente', '', '', 1);
+	(4, 1, 'Autorizar Solicitud/Detalle', 5, 'Detalle Revisado', 'Jefe del Empleado', '', '', 1),
+	(5, 1, 'Calcular Planilla', 4, 'Detalles de Actividades Autorizado', 'Recursos Humanos', '', '', 1);
 /*!40000 ALTER TABLE `sys_workflow_detail` ENABLE KEYS */;
 
 -- Dumping structure for view hhrr.view_kpi

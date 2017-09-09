@@ -3,7 +3,7 @@
 function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payrollService) {
 	$scope.run = function(){
 		$scope.initVars();
-		new Noty({text:'Cargando data...',type:'info',layout:'topLeft',theme:'relax',timeout:1000,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}}).show();
+		// new Noty({text:'Cargando data...',type:'info',layout:'topLeft',theme:'relax',timeout:1000,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}}).show();
 		$scope.loadOvertime();
 		};
 	$scope.initVars = function() {

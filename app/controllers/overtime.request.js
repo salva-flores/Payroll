@@ -11,7 +11,6 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 
 	$scope.run = function(){
 		$scope.initVars();
-		new Noty({text:'Cargando data...',type:'info',layout:'topLeft',theme:'relax',timeout:100,progressBar:false,animation:{open:'animated fadeInDown',close:'animated fadeOutUp'}}).show();
 		$scope.loadOvertime();
 		};
 	$scope.initVars = function() {
