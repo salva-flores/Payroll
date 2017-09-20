@@ -13,10 +13,12 @@
 
 
 -- Dumping database structure for hhrr
+DROP DATABASE IF EXISTS `hhrr`;
 CREATE DATABASE IF NOT EXISTS `hhrr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `hhrr`;
 
 -- Dumping structure for table hhrr.cat_ademic_level
+DROP TABLE IF EXISTS `cat_ademic_level`;
 CREATE TABLE IF NOT EXISTS `cat_ademic_level` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del nivel académico',
   `name` varchar(25) NOT NULL COMMENT 'Nombre utilizado en formualrios y reportes',
@@ -36,6 +38,7 @@ INSERT INTO `cat_ademic_level` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_ademic_level` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_adjustment
+DROP TABLE IF EXISTS `cat_adjustment`;
 CREATE TABLE IF NOT EXISTS `cat_adjustment` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del tipo de ajuste.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre que se usará en los formularios.',
@@ -51,6 +54,7 @@ INSERT INTO `cat_adjustment` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_adjustment` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_bonus
+DROP TABLE IF EXISTS `cat_bonus`;
 CREATE TABLE IF NOT EXISTS `cat_bonus` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del bono.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre que se usará en los formularios y la planilla.',
@@ -66,6 +70,7 @@ INSERT INTO `cat_bonus` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_bonus` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_company_unit
+DROP TABLE IF EXISTS `cat_company_unit`;
 CREATE TABLE IF NOT EXISTS `cat_company_unit` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la unidad.',
   `name` varchar(50) NOT NULL COMMENT 'Nombre de la unidad/departamento.',
@@ -87,6 +92,7 @@ INSERT INTO `cat_company_unit` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_company_unit` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_contract_type
+DROP TABLE IF EXISTS `cat_contract_type`;
 CREATE TABLE IF NOT EXISTS `cat_contract_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL COMMENT 'Nombre descriptivo del tipo de contrato.',
@@ -103,6 +109,7 @@ INSERT INTO `cat_contract_type` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_contract_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_date_format
+DROP TABLE IF EXISTS `cat_date_format`;
 CREATE TABLE IF NOT EXISTS `cat_date_format` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'Nombre',
@@ -120,6 +127,7 @@ INSERT INTO `cat_date_format` (`id`, `name`, `format`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_date_format` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_deduction
+DROP TABLE IF EXISTS `cat_deduction`;
 CREATE TABLE IF NOT EXISTS `cat_deduction` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deducción.',
   `typeId` tinyint(3) unsigned NOT NULL COMMENT 'Identifica el tipo de deducción.',
@@ -134,6 +142,7 @@ CREATE TABLE IF NOT EXISTS `cat_deduction` (
 /*!40000 ALTER TABLE `cat_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_deduction_type
+DROP TABLE IF EXISTS `cat_deduction_type`;
 CREATE TABLE IF NOT EXISTS `cat_deduction_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de deducción.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre del tipo de deducción.',
@@ -150,6 +159,7 @@ INSERT INTO `cat_deduction_type` (`id`, `name`, `description`, `isMandatory`) VA
 /*!40000 ALTER TABLE `cat_deduction_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_department
+DROP TABLE IF EXISTS `cat_department`;
 CREATE TABLE IF NOT EXISTS `cat_department` (
   `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(2) NOT NULL COMMENT 'Código',
@@ -182,6 +192,7 @@ INSERT INTO `cat_department` (`id`, `code`, `name`, `postalCode`) VALUES
 /*!40000 ALTER TABLE `cat_department` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_economic_branch
+DROP TABLE IF EXISTS `cat_economic_branch`;
 CREATE TABLE IF NOT EXISTS `cat_economic_branch` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la rama económica.',
   `sector` tinyint(1) unsigned NOT NULL COMMENT 'Sector económico.',
@@ -213,6 +224,7 @@ INSERT INTO `cat_economic_branch` (`id`, `sector`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_economic_branch` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_employee_category
+DROP TABLE IF EXISTS `cat_employee_category`;
 CREATE TABLE IF NOT EXISTS `cat_employee_category` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -230,6 +242,7 @@ INSERT INTO `cat_employee_category` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_employee_category` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_equipment_brand
+DROP TABLE IF EXISTS `cat_equipment_brand`;
 CREATE TABLE IF NOT EXISTS `cat_equipment_brand` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -241,6 +254,7 @@ CREATE TABLE IF NOT EXISTS `cat_equipment_brand` (
 /*!40000 ALTER TABLE `cat_equipment_brand` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_equipment_category
+DROP TABLE IF EXISTS `cat_equipment_category`;
 CREATE TABLE IF NOT EXISTS `cat_equipment_category` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -253,6 +267,7 @@ CREATE TABLE IF NOT EXISTS `cat_equipment_category` (
 /*!40000 ALTER TABLE `cat_equipment_category` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_holiday
+DROP TABLE IF EXISTS `cat_holiday`;
 CREATE TABLE IF NOT EXISTS `cat_holiday` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador',
   `day` tinyint(1) unsigned NOT NULL COMMENT 'Día ',
@@ -276,6 +291,7 @@ INSERT INTO `cat_holiday` (`id`, `day`, `month`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_holiday` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_ihss
+DROP TABLE IF EXISTS `cat_ihss`;
 CREATE TABLE IF NOT EXISTS `cat_ihss` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(7) NOT NULL,
@@ -297,6 +313,7 @@ INSERT INTO `cat_ihss` (`id`, `code`, `description`, `value`) VALUES
 /*!40000 ALTER TABLE `cat_ihss` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_income
+DROP TABLE IF EXISTS `cat_income`;
 CREATE TABLE IF NOT EXISTS `cat_income` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ingreso',
   `typeId` tinyint(3) unsigned NOT NULL COMMENT 'Identifica el tipo de ingreso',
@@ -311,6 +328,7 @@ CREATE TABLE IF NOT EXISTS `cat_income` (
 /*!40000 ALTER TABLE `cat_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_isr_deductible
+DROP TABLE IF EXISTS `cat_isr_deductible`;
 CREATE TABLE IF NOT EXISTS `cat_isr_deductible` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del concepto deducible',
   `isrId` tinyint(3) unsigned NOT NULL COMMENT 'Identifica la tabla de porcentajes a que aplica el deducible',
@@ -328,6 +346,7 @@ CREATE TABLE IF NOT EXISTS `cat_isr_deductible` (
 /*!40000 ALTER TABLE `cat_isr_deductible` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_isr_percentage
+DROP TABLE IF EXISTS `cat_isr_percentage`;
 CREATE TABLE IF NOT EXISTS `cat_isr_percentage` (
   `id` tinyint(3) unsigned NOT NULL COMMENT 'Identificador unico',
   `lowerLlimit1` decimal(10,2) unsigned NOT NULL COMMENT 'Límite inferior primer rango',
@@ -354,6 +373,7 @@ INSERT INTO `cat_isr_percentage` (`id`, `lowerLlimit1`, `upperLimit1`, `percent1
 /*!40000 ALTER TABLE `cat_isr_percentage` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_job
+DROP TABLE IF EXISTS `cat_job`;
 CREATE TABLE IF NOT EXISTS `cat_job` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del Puesto.',
   `name` varchar(50) NOT NULL COMMENT 'Nombre del puesto, que se usa en los formularios y reportes.',
@@ -379,6 +399,7 @@ INSERT INTO `cat_job` (`id`, `name`, `responsibilities`, `abilities`, `experienc
 /*!40000 ALTER TABLE `cat_job` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_job_type
+DROP TABLE IF EXISTS `cat_job_type`;
 CREATE TABLE IF NOT EXISTS `cat_job_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT 'Nombre',
@@ -401,6 +422,7 @@ INSERT INTO `cat_job_type` (`id`, `name`) VALUES
 /*!40000 ALTER TABLE `cat_job_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_law_deduction
+DROP TABLE IF EXISTS `cat_law_deduction`;
 CREATE TABLE IF NOT EXISTS `cat_law_deduction` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deducción.',
   `name` varchar(45) NOT NULL COMMENT 'Nombre que se utiliza en los formularios y reportes.',
@@ -414,6 +436,7 @@ CREATE TABLE IF NOT EXISTS `cat_law_deduction` (
 /*!40000 ALTER TABLE `cat_law_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_leave_type
+DROP TABLE IF EXISTS `cat_leave_type`;
 CREATE TABLE IF NOT EXISTS `cat_leave_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de permiso',
   `name` varchar(50) NOT NULL COMMENT 'Nombre del tipo de permiso',
@@ -426,6 +449,7 @@ CREATE TABLE IF NOT EXISTS `cat_leave_type` (
 /*!40000 ALTER TABLE `cat_leave_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_legal_form
+DROP TABLE IF EXISTS `cat_legal_form`;
 CREATE TABLE IF NOT EXISTS `cat_legal_form` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador',
   `name` varchar(100) NOT NULL COMMENT 'Nombre o tipo de la forma jurídica',
@@ -449,6 +473,7 @@ INSERT INTO `cat_legal_form` (`id`, `name`, `partners`, `shareCapital`, `respons
 /*!40000 ALTER TABLE `cat_legal_form` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_mipyme
+DROP TABLE IF EXISTS `cat_mipyme`;
 CREATE TABLE IF NOT EXISTS `cat_mipyme` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -467,6 +492,7 @@ INSERT INTO `cat_mipyme` (`id`, `name`, `minEmployees`, `maxEmployees`, `descrip
 /*!40000 ALTER TABLE `cat_mipyme` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_overtime
+DROP TABLE IF EXISTS `cat_overtime`;
 CREATE TABLE IF NOT EXISTS `cat_overtime` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de hora extra',
   `name` varchar(50) NOT NULL COMMENT 'Nombre utilizado en formularios y reportes',
@@ -487,6 +513,7 @@ INSERT INTO `cat_overtime` (`id`, `name`, `start`, `end`, `percent`, `descriptio
 /*!40000 ALTER TABLE `cat_overtime` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll
+DROP TABLE IF EXISTS `cat_payroll`;
 CREATE TABLE IF NOT EXISTS `cat_payroll` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de planilla.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre de la planilla, que aparece en los reportes.',
@@ -502,6 +529,7 @@ CREATE TABLE IF NOT EXISTS `cat_payroll` (
 /*!40000 ALTER TABLE `cat_payroll` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_detail_deduction
+DROP TABLE IF EXISTS `cat_payroll_detail_deduction`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_detail_deduction` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle',
   `payrollId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la planilla en cat_payrolls',
@@ -516,6 +544,7 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_detail_deduction` (
 /*!40000 ALTER TABLE `cat_payroll_detail_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_detail_general
+DROP TABLE IF EXISTS `cat_payroll_detail_general`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_detail_general` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle',
   `payrollId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la planilla',
@@ -529,6 +558,7 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_detail_general` (
 /*!40000 ALTER TABLE `cat_payroll_detail_general` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_detail_income
+DROP TABLE IF EXISTS `cat_payroll_detail_income`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_detail_income` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle',
   `payrollId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la planilla',
@@ -543,6 +573,7 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_detail_income` (
 /*!40000 ALTER TABLE `cat_payroll_detail_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_type
+DROP TABLE IF EXISTS `cat_payroll_type`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(25) CHARACTER SET utf8 NOT NULL,
@@ -562,6 +593,7 @@ INSERT INTO `cat_payroll_type` (`id`, `name`, `description`, `howMany`, `status`
 /*!40000 ALTER TABLE `cat_payroll_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_profession
+DROP TABLE IF EXISTS `cat_profession`;
 CREATE TABLE IF NOT EXISTS `cat_profession` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'Nombre de la profesión',
@@ -588,6 +620,7 @@ INSERT INTO `cat_profession` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_profession` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_skill
+DROP TABLE IF EXISTS `cat_skill`;
 CREATE TABLE IF NOT EXISTS `cat_skill` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'Nombre de la habilidad o destreza',
@@ -600,6 +633,7 @@ CREATE TABLE IF NOT EXISTS `cat_skill` (
 /*!40000 ALTER TABLE `cat_skill` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_status
+DROP TABLE IF EXISTS `cat_status`;
 CREATE TABLE IF NOT EXISTS `cat_status` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del estado.',
   `tabla` varchar(45) NOT NULL COMMENT 'Tabla a la cual pertenecen los estados.',
@@ -614,6 +648,7 @@ CREATE TABLE IF NOT EXISTS `cat_status` (
 /*!40000 ALTER TABLE `cat_status` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_vacation
+DROP TABLE IF EXISTS `cat_vacation`;
 CREATE TABLE IF NOT EXISTS `cat_vacation` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `days` tinyint(3) unsigned NOT NULL,
@@ -632,6 +667,7 @@ INSERT INTO `cat_vacation` (`id`, `days`, `condition`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_vacation` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_working_hours
+DROP TABLE IF EXISTS `cat_working_hours`;
 CREATE TABLE IF NOT EXISTS `cat_working_hours` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de hora extra',
   `name` varchar(50) NOT NULL COMMENT 'Nombre utilizado en formularios y reportes',
@@ -652,6 +688,7 @@ INSERT INTO `cat_working_hours` (`id`, `name`, `start`, `end`, `overtimeStart`, 
 /*!40000 ALTER TABLE `cat_working_hours` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.email_confirmations
+DROP TABLE IF EXISTS `email_confirmations`;
 CREATE TABLE IF NOT EXISTS `email_confirmations` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `usersId` tinyint(3) unsigned NOT NULL,
@@ -667,6 +704,7 @@ CREATE TABLE IF NOT EXISTS `email_confirmations` (
 /*!40000 ALTER TABLE `email_confirmations` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_company
+DROP TABLE IF EXISTS `main_company`;
 CREATE TABLE IF NOT EXISTS `main_company` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico de la empresa',
   `mipymeTypeId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador del tipo de empresa ',
@@ -707,6 +745,7 @@ INSERT INTO `main_company` (`id`, `mipymeTypeId`, `economicBranchId`, `legalForm
 /*!40000 ALTER TABLE `main_company` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_company_structure
+DROP TABLE IF EXISTS `main_company_structure`;
 CREATE TABLE IF NOT EXISTS `main_company_structure` (
   `companyId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la empresa.',
   `unitId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la unidad/departamento.',
@@ -732,6 +771,7 @@ INSERT INTO `main_company_structure` (`companyId`, `unitId`, `parentUnitId`, `he
 /*!40000 ALTER TABLE `main_company_structure` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee
+DROP TABLE IF EXISTS `main_employee`;
 CREATE TABLE IF NOT EXISTS `main_employee` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del empleado',
   `companyUnit` tinyint(3) unsigned NOT NULL COMMENT 'Unidad a la que está asignado el empleado (segun el organigrama)',
@@ -838,6 +878,7 @@ INSERT INTO `main_employee` (`id`, `companyUnit`, `academicLevel`, `profession`,
 /*!40000 ALTER TABLE `main_employee` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_contact
+DROP TABLE IF EXISTS `main_employee_contact`;
 CREATE TABLE IF NOT EXISTS `main_employee_contact` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del contacto',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -856,6 +897,7 @@ CREATE TABLE IF NOT EXISTS `main_employee_contact` (
 /*!40000 ALTER TABLE `main_employee_contact` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_dependant
+DROP TABLE IF EXISTS `main_employee_dependant`;
 CREATE TABLE IF NOT EXISTS `main_employee_dependant` (
   `id` smallint(5) unsigned NOT NULL,
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado.',
@@ -872,6 +914,7 @@ CREATE TABLE IF NOT EXISTS `main_employee_dependant` (
 /*!40000 ALTER TABLE `main_employee_dependant` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_isr_history
+DROP TABLE IF EXISTS `main_employee_isr_history`;
 CREATE TABLE IF NOT EXISTS `main_employee_isr_history` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -892,6 +935,7 @@ CREATE TABLE IF NOT EXISTS `main_employee_isr_history` (
 /*!40000 ALTER TABLE `main_employee_isr_history` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_job_history
+DROP TABLE IF EXISTS `main_employee_job_history`;
 CREATE TABLE IF NOT EXISTS `main_employee_job_history` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del historial',
   `employeeId` smallint(5) unsigned DEFAULT NULL COMMENT 'Identificador del empleado',
@@ -913,6 +957,7 @@ CREATE TABLE IF NOT EXISTS `main_employee_job_history` (
 /*!40000 ALTER TABLE `main_employee_job_history` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_salary_detail
+DROP TABLE IF EXISTS `main_employee_salary_detail`;
 CREATE TABLE IF NOT EXISTS `main_employee_salary_detail` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del detalle',
   `employeeId` smallint(5) unsigned DEFAULT NULL COMMENT 'Identificador del empleado.',
@@ -930,6 +975,7 @@ CREATE TABLE IF NOT EXISTS `main_employee_salary_detail` (
 /*!40000 ALTER TABLE `main_employee_salary_detail` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_equipment
+DROP TABLE IF EXISTS `main_equipment`;
 CREATE TABLE IF NOT EXISTS `main_equipment` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `brandId` tinyint(3) unsigned NOT NULL COMMENT 'Marca',
@@ -950,6 +996,7 @@ CREATE TABLE IF NOT EXISTS `main_equipment` (
 /*!40000 ALTER TABLE `main_equipment` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_equipment_assigned
+DROP TABLE IF EXISTS `main_equipment_assigned`;
 CREATE TABLE IF NOT EXISTS `main_equipment_assigned` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `employeeId` smallint(5) unsigned NOT NULL,
@@ -966,6 +1013,7 @@ CREATE TABLE IF NOT EXISTS `main_equipment_assigned` (
 /*!40000 ALTER TABLE `main_equipment_assigned` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_advance_request
+DROP TABLE IF EXISTS `pay_advance_request`;
 CREATE TABLE IF NOT EXISTS `pay_advance_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la solicitud de adelanto',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -986,6 +1034,7 @@ CREATE TABLE IF NOT EXISTS `pay_advance_request` (
 /*!40000 ALTER TABLE `pay_advance_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_adjustment
+DROP TABLE IF EXISTS `pay_emp_adjustment`;
 CREATE TABLE IF NOT EXISTS `pay_emp_adjustment` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ajuste.',
   `payrollId` smallint(5) unsigned NOT NULL COMMENT 'Identificador de la planilla en la cual se hace el ajuste en pay_payroll_header',
@@ -1007,6 +1056,7 @@ CREATE TABLE IF NOT EXISTS `pay_emp_adjustment` (
 /*!40000 ALTER TABLE `pay_emp_adjustment` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_bonus
+DROP TABLE IF EXISTS `pay_emp_bonus`;
 CREATE TABLE IF NOT EXISTS `pay_emp_bonus` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del bono asignado.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado al que se le asigna el bono.Relacionado con la tabla de empleados.',
@@ -1024,6 +1074,7 @@ CREATE TABLE IF NOT EXISTS `pay_emp_bonus` (
 /*!40000 ALTER TABLE `pay_emp_bonus` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_deduction
+DROP TABLE IF EXISTS `pay_emp_deduction`;
 CREATE TABLE IF NOT EXISTS `pay_emp_deduction` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deduccion asignada.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado al cual se le ha asignado la deducción.',
@@ -1047,6 +1098,7 @@ CREATE TABLE IF NOT EXISTS `pay_emp_deduction` (
 /*!40000 ALTER TABLE `pay_emp_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_income
+DROP TABLE IF EXISTS `pay_emp_income`;
 CREATE TABLE IF NOT EXISTS `pay_emp_income` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ingreso asignado.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado al cual se le ha asignado el ingreso.',
@@ -1064,6 +1116,7 @@ CREATE TABLE IF NOT EXISTS `pay_emp_income` (
 /*!40000 ALTER TABLE `pay_emp_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_leave_request
+DROP TABLE IF EXISTS `pay_leave_request`;
 CREATE TABLE IF NOT EXISTS `pay_leave_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la solicitud de permiso',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -1090,6 +1143,7 @@ CREATE TABLE IF NOT EXISTS `pay_leave_request` (
 /*!40000 ALTER TABLE `pay_leave_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_overtime_detail
+DROP TABLE IF EXISTS `pay_overtime_detail`;
 CREATE TABLE IF NOT EXISTS `pay_overtime_detail` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del registro de horas extras.',
   `requestId` smallint(5) unsigned NOT NULL COMMENT 'Identifica la solicitud a que pertenece.',
@@ -1110,6 +1164,7 @@ CREATE TABLE IF NOT EXISTS `pay_overtime_detail` (
 /*!40000 ALTER TABLE `pay_overtime_detail` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_overtime_request
+DROP TABLE IF EXISTS `pay_overtime_request`;
 CREATE TABLE IF NOT EXISTS `pay_overtime_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del reporte de horas extras.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado que presenta el reporte.',
@@ -1140,6 +1195,7 @@ CREATE TABLE IF NOT EXISTS `pay_overtime_request` (
 /*!40000 ALTER TABLE `pay_overtime_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_detail
+DROP TABLE IF EXISTS `pay_payroll_detail`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_detail` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle de la planilla.',
   `payrollId` smallint(5) unsigned NOT NULL COMMENT 'Identificador de la planilla.',
@@ -1155,6 +1211,7 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_detail` (
 /*!40000 ALTER TABLE `pay_payroll_detail` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_detail_deduction
+DROP TABLE IF EXISTS `pay_payroll_detail_deduction`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_detail_deduction` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deducción ',
   `detailId` mediumint(8) unsigned NOT NULL COMMENT 'Indica a que detalle de planilla pertenece la deducción.',
@@ -1170,6 +1227,7 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_detail_deduction` (
 /*!40000 ALTER TABLE `pay_payroll_detail_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_detail_income
+DROP TABLE IF EXISTS `pay_payroll_detail_income`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_detail_income` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ingreso.',
   `detailId` mediumint(8) unsigned NOT NULL COMMENT 'Identificador del detalle de planilla en la cual se genera el ingreso.',
@@ -1185,6 +1243,7 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_detail_income` (
 /*!40000 ALTER TABLE `pay_payroll_detail_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_header
+DROP TABLE IF EXISTS `pay_payroll_header`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_header` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la planilla.',
   `payrollTypeId` smallint(5) unsigned NOT NULL COMMENT 'Indica el tipo de planilla.',
@@ -1203,6 +1262,7 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_header` (
 /*!40000 ALTER TABLE `pay_payroll_header` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_vacation_request
+DROP TABLE IF EXISTS `pay_vacation_request`;
 CREATE TABLE IF NOT EXISTS `pay_vacation_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la solicitud de permiso',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -1229,6 +1289,7 @@ CREATE TABLE IF NOT EXISTS `pay_vacation_request` (
 /*!40000 ALTER TABLE `pay_vacation_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_login
+DROP TABLE IF EXISTS `sec_login`;
 CREATE TABLE IF NOT EXISTS `sec_login` (
   `id` smallint(5) unsigned NOT NULL COMMENT 'Identificador del usuario.',
   `userId` smallint(5) unsigned NOT NULL,
@@ -1252,6 +1313,7 @@ CREATE TABLE IF NOT EXISTS `sec_login` (
 /*!40000 ALTER TABLE `sec_login` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_mod
+DROP TABLE IF EXISTS `sec_mod`;
 CREATE TABLE IF NOT EXISTS `sec_mod` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -1280,22 +1342,23 @@ INSERT INTO `sec_mod` (`id`, `name`, `description`, `icon`, `state`, `isVisible`
 /*!40000 ALTER TABLE `sec_mod` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_mod_res
+DROP TABLE IF EXISTS `sec_mod_res`;
 CREATE TABLE IF NOT EXISTS `sec_mod_res` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `typeId` smallint(5) unsigned DEFAULT NULL,
+  `module` smallint(5) unsigned DEFAULT NULL,
   `description` varchar(100) NOT NULL,
   `icon` varchar(50) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL COMMENT 'estado. AngularJs $state',
   `inMenu` bit(1) DEFAULT NULL COMMENT 'Se mustra en el sidebar',
   PRIMARY KEY (`id`),
-  KEY `idType` (`typeId`),
-  CONSTRAINT `FK_sec_resource_sec_resourcetype` FOREIGN KEY (`typeId`) REFERENCES `sec_mod` (`id`)
+  KEY `FK_sec_mod_res_sec_mod` (`module`),
+  CONSTRAINT `FK_sec_mod_res_sec_mod` FOREIGN KEY (`module`) REFERENCES `sec_mod` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 COMMENT='Recursos - Objetos o formularios ';
 
--- Dumping data for table hhrr.sec_mod_res: ~84 rows (approximately)
+-- Dumping data for table hhrr.sec_mod_res: ~8 rows (approximately)
 /*!40000 ALTER TABLE `sec_mod_res` DISABLE KEYS */;
-INSERT INTO `sec_mod_res` (`id`, `name`, `typeId`, `description`, `icon`, `state`, `inMenu`) VALUES
+INSERT INTO `sec_mod_res` (`id`, `name`, `module`, `description`, `icon`, `state`, `inMenu`) VALUES
 	(1, 'Usuarios', 2, 'Registro de Usuarios del Sistema', '', 'app.sec.users', b'1'),
 	(2, 'Ajustes', 6, 'catalogo ajustes', '', 'pay.adjustments', b'0'),
 	(3, 'De Horas Extras', 8, 'Graficos de Indicadores de HHEE', '', 'app.charts', b'1'),
@@ -1386,6 +1449,7 @@ INSERT INTO `sec_mod_res` (`id`, `name`, `typeId`, `description`, `icon`, `state
 /*!40000 ALTER TABLE `sec_mod_res` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_profile
+DROP TABLE IF EXISTS `sec_profile`;
 CREATE TABLE IF NOT EXISTS `sec_profile` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(15) DEFAULT NULL,
@@ -1404,6 +1468,7 @@ INSERT INTO `sec_profile` (`id`, `name`, `description`, `isActive`) VALUES
 /*!40000 ALTER TABLE `sec_profile` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_profile_resource
+DROP TABLE IF EXISTS `sec_profile_resource`;
 CREATE TABLE IF NOT EXISTS `sec_profile_resource` (
   `profileId` tinyint(3) unsigned NOT NULL,
   `resourceId` smallint(5) unsigned NOT NULL,
@@ -1413,7 +1478,7 @@ CREATE TABLE IF NOT EXISTS `sec_profile_resource` (
   CONSTRAINT `FK_sec_profile_resource_sec_resource` FOREIGN KEY (`resourceId`) REFERENCES `sec_mod_res` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Recursos asignados a cada perfil';
 
--- Dumping data for table hhrr.sec_profile_resource: ~57 rows (approximately)
+-- Dumping data for table hhrr.sec_profile_resource: ~59 rows (approximately)
 /*!40000 ALTER TABLE `sec_profile_resource` DISABLE KEYS */;
 INSERT INTO `sec_profile_resource` (`profileId`, `resourceId`) VALUES
 	(1, 20),
@@ -1479,6 +1544,7 @@ INSERT INTO `sec_profile_resource` (`profileId`, `resourceId`) VALUES
 /*!40000 ALTER TABLE `sec_profile_resource` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_user
+DROP TABLE IF EXISTS `sec_user`;
 CREATE TABLE IF NOT EXISTS `sec_user` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `userName` varchar(15) NOT NULL,
@@ -1513,6 +1579,7 @@ INSERT INTO `sec_user` (`id`, `userName`, `email`, `password`, `profileId`, `emp
 /*!40000 ALTER TABLE `sec_user` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_user_emp
+DROP TABLE IF EXISTS `sec_user_emp`;
 CREATE TABLE IF NOT EXISTS `sec_user_emp` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `userId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del usuario',
@@ -1535,6 +1602,7 @@ INSERT INTO `sec_user_emp` (`id`, `userId`, `employeeId`) VALUES
 /*!40000 ALTER TABLE `sec_user_emp` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_config
+DROP TABLE IF EXISTS `sys_config`;
 CREATE TABLE IF NOT EXISTS `sys_config` (
   `key` varchar(100) NOT NULL DEFAULT '',
   `value` varchar(512) NOT NULL DEFAULT '',
@@ -1546,6 +1614,7 @@ CREATE TABLE IF NOT EXISTS `sys_config` (
 /*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_config_long
+DROP TABLE IF EXISTS `sys_config_long`;
 CREATE TABLE IF NOT EXISTS `sys_config_long` (
   `id_config` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
@@ -1566,6 +1635,7 @@ CREATE TABLE IF NOT EXISTS `sys_config_long` (
 /*!40000 ALTER TABLE `sys_config_long` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_general_parameter
+DROP TABLE IF EXISTS `sys_general_parameter`;
 CREATE TABLE IF NOT EXISTS `sys_general_parameter` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT 'Nombre del parámetro',
@@ -1591,6 +1661,7 @@ INSERT INTO `sys_general_parameter` (`id`, `name`, `description`, `value`) VALUE
 /*!40000 ALTER TABLE `sys_general_parameter` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_log
+DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE IF NOT EXISTS `sys_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userId` smallint(5) unsigned NOT NULL COMMENT 'Usuario que ejecuta la accion',
@@ -1601,13 +1672,126 @@ CREATE TABLE IF NOT EXISTS `sys_log` (
   `when` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha y hora en que se ejecuta la acción',
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8 COMMENT='Bitácora general del sistema';
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8 COMMENT='Bitácora general del sistema';
 
--- Dumping data for table hhrr.sys_log: ~94 rows (approximately)
+-- Dumping data for table hhrr.sys_log: ~111 rows (approximately)
 /*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
+INSERT INTO `sys_log` (`id`, `userId`, `action`, `userName`, `actionEnum`, `table`, `when`) VALUES
+	(1, 3, 1, '::1', 'LOGIN', '', '2017-09-09 17:02:43'),
+	(2, 4, 1, '::1', 'LOGIN', '', '2017-09-09 17:10:28'),
+	(3, 6, 1, '::1', 'LOGIN', '', '2017-09-09 17:10:49'),
+	(4, 4, 1, '::1', 'LOGIN', '', '2017-09-09 17:23:15'),
+	(5, 6, 1, '::1', 'LOGIN', '', '2017-09-09 17:23:53'),
+	(6, 1, 1, '::1', 'LOGIN', '', '2017-09-09 17:28:58'),
+	(7, 4, 1, '::1', 'LOGIN', '', '2017-09-09 17:38:11'),
+	(8, 6, 1, '::1', 'LOGIN', '', '2017-09-09 17:46:03'),
+	(9, 1, 1, '::1', 'LOGIN', '', '2017-09-09 17:46:40'),
+	(10, 1, 1, '::1', 'LOGIN', '', '2017-09-09 18:06:46'),
+	(11, 4, 1, '::1', 'LOGIN', '', '2017-09-09 18:06:56'),
+	(12, 6, 1, '::1', 'LOGIN', '', '2017-09-09 18:14:35'),
+	(13, 5, 1, '::1', 'LOGIN', '', '2017-09-09 18:14:52'),
+	(14, 1, 1, '::1', 'LOGIN', '', '2017-09-09 18:15:48'),
+	(15, 1, 1, '::1', 'LOGIN', '', '2017-09-09 20:59:38'),
+	(16, 1, 1, '::1', 'LOGIN', '', '2017-09-09 21:27:00'),
+	(17, 1, 1, '::1', 'LOGIN', '', '2017-09-09 22:30:13'),
+	(18, 4, 1, '::1', 'LOGIN', '', '2017-09-09 22:31:14'),
+	(19, 1, 1, '::1', 'LOGIN', '', '2017-09-10 00:14:21'),
+	(20, 1, 1, '::1', 'LOGIN', '', '2017-09-11 04:22:39'),
+	(21, 1, 1, '::1', 'LOGIN', '', '2017-09-11 04:48:23'),
+	(22, 1, 1, '::1', 'LOGIN', '', '2017-09-11 05:50:27'),
+	(23, 1, 1, '::1', 'LOGIN', '', '2017-09-11 05:50:58'),
+	(24, 4, 1, '::1', 'LOGIN', '', '2017-09-11 05:53:59'),
+	(25, 4, 1, '::1', 'LOGIN', '', '2017-09-11 06:02:58'),
+	(26, 4, 1, '::1', 'LOGIN', '', '2017-09-11 06:04:28'),
+	(27, 6, 1, '::1', 'LOGIN', '', '2017-09-11 06:04:54'),
+	(28, 6, 1, '::1', 'LOGIN', '', '2017-09-11 06:06:00'),
+	(29, 1, 1, '::1', 'LOGIN', '', '2017-09-11 06:31:39'),
+	(30, 6, 1, '::1', 'LOGIN', '', '2017-09-11 06:31:49'),
+	(31, 1, 1, '::1', 'LOGIN', '', '2017-09-11 06:32:43'),
+	(32, 4, 1, '::1', 'LOGIN', '', '2017-09-11 06:35:51'),
+	(33, 4, 1, '::1', 'LOGIN', '', '2017-09-11 06:36:35'),
+	(34, 1, 1, '::1', 'LOGIN', '', '2017-09-11 06:38:16'),
+	(35, 6, 1, '::1', 'LOGIN', '', '2017-09-11 06:38:27'),
+	(36, 1, 1, '::1', 'LOGIN', '', '2017-09-11 12:53:04'),
+	(37, 4, 1, '::1', 'LOGIN', '', '2017-09-11 13:26:12'),
+	(38, 1, 1, '::1', 'LOGIN', '', '2017-09-11 13:33:39'),
+	(39, 3, 1, '::1', 'LOGIN', '', '2017-09-11 13:56:58'),
+	(40, 1, 1, '::1', 'LOGIN', '', '2017-09-11 14:08:08'),
+	(41, 3, 1, '::1', 'LOGIN', '', '2017-09-11 14:18:15'),
+	(42, 4, 1, '::1', 'LOGIN', '', '2017-09-11 14:22:17'),
+	(43, 1, 1, '::1', 'LOGIN', '', '2017-09-11 14:25:45'),
+	(44, 4, 1, '::1', 'LOGIN', '', '2017-09-11 14:27:10'),
+	(45, 1, 1, '::1', 'LOGIN', '', '2017-09-11 14:27:47'),
+	(46, 3, 1, '::1', 'LOGIN', '', '2017-09-11 14:30:05'),
+	(47, 1, 1, '::1', 'LOGIN', '', '2017-09-11 17:35:41'),
+	(48, 6, 1, '::1', 'LOGIN', '', '2017-09-11 17:42:01'),
+	(49, 6, 1, '::1', 'LOGIN', '', '2017-09-12 07:43:23'),
+	(50, 1, 1, '::1', 'LOGIN', '', '2017-09-12 08:04:33'),
+	(51, 1, 1, '::1', 'LOGIN', '', '2017-09-12 10:35:11'),
+	(52, 1, 1, '::1', 'LOGIN', '', '2017-09-12 11:10:06'),
+	(53, 3, 1, '::1', 'LOGIN', '', '2017-09-12 14:39:51'),
+	(54, 1, 1, '::1', 'LOGIN', '', '2017-09-12 15:11:40'),
+	(55, 3, 1, '::1', 'LOGIN', '', '2017-09-12 16:08:23'),
+	(56, 1, 1, '::1', 'LOGIN', '', '2017-09-12 16:27:57'),
+	(57, 3, 1, '::1', 'LOGIN', '', '2017-09-12 16:28:21'),
+	(58, 4, 1, '::1', 'LOGIN', '', '2017-09-13 04:16:16'),
+	(59, 1, 1, '::1', 'LOGIN', '', '2017-09-13 04:36:23'),
+	(60, 3, 1, '::1', 'LOGIN', '', '2017-09-13 04:51:31'),
+	(61, 3, 1, '::1', 'LOGIN', '', '2017-09-13 05:02:38'),
+	(62, 3, 1, '::1', 'LOGIN', '', '2017-09-13 05:02:47'),
+	(63, 6, 1, '::1', 'LOGIN', '', '2017-09-13 05:53:56'),
+	(64, 2, 1, '::1', 'LOGIN', '', '2017-09-13 05:54:57'),
+	(65, 1, 1, '::1', 'LOGIN', '', '2017-09-13 06:00:24'),
+	(66, 3, 1, '::1', 'LOGIN', '', '2017-09-13 06:16:30'),
+	(67, 4, 1, '::1', 'LOGIN', '', '2017-09-13 10:57:16'),
+	(68, 4, 1, '::1', 'LOGIN', '', '2017-09-13 11:00:47'),
+	(69, 1, 1, '::1', 'LOGIN', '', '2017-09-13 14:12:01'),
+	(70, 1, 1, '::1', 'LOGIN', '', '2017-09-13 14:13:01'),
+	(71, 4, 1, '::1', 'LOGIN', '', '2017-09-13 14:21:17'),
+	(72, 1, 1, '::1', 'LOGIN', '', '2017-09-13 14:28:26'),
+	(73, 1, 1, '::1', 'LOGIN', '', '2017-09-13 14:28:36'),
+	(74, 1, 1, '::1', 'LOGIN', '', '2017-09-13 14:28:50'),
+	(75, 4, 1, '::1', 'LOGIN', '', '2017-09-13 14:33:25'),
+	(76, 4, 1, '::1', 'LOGIN', '', '2017-09-13 14:33:50'),
+	(77, 4, 1, '::1', 'LOGIN', '', '2017-09-13 14:34:12'),
+	(78, 4, 1, '::1', 'LOGIN', '', '2017-09-13 16:05:43'),
+	(79, 4, 1, '::1', 'LOGIN', '', '2017-09-14 08:26:18'),
+	(80, 4, 1, '::1', 'LOGIN', '', '2017-09-14 12:39:23'),
+	(81, 1, 1, '::1', 'LOGIN', '', '2017-09-14 16:34:46'),
+	(82, 1, 1, '::1', 'LOGIN', '', '2017-09-14 16:39:20'),
+	(83, 1, 1, '::1', 'LOGIN', '', '2017-09-14 21:04:34'),
+	(84, 3, 1, '::1', 'LOGIN', '', '2017-09-14 21:20:16'),
+	(85, 4, 1, '::1', 'LOGIN', '', '2017-09-15 07:22:42'),
+	(86, 1, 1, '::1', 'LOGIN', '', '2017-09-15 17:24:54'),
+	(87, 4, 1, '::1', 'LOGIN', '', '2017-09-15 18:18:49'),
+	(88, 3, 1, '::1', 'LOGIN', '', '2017-09-15 18:26:03'),
+	(89, 3, 1, '::1', 'LOGIN', '', '2017-09-15 21:15:25'),
+	(90, 3, 1, '::1', 'LOGIN', '', '2017-09-15 21:24:17'),
+	(91, 4, 1, '::1', 'LOGIN', '', '2017-09-18 08:45:34'),
+	(92, 3, 1, '::1', 'LOGIN', '', '2017-09-18 11:05:08'),
+	(93, 4, 1, '::1', 'LOGIN', '', '2017-09-18 11:06:18'),
+	(94, 4, 1, '::1', 'LOGIN', '', '2017-09-18 11:06:39'),
+	(95, 4, 1, '::1', 'LOGIN', '', '2017-09-18 11:07:00'),
+	(96, 4, 1, '::1', 'LOGIN', '', '2017-09-18 11:07:22'),
+	(97, 1, 1, '::1', 'LOGIN', '', '2017-09-18 17:04:36'),
+	(98, 4, 1, '::1', 'LOGIN', '', '2017-09-19 16:58:03'),
+	(99, 1, 1, '::1', 'LOGIN', '', '2017-09-20 08:14:46'),
+	(100, 4, 1, '::1', 'LOGIN', '', '2017-09-20 08:35:45'),
+	(101, 3, 1, '::1', 'LOGIN', '', '2017-09-20 08:39:56'),
+	(102, 4, 1, '::1', 'LOGIN', '', '2017-09-20 08:41:58'),
+	(103, 4, 1, '::1', 'LOGIN', '', '2017-09-20 08:45:07'),
+	(104, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:47:15'),
+	(105, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:47:22'),
+	(106, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:47:24'),
+	(107, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:50:55'),
+	(108, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:51:07'),
+	(109, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:51:18'),
+	(110, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:55:28'),
+	(111, 4, 1, '::1', 'LOGIN', '', '2017-09-20 09:55:56');
 /*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_token_parameter
+DROP TABLE IF EXISTS `sys_token_parameter`;
 CREATE TABLE IF NOT EXISTS `sys_token_parameter` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -1625,6 +1809,7 @@ INSERT INTO `sys_token_parameter` (`id`, `name`, `value`, `description`) VALUES
 /*!40000 ALTER TABLE `sys_token_parameter` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_workflow
+DROP TABLE IF EXISTS `sys_workflow`;
 CREATE TABLE IF NOT EXISTS `sys_workflow` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del flujo',
   `name` varchar(45) NOT NULL COMMENT 'Nombre del flujo de trabajo',
@@ -1639,6 +1824,7 @@ INSERT INTO `sys_workflow` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `sys_workflow` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_workflow_detail
+DROP TABLE IF EXISTS `sys_workflow_detail`;
 CREATE TABLE IF NOT EXISTS `sys_workflow_detail` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del proceso',
   `workflow` smallint(5) unsigned NOT NULL COMMENT 'Identificador del flujo de trabajo',
@@ -1665,6 +1851,7 @@ INSERT INTO `sys_workflow_detail` (`id`, `workflow`, `name`, `sequence`, `input`
 /*!40000 ALTER TABLE `sys_workflow_detail` ENABLE KEYS */;
 
 -- Dumping structure for view hhrr.view_kpi
+DROP VIEW IF EXISTS `view_kpi`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_kpi` (
 	`Mes` VARCHAR(9) NULL COLLATE 'utf8mb4_general_ci',
@@ -1674,6 +1861,7 @@ CREATE TABLE `view_kpi` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_log
+DROP VIEW IF EXISTS `view_log`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_log` (
 	`userName` VARCHAR(15) NOT NULL COLLATE 'utf8_general_ci',
@@ -1685,6 +1873,7 @@ CREATE TABLE `view_log` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_overtime
+DROP VIEW IF EXISTS `view_overtime`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_overtime` (
 	`curdate()` DATE NOT NULL,
@@ -1697,6 +1886,7 @@ CREATE TABLE `view_overtime` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_users
+DROP VIEW IF EXISTS `view_users`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_users` (
 	`UserId` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'Identificador unico',
@@ -1707,6 +1897,7 @@ CREATE TABLE `view_users` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_kpi
+DROP VIEW IF EXISTS `view_kpi`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_kpi`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_kpi` AS select MONTHNAME(curdate()) as Mes, count(*) as Solicitudes, sum(r.estimatedTime) as Horas, 
@@ -1717,6 +1908,7 @@ from pay_overtime_request r
 where MONTH(r.dateTimeStamp)=month(curdate()) ;
 
 -- Dumping structure for view hhrr.view_log
+DROP VIEW IF EXISTS `view_log`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_log`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_log` AS select u.userName , l.action, l.actionEnum, l.table, l.when, l.userName as Ip  
@@ -1725,6 +1917,7 @@ inner join sec_user u on l.userId = u.id
 order by l.when ;
 
 -- Dumping structure for view hhrr.view_overtime
+DROP VIEW IF EXISTS `view_overtime`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_overtime`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_overtime` AS select curdate(), monthname(curdate()) as Mes, r.employeeId, u.userName as Usuario, e.firstName as Empleado, count(r.estimatedTime) as Solicitudes, sum(r.estimatedTime) as Horas
@@ -1735,6 +1928,7 @@ where MONTH(r.dateTimeStamp)=month(curdate())
 group by r.employeeId ;
 
 -- Dumping structure for view hhrr.view_users
+DROP VIEW IF EXISTS `view_users`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_users`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_users` AS SELECT ue.id as UserId, u.userName as User, p.name as Profile, m.firstName as Name, m.id as EmployeeId
