@@ -13,7 +13,7 @@ function sessionCtrl($window, $rootScope, $scope, $state, $http, $localStorage, 
 		};
 	$scope.unblock = function(){
 		$scope.user.userName=$scope.temp.userName;
-		payrollService.fetch('POST','login',JSON.stringify($scope.user)).then(function(response){$scope.success(response.data.user)},function(response){$scope.error(response)})
+		payrollService.fetch('POST','login',JSON.stringify($scope.user)).then(function(response){$scope.loginSuccess(response.data.user)},function(response){$scope.loginFail(response)});
 		};
 	$scope.login = function(){
 		payrollService.fetch('POST','login',JSON.stringify($scope.user)).then(function(response){$scope.loginSuccess(response.data.user)},function(response){$scope.loginFail(response)});
