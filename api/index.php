@@ -208,7 +208,7 @@
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
-			$phql =	"SELECT	r.id, r.name, r.description, r.typeId, r.icon, r.state, r.inMenu
+			$phql =	"SELECT	r.id, r.name, r.description, r.module, r.icon, r.state, r.inMenu
 			FROM secProfile p
 			INNER JOIN secProfileResource pr ON p.id = pr.profileId
 			INNER JOIN SecModRes r ON pr.resourceId = r.id
@@ -570,7 +570,7 @@
 		try{
 			$planilla=new payPayrollHeader();
 			$planilla->id = $ultimo_id;
-			$planilla->payrollTypeId = $request->payrollTypeId;
+			$planilla->payrollmodule = $request->payrollmodule;
 			$planilla->month = $request->month;
 			$planilla->fromDate = $request->fromDate;
 			$planilla->toDate = $request->toDate;
