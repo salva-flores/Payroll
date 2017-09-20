@@ -51,6 +51,16 @@ class MainCompanyStructure extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'main_company_structure';
+    }
+
+    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
@@ -70,16 +80,6 @@ class MainCompanyStructure extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'main_company_structure';
     }
 
 }

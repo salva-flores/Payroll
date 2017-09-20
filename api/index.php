@@ -188,7 +188,7 @@
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
-			$data = secResourceType::find();
+			$data = SecMod::find();
 			$response->setJsonContent(array('status'=> http_response_code(),'message'=>'Success','data'=> $data));
 		}catch(\Firebase\JWT\ExpiredException $e){
 			http_response_code(440);
@@ -200,7 +200,7 @@
 		$response = new Response();
 		try {
 			validateToken();
-			$data = secResource::find();
+			$data = secModRes::find();
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));	};
 		return $response;	});
@@ -211,13 +211,29 @@
 			$phql =	"SELECT	r.id, r.name, r.description, r.typeId, r.icon, r.state, r.inMenu
 			FROM secProfile p
 			INNER JOIN secProfileResource pr ON p.id = pr.profileId
-			INNER JOIN secResource r ON pr.resourceId = r.id
+			INNER JOIN SecModRes r ON pr.resourceId = r.id
 			WHERE p.id = '$id'";
 			$data = [];
 			$data = $app->modelsManager->executeQuery($phql);
 			$response -> setJsonContent(array('status'=> http_response_code(200),'message'=> 'Success','data'=> $data));
 		}catch(\Firebase\JWT\ExpiredException $e){$response->setJsonContent(array('status'=> http_response_code(440),'message'=>'Token expired!','data'=>$e.message));
 		}catch(\Exception $e){$response->setJsonContent(array('status'=> http_response_code(500),'message'=>'Error','data'=>$e.message));};
+		return $response;	});
+	$app->get('/unit', function(){
+		$response = new Response();
+		try {
+			validateToken();
+			$data = CatCompanyUnit::find();
+			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
+		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
+		return $response;	});
+	$app->get('/job', function(){
+		$response = new Response();
+		try {
+			validateToken();
+			$data = CatJob::find();
+			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
+		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
 		return $response;	});
 	$app->get('/employee', function(){
 		$response = new Response();
@@ -418,7 +434,7 @@
 			inner join catWorkingHours wh on e.shift = wh.id 
 			where e.id = '$id'";
 			$data = $app->modelsManager->executeQuery($phql);
-			if(count($data)>0){http_response_code(200);}else{http_response_code(406);}
+			if(count($data)>0){http_response_code(200);}else{http_response_code(200);}
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e.message));}; 
 		return $response;	});

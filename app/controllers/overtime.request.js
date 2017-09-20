@@ -16,9 +16,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.initVars = function() {
 		$scope.status=[];
 		$scope.today = new Date();
-		$scope.overtimeStart=parametros.data.data[0].Permitido;
-		$scope.maxOverPerWeek=parametros.data.data[0].Semana;
-		$scope.empName=parametros.data.data[0].Empleado;
+		if ($scope.user.userName=='root'){$scope.overtimeStart='';$scope.maxOverPerWeek='16';$scope.empName=''}else{$scope.overtimeStart=parametros.data.data[0].Permitido;$scope.maxOverPerWeek=parametros.data.data[0].Semana;$scope.empName=parametros.data.data[0].Empleado	};
 		$scope.os = new Date($filter('date')($scope.today, 'yyyy-MM-dd')+'T'+$scope.overtimeStart);
 		$scope.fecha = $filter('date')($scope.today, 'dd-MMMM-yyyy');
 		$scope.hora = $scope.os;
@@ -30,6 +28,8 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.isAdmin=false;
 		$scope.showReqs=false;
 		$scope.enableCloseButton=false;
+		$scope.email={}; 
+		$scope.email.from='admin@hngsystems.com'; $scope.email.name='Admin'; $scope.email.email='';  $scope.email.subject='Solicitud de Horas Extras'; $scope.email.message='Tiene una solicitud de Horas Extras.';
 		};
 	$scope.loadOvertime = function () {
 		payrollService.fetch('GET','overtime').
@@ -74,7 +74,6 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		};
 		};
 	$scope.calcFooter = function() {};
-	
 	$scope.addRequest = function(frm){
 		$scope.estado='';frm.$setPristine();frm.$setUntouched();
 		$scope.request = {id:'',employeeId:$rootScope.user.employee,date:'',startTime:'',estimatedTime:'',requestedBy:'',class:'Normal',description:'',state:'',decidedBy:'',decisionDate:'',authorizedBy:'',authorizationDate:'',payDate:'',observations:''};
@@ -91,9 +90,15 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		};
 	$scope.notifyBoss = function () {
 		$http.get('../hhrr/api/employeeBoss/'+$rootScope.user.employee).then(function (response) {
-			new Noty({text:'Su solicitud ha sido enviada a '+response.data.data[0].email, type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
-			.show().on('onClose', function() {$('#overReqForm').modal('hide')});
-			//Hacer API para mandar el correo
+			$scope.email.email=response.data.data[0].email;
+			$http({	method : 'POST', url : 'api/sendMail.php', data : $.param($scope.email), headers : { 'Content-Type': 'application/x-www-form-urlencoded' }})
+			.then(function(response){	
+				console.log('then',response);
+				new Noty({text:'Su solicitud ha sido enviada a '+response.data.data[0].email, type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
+				.show().on('onClose', function() {$('#overReqForm').modal('hide')});
+			}, function (response){
+				console.log('error...',response);
+			});
 		});
 		};
 	$scope.refreshScreen = function(frm) {
@@ -197,7 +202,6 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.minEnd.setMinutes($scope.minEnd.getMinutes()+1);
 		$scope.activity.activities=[];
 		};
-	
 	$scope.run();
 	};
 

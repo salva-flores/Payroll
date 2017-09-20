@@ -32,7 +32,7 @@ class CatAdemicLevel extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("hhrr");
-        $this->hasMany('id', 'MainEmployee', 'academicLevelId', ['alias' => 'MainEmployee']);
+        $this->hasMany('id', 'MainEmployee', 'academicLevel', ['alias' => 'MainEmployee']);
     }
 
     /**

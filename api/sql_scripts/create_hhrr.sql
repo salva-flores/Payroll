@@ -13,12 +13,10 @@
 
 
 -- Dumping database structure for hhrr
-DROP DATABASE IF EXISTS `hhrr`;
 CREATE DATABASE IF NOT EXISTS `hhrr` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `hhrr`;
 
 -- Dumping structure for table hhrr.cat_ademic_level
-DROP TABLE IF EXISTS `cat_ademic_level`;
 CREATE TABLE IF NOT EXISTS `cat_ademic_level` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del nivel académico',
   `name` varchar(25) NOT NULL COMMENT 'Nombre utilizado en formualrios y reportes',
@@ -38,7 +36,6 @@ INSERT INTO `cat_ademic_level` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_ademic_level` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_adjustment
-DROP TABLE IF EXISTS `cat_adjustment`;
 CREATE TABLE IF NOT EXISTS `cat_adjustment` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del tipo de ajuste.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre que se usará en los formularios.',
@@ -54,7 +51,6 @@ INSERT INTO `cat_adjustment` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_adjustment` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_bonus
-DROP TABLE IF EXISTS `cat_bonus`;
 CREATE TABLE IF NOT EXISTS `cat_bonus` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del bono.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre que se usará en los formularios y la planilla.',
@@ -70,7 +66,6 @@ INSERT INTO `cat_bonus` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_bonus` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_company_unit
-DROP TABLE IF EXISTS `cat_company_unit`;
 CREATE TABLE IF NOT EXISTS `cat_company_unit` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la unidad.',
   `name` varchar(50) NOT NULL COMMENT 'Nombre de la unidad/departamento.',
@@ -78,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `cat_company_unit` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='Catálogo de Unidades/Departamentos';
 
--- Dumping data for table hhrr.cat_company_unit: ~7 rows (approximately)
+-- Dumping data for table hhrr.cat_company_unit: ~8 rows (approximately)
 /*!40000 ALTER TABLE `cat_company_unit` DISABLE KEYS */;
 INSERT INTO `cat_company_unit` (`id`, `name`, `description`) VALUES
 	(1, 'Gerencia General', ''),
@@ -86,13 +81,12 @@ INSERT INTO `cat_company_unit` (`id`, `name`, `description`) VALUES
 	(3, 'Gerencia Financiera', ''),
 	(4, 'Gerencia de Operaciones', ''),
 	(5, 'Gerencia Administrativa', ''),
-	(6, 'Departamento de Desarrollo', ''),
-	(7, 'Departamento de Servicios', ''),
-	(8, 'Departamento de Ventas', '');
+	(6, 'Desarrollo', ''),
+	(7, 'Servicios', ''),
+	(8, 'Ventas', '');
 /*!40000 ALTER TABLE `cat_company_unit` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_contract_type
-DROP TABLE IF EXISTS `cat_contract_type`;
 CREATE TABLE IF NOT EXISTS `cat_contract_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(25) NOT NULL COMMENT 'Nombre descriptivo del tipo de contrato.',
@@ -109,7 +103,6 @@ INSERT INTO `cat_contract_type` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_contract_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_date_format
-DROP TABLE IF EXISTS `cat_date_format`;
 CREATE TABLE IF NOT EXISTS `cat_date_format` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'Nombre',
@@ -127,7 +120,6 @@ INSERT INTO `cat_date_format` (`id`, `name`, `format`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_date_format` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_deduction
-DROP TABLE IF EXISTS `cat_deduction`;
 CREATE TABLE IF NOT EXISTS `cat_deduction` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deducción.',
   `typeId` tinyint(3) unsigned NOT NULL COMMENT 'Identifica el tipo de deducción.',
@@ -142,7 +134,6 @@ CREATE TABLE IF NOT EXISTS `cat_deduction` (
 /*!40000 ALTER TABLE `cat_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_deduction_type
-DROP TABLE IF EXISTS `cat_deduction_type`;
 CREATE TABLE IF NOT EXISTS `cat_deduction_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de deducción.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre del tipo de deducción.',
@@ -159,7 +150,6 @@ INSERT INTO `cat_deduction_type` (`id`, `name`, `description`, `isMandatory`) VA
 /*!40000 ALTER TABLE `cat_deduction_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_department
-DROP TABLE IF EXISTS `cat_department`;
 CREATE TABLE IF NOT EXISTS `cat_department` (
   `id` tinyint(2) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(2) NOT NULL COMMENT 'Código',
@@ -192,7 +182,6 @@ INSERT INTO `cat_department` (`id`, `code`, `name`, `postalCode`) VALUES
 /*!40000 ALTER TABLE `cat_department` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_economic_branch
-DROP TABLE IF EXISTS `cat_economic_branch`;
 CREATE TABLE IF NOT EXISTS `cat_economic_branch` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la rama económica.',
   `sector` tinyint(1) unsigned NOT NULL COMMENT 'Sector económico.',
@@ -224,7 +213,6 @@ INSERT INTO `cat_economic_branch` (`id`, `sector`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_economic_branch` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_employee_category
-DROP TABLE IF EXISTS `cat_employee_category`;
 CREATE TABLE IF NOT EXISTS `cat_employee_category` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -242,7 +230,6 @@ INSERT INTO `cat_employee_category` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_employee_category` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_equipment_brand
-DROP TABLE IF EXISTS `cat_equipment_brand`;
 CREATE TABLE IF NOT EXISTS `cat_equipment_brand` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -254,7 +241,6 @@ CREATE TABLE IF NOT EXISTS `cat_equipment_brand` (
 /*!40000 ALTER TABLE `cat_equipment_brand` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_equipment_category
-DROP TABLE IF EXISTS `cat_equipment_category`;
 CREATE TABLE IF NOT EXISTS `cat_equipment_category` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -267,7 +253,6 @@ CREATE TABLE IF NOT EXISTS `cat_equipment_category` (
 /*!40000 ALTER TABLE `cat_equipment_category` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_holiday
-DROP TABLE IF EXISTS `cat_holiday`;
 CREATE TABLE IF NOT EXISTS `cat_holiday` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador',
   `day` tinyint(1) unsigned NOT NULL COMMENT 'Día ',
@@ -291,7 +276,6 @@ INSERT INTO `cat_holiday` (`id`, `day`, `month`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_holiday` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_ihss
-DROP TABLE IF EXISTS `cat_ihss`;
 CREATE TABLE IF NOT EXISTS `cat_ihss` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(7) NOT NULL,
@@ -313,7 +297,6 @@ INSERT INTO `cat_ihss` (`id`, `code`, `description`, `value`) VALUES
 /*!40000 ALTER TABLE `cat_ihss` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_income
-DROP TABLE IF EXISTS `cat_income`;
 CREATE TABLE IF NOT EXISTS `cat_income` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ingreso',
   `typeId` tinyint(3) unsigned NOT NULL COMMENT 'Identifica el tipo de ingreso',
@@ -328,7 +311,6 @@ CREATE TABLE IF NOT EXISTS `cat_income` (
 /*!40000 ALTER TABLE `cat_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_isr_deductible
-DROP TABLE IF EXISTS `cat_isr_deductible`;
 CREATE TABLE IF NOT EXISTS `cat_isr_deductible` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del concepto deducible',
   `isrId` tinyint(3) unsigned NOT NULL COMMENT 'Identifica la tabla de porcentajes a que aplica el deducible',
@@ -346,7 +328,6 @@ CREATE TABLE IF NOT EXISTS `cat_isr_deductible` (
 /*!40000 ALTER TABLE `cat_isr_deductible` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_isr_percentage
-DROP TABLE IF EXISTS `cat_isr_percentage`;
 CREATE TABLE IF NOT EXISTS `cat_isr_percentage` (
   `id` tinyint(3) unsigned NOT NULL COMMENT 'Identificador unico',
   `lowerLlimit1` decimal(10,2) unsigned NOT NULL COMMENT 'Límite inferior primer rango',
@@ -373,7 +354,6 @@ INSERT INTO `cat_isr_percentage` (`id`, `lowerLlimit1`, `upperLimit1`, `percent1
 /*!40000 ALTER TABLE `cat_isr_percentage` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_job
-DROP TABLE IF EXISTS `cat_job`;
 CREATE TABLE IF NOT EXISTS `cat_job` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del Puesto.',
   `name` varchar(50) NOT NULL COMMENT 'Nombre del puesto, que se usa en los formularios y reportes.',
@@ -399,7 +379,6 @@ INSERT INTO `cat_job` (`id`, `name`, `responsibilities`, `abilities`, `experienc
 /*!40000 ALTER TABLE `cat_job` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_job_type
-DROP TABLE IF EXISTS `cat_job_type`;
 CREATE TABLE IF NOT EXISTS `cat_job_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT 'Nombre',
@@ -422,7 +401,6 @@ INSERT INTO `cat_job_type` (`id`, `name`) VALUES
 /*!40000 ALTER TABLE `cat_job_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_law_deduction
-DROP TABLE IF EXISTS `cat_law_deduction`;
 CREATE TABLE IF NOT EXISTS `cat_law_deduction` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deducción.',
   `name` varchar(45) NOT NULL COMMENT 'Nombre que se utiliza en los formularios y reportes.',
@@ -436,7 +414,6 @@ CREATE TABLE IF NOT EXISTS `cat_law_deduction` (
 /*!40000 ALTER TABLE `cat_law_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_leave_type
-DROP TABLE IF EXISTS `cat_leave_type`;
 CREATE TABLE IF NOT EXISTS `cat_leave_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de permiso',
   `name` varchar(50) NOT NULL COMMENT 'Nombre del tipo de permiso',
@@ -449,7 +426,6 @@ CREATE TABLE IF NOT EXISTS `cat_leave_type` (
 /*!40000 ALTER TABLE `cat_leave_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_legal_form
-DROP TABLE IF EXISTS `cat_legal_form`;
 CREATE TABLE IF NOT EXISTS `cat_legal_form` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador',
   `name` varchar(100) NOT NULL COMMENT 'Nombre o tipo de la forma jurídica',
@@ -473,7 +449,6 @@ INSERT INTO `cat_legal_form` (`id`, `name`, `partners`, `shareCapital`, `respons
 /*!40000 ALTER TABLE `cat_legal_form` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_mipyme
-DROP TABLE IF EXISTS `cat_mipyme`;
 CREATE TABLE IF NOT EXISTS `cat_mipyme` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
@@ -492,7 +467,6 @@ INSERT INTO `cat_mipyme` (`id`, `name`, `minEmployees`, `maxEmployees`, `descrip
 /*!40000 ALTER TABLE `cat_mipyme` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_overtime
-DROP TABLE IF EXISTS `cat_overtime`;
 CREATE TABLE IF NOT EXISTS `cat_overtime` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de hora extra',
   `name` varchar(50) NOT NULL COMMENT 'Nombre utilizado en formularios y reportes',
@@ -513,7 +487,6 @@ INSERT INTO `cat_overtime` (`id`, `name`, `start`, `end`, `percent`, `descriptio
 /*!40000 ALTER TABLE `cat_overtime` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll
-DROP TABLE IF EXISTS `cat_payroll`;
 CREATE TABLE IF NOT EXISTS `cat_payroll` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de planilla.',
   `name` varchar(25) NOT NULL COMMENT 'Nombre de la planilla, que aparece en los reportes.',
@@ -529,7 +502,6 @@ CREATE TABLE IF NOT EXISTS `cat_payroll` (
 /*!40000 ALTER TABLE `cat_payroll` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_detail_deduction
-DROP TABLE IF EXISTS `cat_payroll_detail_deduction`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_detail_deduction` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle',
   `payrollId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la planilla en cat_payrolls',
@@ -544,7 +516,6 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_detail_deduction` (
 /*!40000 ALTER TABLE `cat_payroll_detail_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_detail_general
-DROP TABLE IF EXISTS `cat_payroll_detail_general`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_detail_general` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle',
   `payrollId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la planilla',
@@ -558,7 +529,6 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_detail_general` (
 /*!40000 ALTER TABLE `cat_payroll_detail_general` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_detail_income
-DROP TABLE IF EXISTS `cat_payroll_detail_income`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_detail_income` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle',
   `payrollId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la planilla',
@@ -573,7 +543,6 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_detail_income` (
 /*!40000 ALTER TABLE `cat_payroll_detail_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_payroll_type
-DROP TABLE IF EXISTS `cat_payroll_type`;
 CREATE TABLE IF NOT EXISTS `cat_payroll_type` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(25) CHARACTER SET utf8 NOT NULL,
@@ -581,9 +550,9 @@ CREATE TABLE IF NOT EXISTS `cat_payroll_type` (
   `howMany` tinyint(3) unsigned NOT NULL,
   `status` tinyint(3) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Tipos de Planilla';
 
--- Dumping data for table hhrr.cat_payroll_type: ~3 rows (approximately)
+-- Dumping data for table hhrr.cat_payroll_type: ~4 rows (approximately)
 /*!40000 ALTER TABLE `cat_payroll_type` DISABLE KEYS */;
 INSERT INTO `cat_payroll_type` (`id`, `name`, `description`, `howMany`, `status`) VALUES
 	(1, 'Sueldos y Salarios', 'Sueldos y Salarios', 24, 1),
@@ -593,7 +562,6 @@ INSERT INTO `cat_payroll_type` (`id`, `name`, `description`, `howMany`, `status`
 /*!40000 ALTER TABLE `cat_payroll_type` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_profession
-DROP TABLE IF EXISTS `cat_profession`;
 CREATE TABLE IF NOT EXISTS `cat_profession` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'Nombre de la profesión',
@@ -620,7 +588,6 @@ INSERT INTO `cat_profession` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_profession` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_skill
-DROP TABLE IF EXISTS `cat_skill`;
 CREATE TABLE IF NOT EXISTS `cat_skill` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT 'Nombre de la habilidad o destreza',
@@ -633,7 +600,6 @@ CREATE TABLE IF NOT EXISTS `cat_skill` (
 /*!40000 ALTER TABLE `cat_skill` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_status
-DROP TABLE IF EXISTS `cat_status`;
 CREATE TABLE IF NOT EXISTS `cat_status` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del estado.',
   `tabla` varchar(45) NOT NULL COMMENT 'Tabla a la cual pertenecen los estados.',
@@ -648,7 +614,6 @@ CREATE TABLE IF NOT EXISTS `cat_status` (
 /*!40000 ALTER TABLE `cat_status` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_vacation
-DROP TABLE IF EXISTS `cat_vacation`;
 CREATE TABLE IF NOT EXISTS `cat_vacation` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `days` tinyint(3) unsigned NOT NULL,
@@ -667,7 +632,6 @@ INSERT INTO `cat_vacation` (`id`, `days`, `condition`, `description`) VALUES
 /*!40000 ALTER TABLE `cat_vacation` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.cat_working_hours
-DROP TABLE IF EXISTS `cat_working_hours`;
 CREATE TABLE IF NOT EXISTS `cat_working_hours` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del tipo de hora extra',
   `name` varchar(50) NOT NULL COMMENT 'Nombre utilizado en formularios y reportes',
@@ -688,7 +652,6 @@ INSERT INTO `cat_working_hours` (`id`, `name`, `start`, `end`, `overtimeStart`, 
 /*!40000 ALTER TABLE `cat_working_hours` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.email_confirmations
-DROP TABLE IF EXISTS `email_confirmations`;
 CREATE TABLE IF NOT EXISTS `email_confirmations` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `usersId` tinyint(3) unsigned NOT NULL,
@@ -704,7 +667,6 @@ CREATE TABLE IF NOT EXISTS `email_confirmations` (
 /*!40000 ALTER TABLE `email_confirmations` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_company
-DROP TABLE IF EXISTS `main_company`;
 CREATE TABLE IF NOT EXISTS `main_company` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico de la empresa',
   `mipymeTypeId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador del tipo de empresa ',
@@ -736,16 +698,15 @@ CREATE TABLE IF NOT EXISTS `main_company` (
   KEY `type` (`mipymeTypeId`),
   KEY `legal_form` (`legalFormId`),
   KEY `FK_main_company_cat_departments` (`departmentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Tabla maestra de la empresa';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Tabla maestra de la empresa';
 
--- Dumping data for table hhrr.main_company: ~2 rows (approximately)
+-- Dumping data for table hhrr.main_company: ~0 rows (approximately)
 /*!40000 ALTER TABLE `main_company` DISABLE KEYS */;
 INSERT INTO `main_company` (`id`, `mipymeTypeId`, `economicBranchId`, `legalFormId`, `shortName`, `longName`, `foundationDate`, `commercialRegiterCertificate`, `phone`, `address`, `city`, `departmentId`, `postalCode`, `mission`, `vision`, `profile`, `logo`, `ip`, `legalRepName`, `legalRepIdCard`, `legalRepPhone`, `contactName`, `contactDesignation`, `contactPhone`, `contactEmail`) VALUES
 	(1, 1, 1, 5, 'CENTEC', NULL, '2017-05-30', '', '', '', '', 8, '', '', '', '', 'logo-dark.png', '', '', '', '0', '', '', '', '');
 /*!40000 ALTER TABLE `main_company` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_company_structure
-DROP TABLE IF EXISTS `main_company_structure`;
 CREATE TABLE IF NOT EXISTS `main_company_structure` (
   `companyId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la empresa.',
   `unitId` tinyint(3) unsigned NOT NULL COMMENT 'Identificador de la unidad/departamento.',
@@ -762,17 +723,15 @@ CREATE TABLE IF NOT EXISTS `main_company_structure` (
   CONSTRAINT `FK_main_company_structure_main_employee` FOREIGN KEY (`headId`) REFERENCES `main_employee` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Para almacenar la estructura organiza de las empresas -organigramas-.';
 
--- Dumping data for table hhrr.main_company_structure: ~4 rows (approximately)
+-- Dumping data for table hhrr.main_company_structure: ~3 rows (approximately)
 /*!40000 ALTER TABLE `main_company_structure` DISABLE KEYS */;
 INSERT INTO `main_company_structure` (`companyId`, `unitId`, `parentUnitId`, `headJobId`, `headId`) VALUES
 	(1, 1, 1, 1, 1),
-	(1, 2, 1, 3, 2),
-	(1, 3, 1, 5, 3),
-	(1, 4, 2, 7, 4);
+	(1, 5, 1, 3, 2),
+	(1, 4, 1, 5, 3);
 /*!40000 ALTER TABLE `main_company_structure` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee
-DROP TABLE IF EXISTS `main_employee`;
 CREATE TABLE IF NOT EXISTS `main_employee` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del empleado',
   `companyUnit` tinyint(3) unsigned NOT NULL COMMENT 'Unidad a la que está asignado el empleado (segun el organigrama)',
@@ -800,6 +759,7 @@ CREATE TABLE IF NOT EXISTS `main_employee` (
   `shift` tinyint(3) unsigned NOT NULL COMMENT 'Jornada laboral',
   `creationDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createdBy` tinyint(3) unsigned NOT NULL,
+  `state` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `management` (`companyUnit`),
   KEY `academic_level` (`academicLevel`),
@@ -818,15 +778,66 @@ CREATE TABLE IF NOT EXISTS `main_employee` (
 
 -- Dumping data for table hhrr.main_employee: ~56 rows (approximately)
 /*!40000 ALTER TABLE `main_employee` DISABLE KEYS */;
-INSERT INTO `main_employee` (`id`, `companyUnit`, `academicLevel`, `profession`, `job`, `type`, `firstName`, `lastName`, `dob`, `gender`, `bloodType`, `nationality`, `idCard`, `maritalStatus`, `joined`, `address`, `city`, `departmentId`, `homePhone`, `officePhone`, `mobilePhone`, `email`, `salary`, `shift`, `creationDate`, `createdBy`) VALUES
-	(1, 1, 2, 1, 1, 0, 'Juan Carlos Mercado', '', '1968-07-15', 1, '', '', '0801196806435', '1', '2011-01-01', 'Colonia Miraflores Sur, Avenida Santa Cristina, Calle 21, bloque 4 casa 1610', '', 8, '22324016', '0', '0', 'jmercado@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0),
-	(2, 2, 2, 12, 3, 0, 'Gabriel Reinaldo Osorio Velasquez', '', '1973-07-18', 1, '', '', '0801197300747', '1', '2014-07-24', 'Colonia Monte Verde, 1ª Av 2ª Calle Casa #14', '', 8, '22324016', '0', '0', 'gosorio@lufergo.com', 45000.00, 1, '2017-06-22 11:41:58', 0),
-	(3, 3, 1, 1, 5, 0, 'Hector Alberto Berrios Rodriguez', '', '1969-05-12', 1, '', '', '0801196903367', '1', '2010-08-07', 'Residencial plaza, bloque 33, casa 3108.', '', 8, '22286173', '0', '99372193', 'hberrios@hngsystems.com', 45000.00, 1, '2017-06-22 11:41:58', 0),
-	(4, 4, 1, 1, 10, 0, 'Vanessa Carolina Varela Pineda', '', '1986-07-15', 2, '', '', '0318198600333', '1', '2012-02-21', 'Col. Victor F Ardon, bloque F, casa 3822', '', 8, '22303915', '0', '32963124', 'vvarela@hngsystems.com', 14000.00, 1, '2017-06-22 11:41:58', 0);
+INSERT INTO `main_employee` (`id`, `companyUnit`, `academicLevel`, `profession`, `job`, `type`, `firstName`, `lastName`, `dob`, `gender`, `bloodType`, `nationality`, `idCard`, `maritalStatus`, `joined`, `address`, `city`, `departmentId`, `homePhone`, `officePhone`, `mobilePhone`, `email`, `salary`, `shift`, `creationDate`, `createdBy`, `state`) VALUES
+	(1, 1, 2, 1, 1, 0, 'Juan Carlos Mercado', '', '1968-07-15', 1, '', '', '0801196806435', '1', '2011-01-01', 'Colonia Miraflores Sur, Avenida Santa Cristina, Calle 21, bloque 4 casa 1610', '', 8, '22324016', '0', '0', 'jmercado@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(2, 5, 2, 12, 3, 0, 'Gabriel Reinaldo Osorio Velasquez', '', '1973-07-18', 1, '', '', '0801197300747', '1', '2014-07-24', 'Colonia Monte Verde, 1ª Av 2ª Calle Casa #14', '', 8, '22324016', '0', '0', 'gosorio@lufergo.com', 45000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(3, 4, 3, 3, 5, 0, 'Hector Alberto Berrios Rodriguez', '', '1969-05-12', 1, '', '', '0801196903367', '1', '2010-08-07', 'Residencial plaza, bloque 33, casa 3108.', '', 8, '22286173', '0', '99372193', 'hberrios@hngsystems.com', 45000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(4, 5, 2, 4, 4, 0, 'Vanessa Carolina Varela Pineda', '', '1986-07-15', 2, '', '', '0318198600333', '1', '2012-02-21', 'Col. Victor F Ardon, bloque F, casa 3822', '', 8, '22303915', '0', '32963124', 'vvarela@hngsystems.com', 14000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(5, 6, 2, 1, 10, 0, 'Dennis Dassaeth Gonzales Mendoza', '', '1989-01-09', 1, '', '', '0801198902214', '0', '2014-02-03', 'Prados Universitarios, Bloque E, casa 6118.', '', 8, '22570069', '0', '32290345', 'dgonzales@hngsystems.com', 11000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(6, 6, 1, 1, 10, 0, 'Oscar Noe Sevilla Urbina', '', '1990-12-21', 1, '', '', '1519199000006', '0', '2013-01-02', 'Col. San Jose de la Peña', '', 8, '0', '0', '96095496', 'osevilla@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(7, 6, 1, 1, 10, 0, 'Edwin David Zambrano Banegas', '', '1986-02-12', 1, '', '', '0801198603962', '0', '2013-01-01', 'Res. Villas de Concepción', '', 8, '0', '0', '33944024', 'ezambrano@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(8, 6, 1, 1, 10, 0, 'Katherynne Melissa Hidalgo Aguilar', '', '1991-05-09', 2, '', '', '0601199101689', '0', '2013-11-16', 'Barrio Sabana Grande', '', 8, '0', '0', '98496166', 'khidalgo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(9, 6, 1, 1, 10, 0, 'Vany Jetsibelh Castillo Guillen', '', '1986-05-14', 2, '', '', '1201198600461', '0', '2010-01-07', 'Col. las colinas, bloque RR, casa 1915.', '', 8, '0', '0', '98641568', 'vcastillo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(10, 6, 1, 1, 10, 0, 'Leonardo Antonio Vijil Scalici', '', '1990-01-24', 1, '', '', '0801199014267', '0', '2014-06-16', 'Col. Kennedy, 4ta Entrada, casa 3810, bloque 1.', '', 8, '22304507', '0', '87355440', 'lvijil@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(11, 6, 1, 1, 10, 0, 'Kenny Joseph Cooper Aleman', '', '1989-07-20', 1, '', '', '0801198902104', '0', '2012-01-01', 'Col. san Jose de la Peña, zona D, bloque 7A', '', 8, '0', '0', '96714867', 'kcooper@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(12, 6, 1, 1, 10, 0, 'Denis Oswaldo Jiron Rodriguez', '', '1983-07-13', 1, '', '', '0801198312047', '0', '2012-03-01', 'Col. Hato de Enmedio, sector 7, bloque 103, casa 5119', '', 8, '22551706', '0', '31781323', 'djiron@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(13, 6, 1, 1, 10, 0, 'Victor Alejandro Escober Zuniga', '', '1986-01-28', 1, '', '', '0819198600200', '0', '2012-10-08', 'Col. centro america oeste, zona 1 bloque H casa 4526', '', 8, '22274620', '0', '31875519', 'vescober@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(14, 6, 1, 1, 10, 0, 'Luisa Azucena Giron Gradiz', '', '1968-02-12', 2, '', '', '0615196800569', '1', '2012-04-09', 'Col. Kennedy, casa 3505, grupo 18, bloque 22, zona 2', '', 8, '22280971', '0', '98730062', 'lgiron@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(15, 6, 1, 1, 10, 0, 'Yadira Paola Avila Herrera', '', '1986-07-22', 2, '', '', '0801198613859', '0', '2012-06-04', 'Col. Centro américa oeste, zona 4, bloque z', '', 8, '22273540', '0', '96257601', 'yavila@hngsystems.com', 30000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(16, 6, 1, 1, 10, 0, 'Kelly Pamela Perez Caceres', '', '1984-04-12', 2, '', '', '0801198421680', '1', '2011-11-23', 'Linaca, Tatumbla, atrás del Kínder Caridad de Ardon.', '', 8, '0', '0', '96928115', 'kperez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(17, 6, 1, 1, 10, 0, 'Danny Alberto Solorzano Rivera', '', '1986-07-15', 1, '', '', '0801198620461', '0', '2012-05-09', 'Residencial Agua Dulce, Col. Las Hadas', '', 8, '0', '0', '97605500', 'dsolorzano@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(18, 6, 1, 1, 10, 0, 'Ana Sofia Quintero Zapata', '', '1990-04-10', 2, '', '', '0801199005403', '0', '2012-06-25', 'Colonia Centro América Oeste, Bloque CC, casa 1316, Zona 1.', '', 8, '22271408', '0', '98272925', 'aquintero@hngsystems.com', 25000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(19, 6, 1, 1, 10, 0, 'Guillermo Bustillo Alvarado', '', '1989-08-10', 1, '', '', '0801198916369', '0', '2012-12-01', 'Col Centro America Oeste, Zona 1, bloque E, casa 1417.', '', 8, '22274920', '0', '97203639', 'gbustillo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(20, 6, 1, 1, 10, 0, 'Dario Alberto Castro Martinez', '', '1989-03-08', 1, '', '', '0801198920345', '0', '2012-05-07', 'Residencial Centro América, 4ta etapa, calle 37', '', 8, '22273540', '0', '31817003', 'dcastro@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(21, 6, 1, 1, 10, 0, 'Olga Leticia Martinez Varela', '', '1988-03-31', 2, '', '', '0801198801929', '0', '2012-03-06', 'Col. Bella Vista, 8 y 9 calle, 12 ave, casa 916.', '', 8, '22234427', '0', '33191947', 'omartinez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(22, 6, 1, 1, 10, 0, 'Amy Larissa Gallardo Alvarez', '', '1984-07-24', 2, '', '', '0801198405040', '0', '2011-06-16', 'Col. Bella Oriente, Bloque H, casa 8, Apto No 1', '', 8, '0', '0', '33760250', 'agallardo@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(23, 6, 1, 1, 10, 0, 'Julio Alejandro Castro Raudales', '', '1987-08-13', 1, '', '', '0501198710584', '0', '2011-03-17', 'Colonia Kennedy, Boca calle, escuela Oswaldo.', '', 8, '22285788', '0', '97011785', 'jcastro@hngsystems.com', 12000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(24, 6, 1, 1, 10, 0, 'Wilfredo Estrada Matamoros', '', '1983-02-14', 1, '', '', '0801198305570', '0', '2011-10-20', 'Col. Venezuela, sector C, Bloque 21, lote 16.', '', 8, '22250360', '0', '98113809', 'westrada@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(25, 6, 1, 1, 10, 0, 'Amy Alizbeth Diaz Caceres', '', '1990-03-13', 2, '', '', '0801199015349', '0', '2012-04-10', 'CENTEC', '', 8, '22233744', '0', '98913980', 'adiaz@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(26, 6, 1, 1, 10, 0, 'Merlyn Carolina Palma Hernandez', '', '1981-03-02', 1, '', '', '0801198126270', '0', '2010-04-07', 'Residencial Villas del Real, bloque D, casa 7', '', 8, '22339318', '0', '95153204', 'mpalma@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(27, 6, 1, 1, 10, 0, 'Fernando Velasquez Marquez', '', '1980-04-15', 1, '', '', '0801198018149', '0', '2006-09-26', 'Col Bella Oriente, bloque L, casa 17.', '', 8, '22551956', '0', '99044777', 'fvelasquez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(28, 6, 1, 1, 10, 0, 'Claudio Jose Turcios Cerrato', '', '1974-02-14', 1, '', '', '0801197408138', '1', '2009-03-09', 'CENTEC', '', 8, '22304306', '0', '99014179', 'cturcios@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(29, 6, 1, 1, 10, 0, 'Wendy Carolina Gonzalez Sierra', '', '1983-09-21', 2, '', '', '0801198307630', '0', '2009-03-01', 'Col. Brisas del norte, bloque J, casa 10.', '', 8, '22017176', '0', '97366376', 'wgonzales@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(30, 6, 1, 1, 10, 0, 'David Eduardo Sanchez Aguilar', '', '1985-04-16', 1, '', '', '0801198519044', '0', '2012-08-06', 'Col. hato de Enmedio, Sector 7, bloque 103, casa 5115', '', 8, '0', '0', '32928085', 'dsanchez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(31, 5, 1, 1, 10, 0, 'Gabriela Mariel Henriquez Oyuela', '', '1981-05-19', 1, '', '', '0801198102890', '0', '2012-01-01', 'Col. lomas del Toncontin, casa 1704, bloque 44', '', 8, '22344330', '0', '99802498', 'ghenriquez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(32, 6, 1, 1, 10, 0, 'Jorge Alberto Ávila Sevilla', '', '1990-09-06', 1, '', '', '0801199019001', '0', '2014-10-01', 'Col. Sagastume No 2, calle principal, casa no 7', '', 8, '0', '0', '95706121', 'javila@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(33, 6, 1, 1, 10, 0, 'Alex Francisco Espinal Oyuela', '', '1990-05-20', 1, '', '', '0801199010220', '0', '2014-10-01', 'Cerrro Grande zona 4 bloque 37 casa 3207', '', 8, '22240579', '0', '99505590', 'aespinal@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(34, 6, 1, 1, 10, 0, 'Ana Hisamar Sorto Caceres', '', '1990-09-24', 2, '', '', '0801199023937', '0', '2014-08-20', 'Residencial Suyapita contiguo Hospital Maria', '', 8, '0', '0', '95730914', 'asorto@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(35, 6, 1, 1, 10, 0, 'Keidy Sarahi Rodriguez Duron', '', '1991-07-22', 2, '', '', '0801199115017', '0', '2015-01-15', 'col. modesto rodas alvarado, casa 3621', '', 8, '22344817', '0', '88655195', 'krodriguez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(36, 6, 1, 1, 10, 0, 'Ana Marcela Lanza Sandres', '', '1991-08-01', 2, '', '', '0801199102323', '0', '2015-01-15', 'Barrio la Cudarilla, Santa Lucia.', '', 8, '27790417', '0', '31909930', 'alanza@hngsystems.com', 15000.00, 3, '2017-06-22 11:41:58', 0, 0),
+	(37, 6, 1, 1, 10, 0, 'Hugo Renan Rodriguez Garmendia', '', '1982-01-10', 1, '', '', '0801198210240', '0', '2014-12-01', 'Res. Roble Oeste, V etapa, bloque K casa 6', '', 8, '22348380', '0', '95172277', 'hugorenanrod@gmail.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(38, 6, 1, 1, 10, 0, 'Sergio Mauricio Canales Verde', '', '1987-05-08', 1, '', '', '0801198707988', '0', '2015-05-04', 'Col Santa Maria, bloque 26, Casa 41.', '', 8, '22708172', '0', '33792372', 'scanales@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(39, 6, 1, 1, 10, 0, 'Bryan Orlando Peña Mejia', '', '1989-06-23', 1, '', '', '0801198912973', '0', '2015-12-01', 'Col. El Sitio, 2da etapa, bloque 36, casa #90', '', 8, '22709339', '0', '97459699', 'bpena@hngsystems.com', 14000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(40, 6, 1, 1, 10, 0, 'Jennyffer Carolina Mejia Meza', '', '1992-05-14', 2, '', '', '0801199210588', '0', '2015-12-01', 'Col. El Sitio, 2da etapa, bloque 36, casa #1816', '', 8, '22709551', '0', '94300006', 'jmejia@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(41, 6, 1, 1, 10, 0, 'Ingrid Aracely Nuñez Gomez', '', '1989-09-06', 2, '', '', '0703198904588', '0', '2015-11-16', 'Res. Bella Oriente, frente a Villas del Sol', '', 8, '0', '0', '95741764', 'inuñez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(42, 6, 1, 1, 10, 0, 'Javier Ernesto Saravia Sosa', '', '1987-03-28', 1, '', '', '0801198705966', '0', '2016-08-16', 'Villa Adela, Costado Sur del Estado Mayor Conjunto, entre 4 y 5 avenida, 15 calle', '', 8, '22201140', '0', '88709340', 'jsaravia@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(43, 6, 1, 1, 10, 0, 'Ingrid Lizeth Menjivar Bustillo', '', '1990-08-05', 2, '', '', '0801199102002', '0', '2016-08-16', 'Barrio Concepción, 6 calle, 8 avenida comayaguela casa 602', '', 8, '22201644', '0', '95588792', 'imenjivar@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(44, 6, 1, 1, 10, 0, 'Luis Fernando Carbajal Carbajal', '', '1989-06-27', 1, '', '', '0611198900680', '0', '2015-08-16', 'Col.Cerro Grande, zona #4, bloque #40, lote F', '', 8, '22241725', '0', '98355053', 'lcarbajal@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(45, 6, 1, 1, 10, 0, 'Eva Daniela Cardona Rosales', '', '1990-09-15', 2, '', '', '1518199000180', '0', '2016-09-01', 'Col. Las Colinas frente a Auto Escuela Tropical', '', 8, '0', '0', '94633803', 'ecardona@hngsystems.com', 11500.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(46, 6, 1, 1, 10, 0, 'Brian Enrique Barahona Zeron', '', '1993-01-21', 1, '', '', '0818199300028', '0', '2016-09-01', 'Santa Ana Fco. Morazan Km 21 media cuadra de la gasolinera TEXACO', '', 8, '22131035', '0', '98322306', 'bbarahona@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(47, 6, 1, 1, 10, 0, 'Arelis Yadira Matamoros Guzman', '', '1990-03-12', 2, '', '', '0801199005964', '0', '2016-09-01', 'Aldea Santa Rosa, carretera al sur Km. 11 contiguo al centro de salud', '', 8, '0', '0', '95071445', 'amatamoros@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(48, 6, 1, 1, 10, 0, 'Leonardo Fabian Medina Espinoza', '', '1990-02-19', 1, '', '', '0801199006523', '0', '2015-04-27', 'Col. Brisas de Olancho, Casa 1, Bloque A, Sector 2', '', 8, '22236826', '0', '32920485', 'lmedina@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(49, 6, 1, 1, 10, 0, 'Erick Roberto Rápalo Garcia', '', '1992-09-16', 1, '', '', '0801199219550', '0', '2016-03-28', 'Tegucigalpa, Col. Los Pinos, Sector F', '', 8, '0', '0', '89882132', 'erapalo@hngsystems.com', 12000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(50, 6, 1, 1, 10, 0, 'Jonie Esteban Miralda Cruz', '', '1991-09-30', 1, '', '', '0801199119714', '0', '2016-04-01', 'Col. Smith #1, calle principal, peatonal 7 casa #602 color rosado fusia. Comayaguela M.D.C', '', 8, '2233944', '0', '95069826', 'jmiralda@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(51, 6, 1, 1, 10, 0, 'Alejandra Gabriela Gonzales Flores', '', '1992-04-03', 2, '', '', '0801199207416', '0', '2016-10-24', 'Col. villeda morales', '', 8, '22297613', '0', '98088944', 'agonzales@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(52, 6, 1, 1, 10, 0, 'David Josué Vasquez Aguilar', '', '1995-03-05', 1, '', '', '0801199508700', '0', '2016-12-13', 'col la esperanza calle dipílto casa c200', '', 8, '22211827', '0', '96071481', 'dvasquez@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(53, 6, 1, 1, 10, 0, 'Oscar David Maradiaga Cárdenas', '', '1993-03-19', 1, '', '', '0801199305745', '0', '2017-01-03', 'Col. villa nueva sector 6 casa #5319', '', 8, '22283581', '0', '95720677', 'omaradiaga@hngsystems.com', 0.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(54, 6, 1, 1, 10, 0, 'Claudia Yolanda Zuniga Ruiz', '', '1969-12-02', 2, '', '', '0801196908897', '1', '2017-01-03', 'Residencial Zarahemla, Bloque E, casa 25', '', 8, '22217190', '0', '96665026', 'czuniga@hngsystems', 20000.00, 1, '2017-06-22 11:41:58', 0, 0),
+	(55, 6, 2, 1, 10, 0, 'Salvador Alberto Flores Aguilar', '', '1971-12-25', 1, 'o+', 'Honduran', '0501197200116', '1', '2016-01-11', 'Col. Bella Oriente', '', 8, '22550886', '0', '95535116', 'sflores@hngsystems.com', 13000.00, 1, '2017-07-14 19:14:56', 0, 0),
+	(56, 6, 2, 3, 10, 0, 'Carlos Nahun García Cruz', '', '0000-00-00', 1, 'o+', '', '0801198611168', '0', '2017-07-24', '', '', 0, '', '', '97061674', 'cgarcia@hngsystems.com', 11500.00, 2, '2017-07-24 08:58:12', 0, 0);
 /*!40000 ALTER TABLE `main_employee` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_contact
-DROP TABLE IF EXISTS `main_employee_contact`;
 CREATE TABLE IF NOT EXISTS `main_employee_contact` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del contacto',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -845,7 +856,6 @@ CREATE TABLE IF NOT EXISTS `main_employee_contact` (
 /*!40000 ALTER TABLE `main_employee_contact` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_dependant
-DROP TABLE IF EXISTS `main_employee_dependant`;
 CREATE TABLE IF NOT EXISTS `main_employee_dependant` (
   `id` smallint(5) unsigned NOT NULL,
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado.',
@@ -862,7 +872,6 @@ CREATE TABLE IF NOT EXISTS `main_employee_dependant` (
 /*!40000 ALTER TABLE `main_employee_dependant` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_isr_history
-DROP TABLE IF EXISTS `main_employee_isr_history`;
 CREATE TABLE IF NOT EXISTS `main_employee_isr_history` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -883,7 +892,6 @@ CREATE TABLE IF NOT EXISTS `main_employee_isr_history` (
 /*!40000 ALTER TABLE `main_employee_isr_history` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_job_history
-DROP TABLE IF EXISTS `main_employee_job_history`;
 CREATE TABLE IF NOT EXISTS `main_employee_job_history` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del historial',
   `employeeId` smallint(5) unsigned DEFAULT NULL COMMENT 'Identificador del empleado',
@@ -905,7 +913,6 @@ CREATE TABLE IF NOT EXISTS `main_employee_job_history` (
 /*!40000 ALTER TABLE `main_employee_job_history` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_employee_salary_detail
-DROP TABLE IF EXISTS `main_employee_salary_detail`;
 CREATE TABLE IF NOT EXISTS `main_employee_salary_detail` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del detalle',
   `employeeId` smallint(5) unsigned DEFAULT NULL COMMENT 'Identificador del empleado.',
@@ -923,7 +930,6 @@ CREATE TABLE IF NOT EXISTS `main_employee_salary_detail` (
 /*!40000 ALTER TABLE `main_employee_salary_detail` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_equipment
-DROP TABLE IF EXISTS `main_equipment`;
 CREATE TABLE IF NOT EXISTS `main_equipment` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `brandId` tinyint(3) unsigned NOT NULL COMMENT 'Marca',
@@ -944,7 +950,6 @@ CREATE TABLE IF NOT EXISTS `main_equipment` (
 /*!40000 ALTER TABLE `main_equipment` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.main_equipment_assigned
-DROP TABLE IF EXISTS `main_equipment_assigned`;
 CREATE TABLE IF NOT EXISTS `main_equipment_assigned` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `employeeId` smallint(5) unsigned NOT NULL,
@@ -961,7 +966,6 @@ CREATE TABLE IF NOT EXISTS `main_equipment_assigned` (
 /*!40000 ALTER TABLE `main_equipment_assigned` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_advance_request
-DROP TABLE IF EXISTS `pay_advance_request`;
 CREATE TABLE IF NOT EXISTS `pay_advance_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la solicitud de adelanto',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -982,7 +986,6 @@ CREATE TABLE IF NOT EXISTS `pay_advance_request` (
 /*!40000 ALTER TABLE `pay_advance_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_adjustment
-DROP TABLE IF EXISTS `pay_emp_adjustment`;
 CREATE TABLE IF NOT EXISTS `pay_emp_adjustment` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ajuste.',
   `payrollId` smallint(5) unsigned NOT NULL COMMENT 'Identificador de la planilla en la cual se hace el ajuste en pay_payroll_header',
@@ -1004,7 +1007,6 @@ CREATE TABLE IF NOT EXISTS `pay_emp_adjustment` (
 /*!40000 ALTER TABLE `pay_emp_adjustment` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_bonus
-DROP TABLE IF EXISTS `pay_emp_bonus`;
 CREATE TABLE IF NOT EXISTS `pay_emp_bonus` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del bono asignado.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado al que se le asigna el bono.Relacionado con la tabla de empleados.',
@@ -1022,7 +1024,6 @@ CREATE TABLE IF NOT EXISTS `pay_emp_bonus` (
 /*!40000 ALTER TABLE `pay_emp_bonus` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_deduction
-DROP TABLE IF EXISTS `pay_emp_deduction`;
 CREATE TABLE IF NOT EXISTS `pay_emp_deduction` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deduccion asignada.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado al cual se le ha asignado la deducción.',
@@ -1046,7 +1047,6 @@ CREATE TABLE IF NOT EXISTS `pay_emp_deduction` (
 /*!40000 ALTER TABLE `pay_emp_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_emp_income
-DROP TABLE IF EXISTS `pay_emp_income`;
 CREATE TABLE IF NOT EXISTS `pay_emp_income` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ingreso asignado.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado al cual se le ha asignado el ingreso.',
@@ -1064,7 +1064,6 @@ CREATE TABLE IF NOT EXISTS `pay_emp_income` (
 /*!40000 ALTER TABLE `pay_emp_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_leave_request
-DROP TABLE IF EXISTS `pay_leave_request`;
 CREATE TABLE IF NOT EXISTS `pay_leave_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la solicitud de permiso',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -1091,7 +1090,6 @@ CREATE TABLE IF NOT EXISTS `pay_leave_request` (
 /*!40000 ALTER TABLE `pay_leave_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_overtime_detail
-DROP TABLE IF EXISTS `pay_overtime_detail`;
 CREATE TABLE IF NOT EXISTS `pay_overtime_detail` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del registro de horas extras.',
   `requestId` smallint(5) unsigned NOT NULL COMMENT 'Identifica la solicitud a que pertenece.',
@@ -1105,14 +1103,13 @@ CREATE TABLE IF NOT EXISTS `pay_overtime_detail` (
   PRIMARY KEY (`id`),
   KEY `requestId` (`requestId`),
   CONSTRAINT `FK_pay_overtime_detail_pay_overtime_request` FOREIGN KEY (`requestId`) REFERENCES `pay_overtime_request` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8 COMMENT='Detalle de actividades realizadas por horas.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Detalle de actividades realizadas por horas.';
 
--- Dumping data for table hhrr.pay_overtime_detail: ~162 rows (approximately)
+-- Dumping data for table hhrr.pay_overtime_detail: ~0 rows (approximately)
 /*!40000 ALTER TABLE `pay_overtime_detail` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pay_overtime_detail` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_overtime_request
-DROP TABLE IF EXISTS `pay_overtime_request`;
 CREATE TABLE IF NOT EXISTS `pay_overtime_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del reporte de horas extras.',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado que presenta el reporte.',
@@ -1136,14 +1133,13 @@ CREATE TABLE IF NOT EXISTS `pay_overtime_request` (
   KEY `authorizedBy` (`authorizedBy`),
   KEY `employee` (`employeeId`),
   CONSTRAINT `FK_pay_overtime_request_main_employee` FOREIGN KEY (`employeeId`) REFERENCES `main_employee` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=utf8 COMMENT='Almacena la solicitud de horas extras.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Almacena la solicitud de horas extras.';
 
--- Dumping data for table hhrr.pay_overtime_request: ~86 rows (approximately)
+-- Dumping data for table hhrr.pay_overtime_request: ~0 rows (approximately)
 /*!40000 ALTER TABLE `pay_overtime_request` DISABLE KEYS */;
 /*!40000 ALTER TABLE `pay_overtime_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_detail
-DROP TABLE IF EXISTS `pay_payroll_detail`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_detail` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del detalle de la planilla.',
   `payrollId` smallint(5) unsigned NOT NULL COMMENT 'Identificador de la planilla.',
@@ -1159,7 +1155,6 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_detail` (
 /*!40000 ALTER TABLE `pay_payroll_detail` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_detail_deduction
-DROP TABLE IF EXISTS `pay_payroll_detail_deduction`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_detail_deduction` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la deducción ',
   `detailId` mediumint(8) unsigned NOT NULL COMMENT 'Indica a que detalle de planilla pertenece la deducción.',
@@ -1175,7 +1170,6 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_detail_deduction` (
 /*!40000 ALTER TABLE `pay_payroll_detail_deduction` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_detail_income
-DROP TABLE IF EXISTS `pay_payroll_detail_income`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_detail_income` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del ingreso.',
   `detailId` mediumint(8) unsigned NOT NULL COMMENT 'Identificador del detalle de planilla en la cual se genera el ingreso.',
@@ -1191,7 +1185,6 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_detail_income` (
 /*!40000 ALTER TABLE `pay_payroll_detail_income` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_payroll_header
-DROP TABLE IF EXISTS `pay_payroll_header`;
 CREATE TABLE IF NOT EXISTS `pay_payroll_header` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la planilla.',
   `payrollTypeId` smallint(5) unsigned NOT NULL COMMENT 'Indica el tipo de planilla.',
@@ -1210,7 +1203,6 @@ CREATE TABLE IF NOT EXISTS `pay_payroll_header` (
 /*!40000 ALTER TABLE `pay_payroll_header` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.pay_vacation_request
-DROP TABLE IF EXISTS `pay_vacation_request`;
 CREATE TABLE IF NOT EXISTS `pay_vacation_request` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador de la solicitud de permiso',
   `employeeId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del empleado',
@@ -1237,12 +1229,20 @@ CREATE TABLE IF NOT EXISTS `pay_vacation_request` (
 /*!40000 ALTER TABLE `pay_vacation_request` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_login
-DROP TABLE IF EXISTS `sec_login`;
 CREATE TABLE IF NOT EXISTS `sec_login` (
   `id` smallint(5) unsigned NOT NULL COMMENT 'Identificador del usuario.',
   `userId` smallint(5) unsigned NOT NULL,
-  `userName` smallint(5) unsigned NOT NULL,
-  `userPass` smallint(5) unsigned NOT NULL,
+  `password` varchar(200) NOT NULL,
+  `passSalt` varchar(128) NOT NULL,
+  `mobile` varchar(8) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `profile` tinyint(3) unsigned NOT NULL,
+  `employee` smallint(5) unsigned DEFAULT NULL,
+  `isActive` tinyint(1) unsigned DEFAULT NULL,
+  `creation` datetime DEFAULT NULL,
+  `failedAttempts` datetime DEFAULT NULL,
+  `lastLogin` datetime DEFAULT NULL,
+  `lastLockout` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='better not say what it is.';
@@ -1251,8 +1251,141 @@ CREATE TABLE IF NOT EXISTS `sec_login` (
 /*!40000 ALTER TABLE `sec_login` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sec_login` ENABLE KEYS */;
 
+-- Dumping structure for table hhrr.sec_mod
+CREATE TABLE IF NOT EXISTS `sec_mod` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `icon` varchar(50) NOT NULL COMMENT 'Icono que se usará en el menu',
+  `state` varchar(50) NOT NULL COMMENT 'se utiliza asignar los recursos al menu',
+  `isVisible` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Módulos que integran el Menu principal.';
+
+-- Dumping data for table hhrr.sec_mod: ~11 rows (approximately)
+/*!40000 ALTER TABLE `sec_mod` DISABLE KEYS */;
+INSERT INTO `sec_mod` (`id`, `name`, `description`, `icon`, `state`, `isVisible`) VALUES
+	(1, 'Configuración', '', 'fa fa-cogs', 'con', 0),
+	(2, 'Seguridad', '', 'fa fa-key', 'sec', 1),
+	(3, 'Catálogos', '', 'fa fa-book', 'cat', 1),
+	(4, 'Empresa', '', 'fa fa-building', 'org', 0),
+	(5, 'Empleados', '', 'fa fa-users', 'emp', 1),
+	(6, 'Planillas', '', 'fa fa-dollar', 'pay', 1),
+	(7, 'Reportes', '', 'fa fa-print', 'rep', 0),
+	(8, 'Indicadores', '', 'fa fa-line-chart', 'ind', 1),
+	(9, 'Reclutamiento', '', 'fa fa-user-plus', 'rec', 0),
+	(10, 'Asistencia', '', 'fa fa-clock-o', 'att', 0),
+	(11, 'Capacitaciones', '', 'fa fa-train', 'tra', 0),
+	(12, 'Evaluación del Desempeño', '', 'fa fa-level-up', 'eva', 0);
+/*!40000 ALTER TABLE `sec_mod` ENABLE KEYS */;
+
+-- Dumping structure for table hhrr.sec_mod_res
+CREATE TABLE IF NOT EXISTS `sec_mod_res` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `typeId` smallint(5) unsigned DEFAULT NULL,
+  `description` varchar(100) NOT NULL,
+  `icon` varchar(50) DEFAULT NULL,
+  `state` varchar(50) DEFAULT NULL COMMENT 'estado. AngularJs $state',
+  `inMenu` bit(1) DEFAULT NULL COMMENT 'Se mustra en el sidebar',
+  PRIMARY KEY (`id`),
+  KEY `idType` (`typeId`),
+  CONSTRAINT `FK_sec_resource_sec_resourcetype` FOREIGN KEY (`typeId`) REFERENCES `sec_mod` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8 COMMENT='Recursos - Objetos o formularios ';
+
+-- Dumping data for table hhrr.sec_mod_res: ~84 rows (approximately)
+/*!40000 ALTER TABLE `sec_mod_res` DISABLE KEYS */;
+INSERT INTO `sec_mod_res` (`id`, `name`, `typeId`, `description`, `icon`, `state`, `inMenu`) VALUES
+	(1, 'Usuarios', 2, 'Registro de Usuarios del Sistema', '', 'app.sec.users', b'1'),
+	(2, 'Ajustes', 6, 'catalogo ajustes', '', 'pay.adjustments', b'0'),
+	(3, 'De Horas Extras', 8, 'Graficos de Indicadores de HHEE', '', 'app.charts', b'1'),
+	(4, 'Deducciones', 6, 'Catalogo de deducciones', '', 'pay.deductions', b'0'),
+	(5, 'Generacion de Planillas', 6, 'Generacion de Planillas', '', 'pay.payroll', b'1'),
+	(6, 'Deducciones a Empleados', 6, 'Deducciones por Empleado', '', 'pay.employee.deduction', b'0'),
+	(7, 'ISR - Retención', 6, 'Calcular el ISR', 'glyphicon-book', 'pay.isr', b'0'),
+	(8, 'HHEE - Aprobación', 6, 'Aprobación de Solicitudes', 'glyphicon-book', 'pay.over.approve', b'1'),
+	(9, 'Perfiles', 2, 'Catalogo de Perfiles', '', 'app.sec.profiles', b'0'),
+	(10, 'HHEE - Solicitud', 6, 'Solicitud de Horas Extras', '', 'pay.over.request', b'1'),
+	(11, 'HHEE - Planilla', 6, 'Calcular Planilla de Horas Extras', '', 'pay.over.payroll', b'1'),
+	(12, 'Tipos de planilla', 3, 'Tipos de planilla', '', 'cat.payroll.type', b'0'),
+	(13, 'General', 1, 'Catalogo de recursos del sistema', '', 'con.general', b'1'),
+	(14, 'Módulos', 1, 'Módulos Instalados', '', 'app.con.modules', b'1'),
+	(15, 'Recursos', 1, 'Recursos del Sistema', NULL, 'con.resources', b'1'),
+	(16, 'Login', 2, 'Login screen', '', 'login', b'1'),
+	(17, 'Empleados', 5, 'Empleados', NULL, 'app.cat.employees', b'1'),
+	(18, 'Empresas', 4, 'Empresas', NULL, 'org.companies', b'0'),
+	(19, 'Niveles Academicos', 3, 'Niveles academicos', NULL, 'cat.acemic.level', b'0'),
+	(20, 'Bloquear Sistema', 2, 'lockscreen', NULL, 'session.lockscreen', b'1'),
+	(21, 'Contratos', 5, '', NULL, 'emp.contracts', b'0'),
+	(22, 'Sueldos y Salarios', 6, '', NULL, 'pay.salary', b'0'),
+	(23, 'Recibos', 6, '', NULL, 'pay.receipts', b'0'),
+	(24, 'Bonificaciones', 6, '', NULL, 'pay.bonus', b'0'),
+	(25, 'Comisiones', 6, '', NULL, 'pay.commissions', b'0'),
+	(26, 'Reembolsos', 6, 'Reembolsos', NULL, 'pay.reimbursements', b'0'),
+	(27, 'Anticipos', 6, 'Anticipos', NULL, 'pay.advances', b'0'),
+	(28, 'Préstamos', 6, 'Préstamos', NULL, 'pay.loans', b'0'),
+	(29, 'Seguros', 6, 'Seguros', NULL, 'pay.insurance', b'0'),
+	(30, 'AFP', 6, 'AFP', NULL, 'pay.afp', b'0'),
+	(31, 'Asignación de Equipo', 5, '', NULL, 'emp.assign.equipment', b'0'),
+	(32, 'Transferencias', 5, '', NULL, 'emp.transfers', b'0'),
+	(33, 'Promociones', 5, '', NULL, 'emp.promotions', b'0'),
+	(34, 'Logros', 5, '', NULL, 'emp.achievements', b'0'),
+	(35, 'Comunicación Interna', 5, '', NULL, 'emp.memos', b'0'),
+	(36, 'Renuncias', 5, '', NULL, 'emp.quit', b'0'),
+	(37, 'Cancelación', 5, '', NULL, 'emp.cancel', b'0'),
+	(38, 'Viajes', 5, '', NULL, 'emp.trips', b'0'),
+	(39, 'Unidades o Departamentos', 4, '', NULL, 'org.units', b'0'),
+	(40, 'Config de le Empresa', 4, '', NULL, 'org.company', b'0'),
+	(41, 'Clientes', 4, '', NULL, 'org.clients', b'0'),
+	(42, 'Proyectos', 4, '', NULL, 'org.projects', b'0'),
+	(43, 'Políticas', 4, '', NULL, 'org.policies', b'0'),
+	(44, 'Anuncios', 4, '', NULL, 'org.announcements', b'0'),
+	(45, 'Noticias', 4, '', NULL, 'org.news', b'0'),
+	(46, 'Bitácora', 2, 'Ver la Bitácora del Sistema', NULL, 'app.sec.log', b'0'),
+	(47, 'Catálogos', 1, 'Catálogos del Sistema', NULL, 'app.con.catalogues', b'1'),
+	(48, 'Licenciamiento', 1, 'Tipo de licencia del producto', NULL, 'con.license', b'1'),
+	(49, 'Ajustes', 3, 'Ajustes', NULL, 'cat.adjustments', b'0'),
+	(50, 'Bonificaciones', 3, 'Bonificaciones', NULL, 'cat.bonus', b'0'),
+	(51, 'Unidades/Departamentos', 3, 'Unidades o Departamentos', NULL, 'cat.units', b'0'),
+	(52, 'Tipos de Contratos', 3, 'Tipos de Contratos', NULL, 'cat.contract.type', b'0'),
+	(53, 'Deducciones', 3, 'Deducciones Empresariales', NULL, 'cat.deductions', b'0'),
+	(54, 'Departamentos', 3, 'Departamentos del país', NULL, 'cat.departments', b'0'),
+	(55, 'Ramas Económicas', 3, 'Ramas Económicas', NULL, 'cat.economic.branch', b'0'),
+	(56, 'Categorías de Empleado', 3, '', NULL, 'cat.employee.category', b'0'),
+	(57, 'Marcas de Equipo', 3, '', NULL, 'cat.equipment.brand', b'0'),
+	(58, 'Categorías de Equipo', 3, '', NULL, 'cat.equipment.category', b'0'),
+	(59, 'Días Feriados', 3, '', NULL, 'cat.holiday', b'0'),
+	(60, 'IHSS', 3, 'Parámetros del Seguro Social', NULL, 'cat.ihss', b'0'),
+	(61, 'Ingresos', 3, 'Conceptos de Ingreso', NULL, 'cat.incomes', b'0'),
+	(62, 'ISR', 3, '', NULL, 'cat.isr', b'0'),
+	(63, 'Puestos', 3, '', NULL, 'cat.jobs', b'0'),
+	(64, 'Tipos de Trabajos', 3, '', NULL, 'cat.job.type', b'0'),
+	(65, 'Permisos', 3, '', NULL, 'cat.leave.type', b'0'),
+	(66, 'Formas Legales o Jurídicas', 3, '', NULL, 'cat.legal.form', b'0'),
+	(67, 'Tipos de Empresas (MIPYME)', 3, '', NULL, 'cat.mipyme', b'0'),
+	(68, 'Horas Extras', 3, '', NULL, 'cat.overtime', b'1'),
+	(69, 'Planillas', 3, '', NULL, 'cat.payrolls', b'0'),
+	(70, 'INFOP', 3, '', NULL, 'cat.infop', b'0'),
+	(71, 'Profesiones', 3, '', NULL, 'cat.professions', b'0'),
+	(72, 'Destrezas y Habilidades', 3, '', NULL, 'cat.skills', b'0'),
+	(73, 'Vacaciones', 3, '', NULL, 'cat.vacations', b'0'),
+	(74, 'Jornadas Laborales', 3, '', NULL, 'cat.working.hours', b'0'),
+	(75, 'Tipos de Empleados', 3, '', NULL, 'cat.employee.type', b'0'),
+	(76, 'Turnos', 3, '', NULL, 'cat.shifts', b'0'),
+	(77, 'Horarios', 3, '', NULL, 'cat.schedules', b'0'),
+	(78, 'Seguros', 3, '', NULL, 'cat.insurance', b'0'),
+	(79, 'Fondos de Pension', 3, '', NULL, 'cat.afp', b'0'),
+	(80, 'Políticas Empresariales', 3, '', NULL, 'cat.policies', b'0'),
+	(81, 'Licitaciones', 4, '', NULL, 'org.bids', b'0'),
+	(82, 'Asignacion de Trabajo', 5, '', NULL, 'emp.assign.task', b'0'),
+	(83, 'Constancias', 5, '', NULL, 'emp.certificates', b'0'),
+	(84, 'Viáticos', 6, '', NULL, 'pay.perdiem', b'0'),
+	(85, 'IHSS', 6, '', NULL, 'pay.ihss', b'0'),
+	(86, 'RAP', 6, '', NULL, 'pay.rap', b'0'),
+	(87, 'INFOP', 6, '', NULL, 'pay.infop', b'0');
+/*!40000 ALTER TABLE `sec_mod_res` ENABLE KEYS */;
+
 -- Dumping structure for table hhrr.sec_profile
-DROP TABLE IF EXISTS `sec_profile`;
 CREATE TABLE IF NOT EXISTS `sec_profile` (
   `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(15) DEFAULT NULL,
@@ -1271,21 +1404,28 @@ INSERT INTO `sec_profile` (`id`, `name`, `description`, `isActive`) VALUES
 /*!40000 ALTER TABLE `sec_profile` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_profile_resource
-DROP TABLE IF EXISTS `sec_profile_resource`;
 CREATE TABLE IF NOT EXISTS `sec_profile_resource` (
   `profileId` tinyint(3) unsigned NOT NULL,
   `resourceId` smallint(5) unsigned NOT NULL,
   KEY `profileId` (`profileId`),
   KEY `resourceId` (`resourceId`),
   CONSTRAINT `FK_sec_profile_resource_sec_profile` FOREIGN KEY (`profileId`) REFERENCES `sec_profile` (`id`),
-  CONSTRAINT `FK_sec_profile_resource_sec_resource` FOREIGN KEY (`resourceId`) REFERENCES `sec_resource` (`id`)
+  CONSTRAINT `FK_sec_profile_resource_sec_resource` FOREIGN KEY (`resourceId`) REFERENCES `sec_mod_res` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Recursos asignados a cada perfil';
 
--- Dumping data for table hhrr.sec_profile_resource: ~28 rows (approximately)
+-- Dumping data for table hhrr.sec_profile_resource: ~57 rows (approximately)
 /*!40000 ALTER TABLE `sec_profile_resource` DISABLE KEYS */;
 INSERT INTO `sec_profile_resource` (`profileId`, `resourceId`) VALUES
-	(1, 1),
+	(1, 20),
 	(1, 2),
+	(1, 19),
+	(1, 12),
+	(1, 13),
+	(1, 14),
+	(1, 15),
+	(1, 16),
+	(1, 17),
+	(1, 18),
 	(1, 3),
 	(1, 4),
 	(1, 5),
@@ -1295,97 +1435,50 @@ INSERT INTO `sec_profile_resource` (`profileId`, `resourceId`) VALUES
 	(1, 9),
 	(1, 10),
 	(1, 11),
-	(1, 12),
-	(1, 13),
-	(1, 14),
-	(1, 15),
-	(1, 16),
-	(1, 17),
-	(1, 18),
-	(1, 19),
-	(1, 20),
+	(1, 1),
+	(2, 16),
+	(2, 3),
+	(2, 5),
+	(2, 17),
+	(2, 8),
+	(2, 10),
+	(2, 11),
+	(2, 1),
+	(3, 10),
+	(3, 16),
 	(1, 21),
 	(1, 22),
-	(2, 1),
-	(2, 3),
-	(2, 8),
-	(2, 9),
-	(2, 10),
-	(2, 12),
+	(1, 23),
+	(1, 24),
+	(1, 25),
+	(1, 26),
+	(1, 27),
+	(1, 29),
+	(1, 30),
+	(1, 31),
+	(1, 32),
+	(1, 33),
+	(1, 34),
+	(1, 35),
+	(1, 36),
+	(1, 37),
+	(1, 38),
+	(1, 39),
+	(1, 40),
+	(1, 41),
+	(1, 42),
+	(1, 43),
+	(1, 44),
+	(1, 45),
 	(2, 13),
-	(2, 18),
-	(3, 10),
-	(3, 12),
-	(3, 18);
+	(2, 14),
+	(2, 15),
+	(2, 20),
+	(2, 68),
+	(1, 68);
 /*!40000 ALTER TABLE `sec_profile_resource` ENABLE KEYS */;
 
--- Dumping structure for table hhrr.sec_resource
-DROP TABLE IF EXISTS `sec_resource`;
-CREATE TABLE IF NOT EXISTS `sec_resource` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `typeId` smallint(5) unsigned DEFAULT NULL,
-  `description` varchar(100) NOT NULL,
-  `icon` varchar(50) DEFAULT NULL,
-  `state` varchar(50) DEFAULT NULL COMMENT 'estado. AngularJs $state',
-  `inMenu` bit(1) DEFAULT NULL COMMENT 'Se mustra en el sidebar',
-  PRIMARY KEY (`id`),
-  KEY `idType` (`typeId`),
-  CONSTRAINT `FK_sec_resource_sec_resourcetype` FOREIGN KEY (`typeId`) REFERENCES `sec_resource_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COMMENT='Recursos - Objetos o formularios ';
-
--- Dumping data for table hhrr.sec_resource: ~22 rows (approximately)
-/*!40000 ALTER TABLE `sec_resource` DISABLE KEYS */;
-INSERT INTO `sec_resource` (`id`, `name`, `typeId`, `description`, `icon`, `state`, `inMenu`) VALUES
-	(1, 'Usuarios', 1, 'registrod e usuario', '', 'app.sec.users', b'1'),
-	(2, 'Ajustes', 4, 'catalogo ajustes', '', 'app.cat.ajustes', b'1'),
-	(3, 'Gráficos', 6, 'Graficos de Indicadores', '', 'app.charts', b'1'),
-	(4, 'Deducciones', 4, 'Catalogo de deducciones', '', 'err.404', b'0'),
-	(5, 'Generacion de Planillas', 2, 'Generacion de Planillas', '', 'app.pay.payroll', b'1'),
-	(6, 'Deducciones', 3, 'Deducciones por Empleado', '', 'app.assign.deduction', b'1'),
-	(7, 'Calcular el ISR', 2, 'Calcular el ISR', 'glyphicon-book', 'app.pay.isr', b'0'),
-	(8, 'Aprobación', 6, 'Aprobación de Solicitudes', 'glyphicon-book', 'app.over.approve', b'1'),
-	(9, 'Autorización', 6, 'Autorizacion de Planilla', '', 'app.over.authorize', b'0'),
-	(10, 'Ingresar Detalle', 6, 'Ingresar detalle de actividades', '', 'app.over.detail', b'0'),
-	(11, 'Perfiles', 1, 'Catalogo de Perfiles', '', 'app.sec.profiles', b'1'),
-	(12, 'Solicitud', 6, 'Solicitud de Horas Extras', '', 'app.over.request', b'1'),
-	(13, 'Planilla', 6, 'Calcular Planilla de Horas Extras', '', 'app.over.payroll', b'1'),
-	(14, 'Tipos de planilla', 4, 'Tipos de planilla', '', 'err.404', b'0'),
-	(15, 'Recursos', 5, 'Catalogo de recursos del sistema', '', 'app.conf.resources', b'1'),
-	(16, 'Parametros', 5, 'Parametros', '', 'app.conf.parameters', b'1'),
-	(17, 'Menus', 5, 'Menus', NULL, 'app.conf.sidebar', b'1'),
-	(18, 'Login', 1, 'Login screen', 'fa fa-sign-out', 'login', b'1'),
-	(19, 'Empleados', 4, 'Empleados', NULL, 'app.cat.employees', b'1'),
-	(20, 'Empresas', 4, 'Empresas', NULL, 'app.cat.companies', b'1'),
-	(21, 'Niveles Academicos', 4, 'Niveles academicos', NULL, 'app.cat.acedemic', b'1'),
-	(22, 'lockscreen', NULL, 'lockscreen', NULL, 'user.lockscreen', b'0');
-/*!40000 ALTER TABLE `sec_resource` ENABLE KEYS */;
-
--- Dumping structure for table hhrr.sec_resource_type
-DROP TABLE IF EXISTS `sec_resource_type`;
-CREATE TABLE IF NOT EXISTS `sec_resource_type` (
-  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `icon` varchar(50) NOT NULL COMMENT 'Icono que se usará en el menu',
-  `state` varchar(50) NOT NULL COMMENT 'se utiliza asignar los recursos al menu',
-  `isVisible` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='Tipos de recurso - Menu principal.';
-
--- Dumping data for table hhrr.sec_resource_type: ~6 rows (approximately)
-/*!40000 ALTER TABLE `sec_resource_type` DISABLE KEYS */;
-INSERT INTO `sec_resource_type` (`id`, `name`, `description`, `icon`, `state`, `isVisible`) VALUES
-	(1, 'Seguridad', '', 'fa fa-unlock-alt', 'app.security', 1),
-	(2, 'Planillas', '', 'fa fa-money', 'app.pay', 0),
-	(3, 'Registro', '', 'fa fa-pencil', 'app.assign', 0),
-	(4, 'Catalogos', '', 'fa fa-folder-open-o', 'app.cat', 0),
-	(5, 'Configuracion', '', 'fa fa-cogs', 'app.conf', 0),
-	(6, 'Horas Extras', 'Módulo de Horas Extras', 'fa fa-clock-o', 'app.over', 1);
-/*!40000 ALTER TABLE `sec_resource_type` ENABLE KEYS */;
-
 -- Dumping structure for table hhrr.sec_user
-DROP TABLE IF EXISTS `sec_user`;
 CREATE TABLE IF NOT EXISTS `sec_user` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `userName` varchar(15) NOT NULL,
@@ -1399,27 +1492,27 @@ CREATE TABLE IF NOT EXISTS `sec_user` (
   `avatar` varchar(20) DEFAULT NULL,
   `isActive` bit(1) NOT NULL,
   `changePass` bit(1) DEFAULT NULL,
+  `lastActivity` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`userName`),
   KEY `profileId` (`profileId`),
   KEY `FK_sec_user_main_employee` (`employeeId`),
   CONSTRAINT `FK_sec_user_main_employee` FOREIGN KEY (`employeeId`) REFERENCES `main_employee` (`id`),
   CONSTRAINT `FK_sec_user_sec_profile` FOREIGN KEY (`profileId`) REFERENCES `sec_profile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
--- Dumping data for table hhrr.sec_user: ~17 rows (approximately)
+-- Dumping data for table hhrr.sec_user: ~6 rows (approximately)
 /*!40000 ALTER TABLE `sec_user` DISABLE KEYS */;
-INSERT INTO `sec_user` (`id`, `userName`, `email`, `password`, `profileId`, `employeeId`, `firstName`, `lastName`, `phone`, `avatar`, `isActive`, `changePass`) VALUES
-	(1, 'root', 'root', '18d95a9364645d678cb8cc2fe357a15a', 1, '', 'root', '', '', 'myAvatar.png', b'1', NULL),
-	(2, 'admin', 'admin@admin.com', '0847d7bbf3c41a20fe8b21795cb29e9f', 2, 1, 'Admin', '', '88888888', 'female.png', b'1', NULL),
-	(3, 'jcmercado', 'jmercado@hngsystems.com', '03aad7bfdcccad63ec30eace351ff21b', 1, 1, 'Juan Carlos', 'Mercado', '77777777', 'man.png', b'1', NULL),
-	(4, 'gosorio', 'gosorio@lufergo.com', 'a3fee4075b69c2de9cbb165b60ea925f', 1, 2, 'Gabriel', 'Osorio', '22324016', 'man.png', b'1', NULL),
-	(5, 'hberrios', 'hberrios@hngsystems.com', '1b9e336dd325c129cadb6165a88c379f', 1, 3, 'Hector', 'Berríos', '99372193', 'man.png', b'1', NULL),
-	(6, 'vvarela', 'vvarela@hngsystems.com', 'cfdcc1a7c8b75575575146e8b422dc4d', 2, 4, 'Vanessa', 'Varela', '32963124', 'female.png', b'1', NULL);
+INSERT INTO `sec_user` (`id`, `userName`, `email`, `password`, `profileId`, `employeeId`, `firstName`, `lastName`, `phone`, `avatar`, `isActive`, `changePass`, `lastActivity`) VALUES
+	(1, 'root', 'root', '18d95a9364645d678cb8cc2fe357a15a', 1, 0, 'root', '', '', 'myAvatar.png', b'1', NULL, '0000-00-00 00:00:00'),
+	(2, 'admin', 'admin@admin.com', '0847d7bbf3c41a20fe8b21795cb29e9f', 2, 1, 'Admin', '', '88888888', 'female.png', b'1', NULL, '0000-00-00 00:00:00'),
+	(3, 'jcmercado', 'jmercado@hngsystems.com', '03aad7bfdcccad63ec30eace351ff21b', 1, 1, 'Juan Carlos', 'Mercado', '77777777', 'man.png', b'1', NULL, '0000-00-00 00:00:00'),
+	(4, 'gosorio', 'gosorio@lufergo.com', 'a3fee4075b69c2de9cbb165b60ea925f', 1, 2, 'Gabriel', 'Osorio', '22324016', 'man.png', b'1', NULL, '0000-00-00 00:00:00'),
+	(5, 'hberrios', 'hberrios@hngsystems.com', '1b9e336dd325c129cadb6165a88c379f', 1, 3, 'Hector', 'Berríos', '99372193', 'man.png', b'1', NULL, '0000-00-00 00:00:00'),
+	(6, 'vvarela', 'vvarela@hngsystems.com', 'cfdcc1a7c8b75575575146e8b422dc4d', 2, 4, 'Vanessa', 'Varela', '32963124', 'female.png', b'1', NULL, '0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `sec_user` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sec_user_emp
-DROP TABLE IF EXISTS `sec_user_emp`;
 CREATE TABLE IF NOT EXISTS `sec_user_emp` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico',
   `userId` smallint(5) unsigned NOT NULL COMMENT 'Identificador del usuario',
@@ -1429,9 +1522,9 @@ CREATE TABLE IF NOT EXISTS `sec_user_emp` (
   KEY `companyId` (`employeeId`),
   CONSTRAINT `FK_sec_user_emp_main_employee` FOREIGN KEY (`employeeId`) REFERENCES `main_employee` (`id`),
   CONSTRAINT `FK_sec_user_emp_sec_user` FOREIGN KEY (`userId`) REFERENCES `sec_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='Tabla intermedia para asignar la relacion entre el usuario y el empleado.';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='Tabla intermedia para asignar la relacion entre el usuario y el empleado.';
 
--- Dumping data for table hhrr.sec_user_emp: ~17 rows (approximately)
+-- Dumping data for table hhrr.sec_user_emp: ~5 rows (approximately)
 /*!40000 ALTER TABLE `sec_user_emp` DISABLE KEYS */;
 INSERT INTO `sec_user_emp` (`id`, `userId`, `employeeId`) VALUES
 	(1, 2, 1),
@@ -1442,7 +1535,6 @@ INSERT INTO `sec_user_emp` (`id`, `userId`, `employeeId`) VALUES
 /*!40000 ALTER TABLE `sec_user_emp` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_config
-DROP TABLE IF EXISTS `sys_config`;
 CREATE TABLE IF NOT EXISTS `sys_config` (
   `key` varchar(100) NOT NULL DEFAULT '',
   `value` varchar(512) NOT NULL DEFAULT '',
@@ -1454,7 +1546,6 @@ CREATE TABLE IF NOT EXISTS `sys_config` (
 /*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_config_long
-DROP TABLE IF EXISTS `sys_config_long`;
 CREATE TABLE IF NOT EXISTS `sys_config_long` (
   `id_config` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
@@ -1475,7 +1566,6 @@ CREATE TABLE IF NOT EXISTS `sys_config_long` (
 /*!40000 ALTER TABLE `sys_config_long` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_general_parameter
-DROP TABLE IF EXISTS `sys_general_parameter`;
 CREATE TABLE IF NOT EXISTS `sys_general_parameter` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT 'Nombre del parámetro',
@@ -1483,7 +1573,7 @@ CREATE TABLE IF NOT EXISTS `sys_general_parameter` (
   `value` varchar(200) NOT NULL COMMENT 'Valor',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table hhrr.sys_general_parameter: ~10 rows (approximately)
 /*!40000 ALTER TABLE `sys_general_parameter` DISABLE KEYS */;
@@ -1492,8 +1582,8 @@ INSERT INTO `sys_general_parameter` (`id`, `name`, `description`, `value`) VALUE
 	(2, 'emp_ihss', 'Porcentaje de cotización al Seguro Social del empleado', '0.25'),
 	(3, 'isrTable', 'Indica la tabla de porcentajes a utilizar para el cáclculo del ISR', ''),
 	(4, 'key', 'key para encriptacion', 'bcb04b7e103a0cd8b54763051cef08bc55abe029fdebae5e1d417e2ffb2a00a3'),
-	(5, 'root', 'usuario del sistema', '1'),
-	(6, 'Administrador', 'Perfil del usuario root', '1'),
+	(5, 'root', 'root', '1'),
+	(6, 'Administrador', 'Perfil del Administrados del Sistema', '1'),
 	(7, 'keyToken', 'llave de token', 'example_key'),
 	(8, 'Expiration Time', 'Tiempo de expiración del token en segundos ejem: 1800=30min,900=15min,120=2min,60=1min', '30'),
 	(9, 'HeaderToken', 'Llave del header del token', 'token'),
@@ -1501,7 +1591,6 @@ INSERT INTO `sys_general_parameter` (`id`, `name`, `description`, `value`) VALUE
 /*!40000 ALTER TABLE `sys_general_parameter` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_log
-DROP TABLE IF EXISTS `sys_log`;
 CREATE TABLE IF NOT EXISTS `sys_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `userId` smallint(5) unsigned NOT NULL COMMENT 'Usuario que ejecuta la accion',
@@ -1512,14 +1601,13 @@ CREATE TABLE IF NOT EXISTS `sys_log` (
   `when` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha y hora en que se ejecuta la acción',
   PRIMARY KEY (`id`),
   KEY `userId` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1820 DEFAULT CHARSET=utf8 COMMENT='Bitácora general del sistema';
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8 COMMENT='Bitácora general del sistema';
 
--- Dumping data for table hhrr.sys_log: ~1,766 rows (approximately)
+-- Dumping data for table hhrr.sys_log: ~94 rows (approximately)
 /*!40000 ALTER TABLE `sys_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `sys_log` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_token_parameter
-DROP TABLE IF EXISTS `sys_token_parameter`;
 CREATE TABLE IF NOT EXISTS `sys_token_parameter` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
@@ -1537,7 +1625,6 @@ INSERT INTO `sys_token_parameter` (`id`, `name`, `value`, `description`) VALUES
 /*!40000 ALTER TABLE `sys_token_parameter` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_workflow
-DROP TABLE IF EXISTS `sys_workflow`;
 CREATE TABLE IF NOT EXISTS `sys_workflow` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador del flujo',
   `name` varchar(45) NOT NULL COMMENT 'Nombre del flujo de trabajo',
@@ -1552,7 +1639,6 @@ INSERT INTO `sys_workflow` (`id`, `name`, `description`) VALUES
 /*!40000 ALTER TABLE `sys_workflow` ENABLE KEYS */;
 
 -- Dumping structure for table hhrr.sys_workflow_detail
-DROP TABLE IF EXISTS `sys_workflow_detail`;
 CREATE TABLE IF NOT EXISTS `sys_workflow_detail` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Identificador unico del proceso',
   `workflow` smallint(5) unsigned NOT NULL COMMENT 'Identificador del flujo de trabajo',
@@ -1574,12 +1660,11 @@ INSERT INTO `sys_workflow_detail` (`id`, `workflow`, `name`, `sequence`, `input`
 	(1, 1, 'Ingresar Solicitud', 1, 'Haber recibido una orden', 'Empleado', '', '', 1),
 	(2, 1, 'Aprobar Solicitud', 2, 'Solicitud', 'Jefe del Empleado', '', '', 0),
 	(3, 1, 'Ingresar Detalle de Actividades', 3, 'Solicitud Aprobada', 'Empleado', '', '', 1),
-	(4, 1, 'Autorizar Solicitud/Detalle', 5, 'Detalle Revisado', 'Jefe del Empleado', '', '', 1),
-	(5, 1, 'Calcular Planilla', 4, 'Detalles de Actividades Autorizado', 'Recursos Humanos', '', '', 1);
+	(4, 1, 'Autorizar Solicitud/Detalle', 4, 'Detalle Revisado', 'Jefe del Empleado', '', '', 1),
+	(5, 1, 'Calcular Planilla', 5, 'Detalles de Actividades Autorizado', 'Recursos Humanos', '', '', 1);
 /*!40000 ALTER TABLE `sys_workflow_detail` ENABLE KEYS */;
 
 -- Dumping structure for view hhrr.view_kpi
-DROP VIEW IF EXISTS `view_kpi`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_kpi` (
 	`Mes` VARCHAR(9) NULL COLLATE 'utf8mb4_general_ci',
@@ -1589,7 +1674,6 @@ CREATE TABLE `view_kpi` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_log
-DROP VIEW IF EXISTS `view_log`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_log` (
 	`userName` VARCHAR(15) NOT NULL COLLATE 'utf8_general_ci',
@@ -1601,7 +1685,6 @@ CREATE TABLE `view_log` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_overtime
-DROP VIEW IF EXISTS `view_overtime`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_overtime` (
 	`curdate()` DATE NOT NULL,
@@ -1614,7 +1697,6 @@ CREATE TABLE `view_overtime` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_users
-DROP VIEW IF EXISTS `view_users`;
 -- Creating temporary table to overcome VIEW dependency errors
 CREATE TABLE `view_users` (
 	`UserId` SMALLINT(5) UNSIGNED NOT NULL COMMENT 'Identificador unico',
@@ -1625,7 +1707,6 @@ CREATE TABLE `view_users` (
 ) ENGINE=MyISAM;
 
 -- Dumping structure for view hhrr.view_kpi
-DROP VIEW IF EXISTS `view_kpi`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_kpi`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_kpi` AS select MONTHNAME(curdate()) as Mes, count(*) as Solicitudes, sum(r.estimatedTime) as Horas, 
@@ -1636,7 +1717,6 @@ from pay_overtime_request r
 where MONTH(r.dateTimeStamp)=month(curdate()) ;
 
 -- Dumping structure for view hhrr.view_log
-DROP VIEW IF EXISTS `view_log`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_log`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_log` AS select u.userName , l.action, l.actionEnum, l.table, l.when, l.userName as Ip  
@@ -1645,7 +1725,6 @@ inner join sec_user u on l.userId = u.id
 order by l.when ;
 
 -- Dumping structure for view hhrr.view_overtime
-DROP VIEW IF EXISTS `view_overtime`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_overtime`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_overtime` AS select curdate(), monthname(curdate()) as Mes, r.employeeId, u.userName as Usuario, e.firstName as Empleado, count(r.estimatedTime) as Solicitudes, sum(r.estimatedTime) as Horas
@@ -1656,7 +1735,6 @@ where MONTH(r.dateTimeStamp)=month(curdate())
 group by r.employeeId ;
 
 -- Dumping structure for view hhrr.view_users
-DROP VIEW IF EXISTS `view_users`;
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `view_users`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` VIEW `view_users` AS SELECT ue.id as UserId, u.userName as User, p.name as Profile, m.firstName as Name, m.id as EmployeeId

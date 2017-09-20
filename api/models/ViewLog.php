@@ -39,11 +39,28 @@ class ViewLog extends \Phalcon\Mvc\Model
     public $when;
 
     /**
+     *
+     * @var string
+     * @Column(type="string", length=40, nullable=true)
+     */
+    public $Ip;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("hhrr");
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'view_log';
     }
 
     /**
@@ -66,16 +83,6 @@ class ViewLog extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'view_log';
     }
 
 }

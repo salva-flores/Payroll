@@ -34,7 +34,17 @@ class CatCompanyUnit extends \Phalcon\Mvc\Model
         $this->setSchema("hhrr");
         $this->hasMany('id', 'MainCompanyStructure', 'unitId', ['alias' => 'MainCompanyStructure']);
         $this->hasMany('id', 'MainCompanyStructure', 'parentUnitId', ['alias' => 'MainCompanyStructure']);
-        $this->hasMany('id', 'MainEmployee', 'companyUnitId', ['alias' => 'MainEmployee']);
+        $this->hasMany('id', 'MainEmployee', 'companyUnit', ['alias' => 'MainEmployee']);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'cat_company_unit';
     }
 
     /**
@@ -57,16 +67,6 @@ class CatCompanyUnit extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'cat_company_unit';
     }
 
 }

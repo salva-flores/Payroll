@@ -1,6 +1,6 @@
 <?php
 
-class CatDateFormat extends \Phalcon\Mvc\Model
+class SecMod extends \Phalcon\Mvc\Model
 {
 
     /**
@@ -8,7 +8,7 @@ class CatDateFormat extends \Phalcon\Mvc\Model
      * @var integer
      * @Primary
      * @Identity
-     * @Column(type="integer", length=3, nullable=false)
+     * @Column(type="integer", length=5, nullable=false)
      */
     public $id;
 
@@ -24,14 +24,28 @@ class CatDateFormat extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", length=100, nullable=false)
      */
-    public $format;
+    public $description;
 
     /**
      *
      * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @Column(type="string", length=50, nullable=false)
      */
-    public $description;
+    public $icon;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=50, nullable=false)
+     */
+    public $state;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=4, nullable=true)
+     */
+    public $isVisible;
 
     /**
      * Initialize method for model.
@@ -39,23 +53,14 @@ class CatDateFormat extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("hhrr");
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'cat_date_format';
+        $this->hasMany('id', 'SecModRes', 'typeId', ['alias' => 'SecModRes']);
     }
 
     /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
-     * @return CatDateFormat[]|CatDateFormat
+     * @return SecMod[]|SecMod
      */
     public static function find($parameters = null)
     {
@@ -66,11 +71,21 @@ class CatDateFormat extends \Phalcon\Mvc\Model
      * Allows to query the first record that match the specified conditions
      *
      * @param mixed $parameters
-     * @return CatDateFormat
+     * @return SecMod
      */
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'sec_mod';
     }
 
 }

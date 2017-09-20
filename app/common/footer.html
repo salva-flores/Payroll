@@ -1,21 +1,8 @@
 <div class="d-flex justify-content-end align-items-center">
-	<a href="http://centec.hn/" target="_blank" class="bold mr-auto">Copyright <i class="fa fa-copyright"></i><span> CENTEC </span>{{app.year}}</a>
+	<a href="http://centec.hn/" target="_blank" class="mr-auto">Copyright <i class="fa fa-copyright"></i><span> CENTEC </span>{{app.year}}</a>
 	<div>
-		<div><small class="text-primary font-weight-bold">{{ clock | date:'dd-MMM'}}</small></div>
-		<div><small class="text-primary font-weight-bold">{{ clock | date:'h:mm:ss a'}}</small></div>
+		<div><small class="font-weight-normal">{{ clock | date:'dd-MMM'}}</small></div>
+		<div><small class="font-weight-normal">{{ clock | date:'h:mm:ss a'}}</small></div>
 	</div>
 	<a href="javascript:;" title="Inicio" class="scroll-up p-2" scroll-up><i class="fa fa-angle-up"></i></a>
 </div>
-
-<!--
-<nav class="footer-right">
-	<ul class="nav">
-		<li><small><div class="text center">{{ clock | date:'dd-MMM'}}</div><div class="text m2" style="padding:0px">{{ clock | date:'h:mm:ss a'}}</div></small></li>
-		<li><a href="javascript:;" title="Inicio" class="scroll-up" scroll-up><i class="fa fa-angle-up"></i></a></li>
-	</ul>
-</nav>
-<nav class="footer-left">
-	<ul class="nav">
-		<li><a href="http://centec.hn/" target="_blank" class="bold">Copyright <i class="fa fa-copyright"></i><span> CENTEC </span>{{app.year}}</a></li>
-	</ul>
-</nav>

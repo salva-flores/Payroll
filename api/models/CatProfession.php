@@ -32,7 +32,17 @@ class CatProfession extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("hhrr");
-        $this->hasMany('id', 'MainEmployee', 'professionId', ['alias' => 'MainEmployee']);
+        $this->hasMany('id', 'MainEmployee', 'profession', ['alias' => 'MainEmployee']);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'cat_profession';
     }
 
     /**
@@ -55,16 +65,6 @@ class CatProfession extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'cat_profession';
     }
 
 }

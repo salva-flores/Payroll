@@ -24,7 +24,17 @@ class SecProfileResource extends \Phalcon\Mvc\Model
     {
         $this->setSchema("hhrr");
         $this->belongsTo('profileId', '\SecProfile', 'id', ['alias' => 'SecProfile']);
-        $this->belongsTo('resourceId', '\SecResource', 'id', ['alias' => 'SecResource']);
+        $this->belongsTo('resourceId', '\SecModRes', 'id', ['alias' => 'SecModRes']);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'sec_profile_resource';
     }
 
     /**
@@ -47,16 +57,6 @@ class SecProfileResource extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'sec_profile_resource';
     }
 
 }

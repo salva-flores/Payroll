@@ -6,9 +6,9 @@ function layoutCtrl($scope, $rootScope, $localStorage, $interval, $window) {
 	tick();
 	$interval(tick, 1000);
 
-	$scope.salir = function() {
-		$window.close(); window.close();
+	$scope.close = function() {
 		$rootScope.user.loggedIn=false;
+		$window.close(); window.close();
 		open('/', '_self').close();
 		};
 }	

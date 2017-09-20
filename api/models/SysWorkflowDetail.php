@@ -74,6 +74,17 @@ class SysWorkflowDetail extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("hhrr");
+        $this->belongsTo('workflow', '\SysWorkflow', 'id', ['alias' => 'SysWorkflow']);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'sys_workflow_detail';
     }
 
     /**
@@ -96,16 +107,6 @@ class SysWorkflowDetail extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'sys_workflow_detail';
     }
 
 }

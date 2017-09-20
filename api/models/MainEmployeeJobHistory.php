@@ -77,6 +77,16 @@ class MainEmployeeJobHistory extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'main_employee_job_history';
+    }
+
+    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
@@ -96,16 +106,6 @@ class MainEmployeeJobHistory extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'main_employee_job_history';
     }
 
 }

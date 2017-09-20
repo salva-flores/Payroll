@@ -6,6 +6,13 @@ class ViewOvertime extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
+     * @Column(type="string", nullable=false)
+     */
+    public $curdate();
+
+    /**
+     *
+     * @var string
      * @Column(type="string", length=9, nullable=true)
      */
     public $Mes;

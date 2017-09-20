@@ -29,7 +29,7 @@ class SysLog extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", length=12, nullable=true)
+     * @Column(type="string", length=40, nullable=true)
      */
     public $userName;
 
@@ -63,6 +63,16 @@ class SysLog extends \Phalcon\Mvc\Model
     }
 
     /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'sys_log';
+    }
+
+    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
@@ -82,16 +92,6 @@ class SysLog extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'sys_log';
     }
 
 }

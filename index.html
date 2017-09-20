@@ -6,6 +6,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
         <meta id="load_styles_before">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Patrick Hand SC" > 
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu Condensed" > 
         <link rel="stylesheet" href="src/vendor/bootstrap/dist/css/bootstrap.css">
         <link rel="stylesheet" href="src/vendor/perfect-scrollbar/css/perfect-scrollbar.css">
         <link rel="stylesheet" href="src/styles/jquery.dataTables.min.css">
@@ -13,12 +15,11 @@
         <link rel="stylesheet" href="src/styles/animate.css">
         <link rel="stylesheet" href="src/styles/payroll.css">
         <link rel="stylesheet" href="src/styles/payroll.skins.css">
-        <link rel="stylesheet" href="src/styles/main.css">
         <link rel="stylesheet" href="src/vendor/noty/lib/noty.css">
     </head>
-    <body data-ng-controller="AppCtrl" class="{{ app.layout.sidebarTheme }} {{ app.layout.headerTheme }}">
-        <div class="quick-launch-panel" data-ng-include="'app/common/quick-launch-panel.html'"></div>
-        <div class="app {{$state.current.data.appClasses}}" data-ng-class="{'layout-small-menu': app.layout.isSmallSidebar, 'layout-chat-open': app.layout.isChatOpen, 'layout-fixed-header': app.layout.isFixedHeader, 'layout-boxed': app.layout.isBoxed, 'layout-static-sidebar': app.layout.isStaticSidebar, 'layout-right-sidebar': app.layout.isRightSidebar, 'layout-fixed-footer': app.layout.isFixedFooter, 'message-open': app.isMessageOpen}" data-ui-view></div>
+    <body ng-controller="AppCtrl" class="{{ app.layout.sidebarTheme }} {{ app.layout.headerTheme }}">
+        <div class="quick-launch-panel" ng-include="'app/common/quick-launch-panel.html'"></div>
+        <div class="app {{$state.current.data.appClasses}}" ng-class="{'layout-small-menu': app.layout.isSmallSidebar, 'layout-chat-open': app.layout.isChatOpen, 'layout-fixed-header': app.layout.isFixedHeader, 'layout-static-sidebar': app.layout.isStaticSidebar, 'layout-right-sidebar': app.layout.isRightSidebar, 'layout-fixed-footer': app.layout.isFixedFooter, 'message-open': app.isMessageOpen}" data-ui-view></div>
         <script src="src/vendor/jquery/dist/jquery.min.js"></script>
         <script src="src/vendor/angular/angular.min.js"></script>
         <script src="src/vendor/angular-datatables/jquery.dataTables.min.js"></script>

@@ -46,7 +46,17 @@ class CatJob extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("hhrr");
-        $this->hasMany('id', 'MainEmployee', 'jobId', ['alias' => 'MainEmployee']);
+        $this->hasMany('id', 'MainEmployee', 'job', ['alias' => 'MainEmployee']);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'cat_job';
     }
 
     /**
@@ -69,16 +79,6 @@ class CatJob extends \Phalcon\Mvc\Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
-    }
-
-    /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'cat_job';
     }
 
 }
