@@ -22,8 +22,11 @@ body .logRoot{  width: 2px; height: 2px; background:#a200b3}
 @media print{body .dataTables_paginate{display: none !important}}
 .app { background: rgba(154,154,118,0.5); color: purple;}
 body { color:purple;}
+.quick-launch-panel {background: rgba(174,174,158,1); } 
+.quick-launch-panel .close {color: white;}
+.quick-launch-panel a {color: lightgray!important;}
+.quick-launch-panel a:hover {color: purple!important;}
 .main-panel > .header {background-color: rgba(154,154,118,1); }
-/*.main-panel > .header .navbar >a:hover{background-color: rgba(154,154,118,0.5); }*/
 .main-panel > .header .navbar >a:hover{background-color: purple; color:rgba(154,154,118,1); }
 footer.content-footer { background: rgba(154,154,118,1); }
 .layout-fixed-header .main-panel > .header { background: rgba(154,154,118,0.7);}
@@ -75,7 +78,7 @@ footer.content-footer { background: rgba(154,154,118,1); }
 .sidebar-skin-nevada .quick-launch-panel { background: #656d78; }
 .sidebar-skin-nevada .quick-launch-panel .close { background: #4e545c;  color: lightgray; }
 .sidebar-skin-nevada .quick-launch-panel a { color: lightgray; }
-.sidebar-skin-nevada .quick-launch-panel a:hover { color: white; }
+.sidebar-skin-nevada .quick-launch-panel a:hover { color: black!important; }
 .sidebar-skin-nevada .dataTables_wrapper .dataTables_paginate,
 .sidebar-skin-nevada .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, 
 .sidebar-skin-nevada .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
@@ -126,10 +129,10 @@ footer.content-footer { background: rgba(154,154,118,1); }
 .sidebar-skin-dark .sidebar-panel > nav a:active,
 .sidebar-skin-dark .sidebar-panel > nav a:focus,
 .sidebar-skin-dark .sidebar-panel > nav a:hover { color: lightgray; }
-.sidebar-skin-dark .quick-launch-panel { background: #50516e; }
-.sidebar-skin-dark .quick-launch-panel .close { background: #3b3b50; color: #9fa0b5; }
-.sidebar-skin-dark .quick-launch-panel a { color: #9fa0b5; }
-.sidebar-skin-dark .quick-launch-panel a:hover { color: white; }
+.sidebar-skin-dark .quick-launch-panel { background: #2b2b2b; }
+.sidebar-skin-dark .quick-launch-panel .close { color: white; }
+.sidebar-skin-dark .quick-launch-panel a { color: lightgray; }
+.sidebar-skin-dark .quick-launch-panel a:hover { color: yellow!important; }
 .sidebar-skin-dark .dataTables_wrapper .dataTables_paginate,
 .sidebar-skin-dark .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, 
 .sidebar-skin-dark .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,

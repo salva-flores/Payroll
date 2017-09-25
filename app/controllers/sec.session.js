@@ -8,8 +8,11 @@ function sessionCtrl($window, $rootScope, $scope, $state, $http, $localStorage, 
 		$scope.show=true;
 		document.getElementById("1").focus();
 		$scope.formData={};
-		$scope.formData.from='admin@hngsystems.com'; $scope.formData.name='Admin'; $scope.formData.email='';  $scope.formData.subject='Recuperación de Contraseña'; $scope.formData.message='Ha solicitado una URL para recuperación de contraseña.';
-		// $scope.result = 'hidden'; $scope.resultMessage='';  $scope.submitButtonDisabled = false; $scope.submitted = false;
+		$scope.formData.from='admin@hngsystems.com'; 
+		$scope.formData.name='Admin'; 
+		$scope.formData.email='';  
+		$scope.formData.subject='Recuperación de Contraseña'; 
+		$scope.formData.message='Ha solicitado una URL para recuperación de contraseña: http://localhost/hhrr/#!/';
 		};
 	$scope.unblock = function(){
 		$scope.user.userName=$scope.temp.userName;
@@ -40,6 +43,7 @@ function sessionCtrl($window, $rootScope, $scope, $state, $http, $localStorage, 
 	$scope.signup = function(){
 		new Noty({text:'Crear cuenta... pendiente de desarrollar!',type:'error',theme:'relax',timeout:6000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 		};
+	$scope.changePassword = function(){	};
 	$scope.passwordRecovery = function(){
 		// create and store new time stamped reset token;
 		// send email with password reset URL;
@@ -51,11 +55,10 @@ function sessionCtrl($window, $rootScope, $scope, $state, $http, $localStorage, 
 		$http({	method : 'POST', url : 'api/sendMail.php', data : $.param($scope.formData), headers : { 'Content-Type': 'application/x-www-form-urlencoded' }})
 		.then(function(response){	
 			console.log('then',response);
-			if (response.data.success) { $scope.submitButtonDisabled = true; $scope.resultMessage = data.message; $scope.result='bg-success';} 
-			else {$scope.submitButtonDisabled = false; $scope.resultMessage = data.message; $scope.result='bg-danger';}
+			new Noty({text:'Se ha enviado un Link a su correo. ', type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
+			.show().on('onClose', function() {$('#overReqForm').modal('hide')});
 		}, function (response){
 			console.log('error...',response);
-			$scope.submitButtonDisabled = false; 	$scope.resultMessage = 'Failed :( Please fill out all the fields.'; $scope.result='bg-danger';
 		});
 		};
 	$scope.run();

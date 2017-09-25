@@ -8,7 +8,7 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 		$scope.profiles = [];
 		$scope.employees = [];
 		$scope.notUsers = [];
-		$scope.user={avatar:'',email:'',employeeId:'',firstName:'',id:'',isActive:1,lastName:'',password:'',phone:'',profileId:'',userName:''}
+		$scope.user={avatar:'',email:'',employeeId:'',firstName:'',id:'',isActive:1,lastName:'',password:'',phone:'',profileId:'',userName:'',changePass:'0'}
 		$scope.loadUsers();
 		$scope.loadProfiles();
 		$scope.loadEmployees();
@@ -28,7 +28,7 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 	$scope.showEmployee = function (user) {
 		if (user.employeeId && $scope.employees.length) {
 			var selectedEmployee = $filter('filter')($scope.employees, {id: user.employeeId});
-			return selectedEmployee.length ? selectedEmployee[0].firstName : 'Ninguno';  
+			return selectedEmployee.length&&user.employeeId!='0' ? selectedEmployee[0].firstName : 'Externo';  
 		} else {return user.employeeId || 'Ninguno'}
 		};
 	$scope.showNotUser = function (user) {
@@ -42,7 +42,6 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 	$scope.addUser = function () {
 		$scope.initUser(); $scope.action='POST';	$scope.canEditUser=true; $scope.accion = "Agregar";
 		};
-
 	$scope.editUser = function(u){
 		$scope.canEditUser = false;
 		$scope.user=u;
@@ -53,27 +52,25 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 		$scope.user.password="";
 		$scope.userName = $scope.showEmployee(u);
 		};
-
 	$scope.saveUser = function (user) {
 		var selected = $filter('filter')($scope.employees, {id: user.employeeId});
 		if (selected[0].gender==1){user.avatar="man.png"}else{user.avatar="female.png"};
 		if (user.password.length==0){user.password=$scope.tempPass};
 		if ($scope.action=='POST'){
-			return $http.post('../hhrr/api/user', user).then(function(response){
+			$http.post('../hhrr/api/user', user).then(function(response){
 				new Noty({text:response.data.message, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 			},function(response){
-				new Noty({text:'Error:'+response.data.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:'Error: '+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 			});
 		}else{
-			return $http.put('../hhrr/api/user', user).then(function(response){
-				new Noty({text:'Registro actualizado!'+response.data, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+			$http.put('../hhrr/api/user', user).then(function(response){
+				new Noty({text:'Registro actualizado!'+response.data.message, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 			},function(response){
-				new Noty({text:'Error al actualizar!...'+response.message, type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:'Error al actualizar!...'+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
 			});
 		};
 		$scope.action=='PUT';
 		};
-		
 	$scope.removeUser = function (user) {$scope.users.splice(user, 1)};
 	$scope.filterUser = function (user) {return user.isDeleted !== true};
 	$scope.deleteUser = function (id) {

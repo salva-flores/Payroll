@@ -5,6 +5,7 @@ angular
 .run(['$rootScope', '$state', '$stateParams', '$localStorage', 'payrollService', 'Idle', function ($rootScope, $state, $stateParams, $localStorage, payrollService, Idle){
 	$rootScope.$state=$state; $rootScope.$stateParams=$stateParams; document.body.style.zoom="100%";
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options){
+		// console.log('From:',fromState.name,'To:',toState.name);
 		if (toState.data.Auth){if (!$rootScope.user.loggedIn){new Noty({text:'Por favor autentíquese!',type:'warning',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();event.preventDefault();$state.go('login')}	else if(payrollService.checkResource(toState.name)==-1){event.preventDefault(); $state.go('err.403')}};
 		if (toState.name=='app.dashboard'&&!$rootScope.user.loggedIn){new Noty({text:'Por favor autentíquese!',type:'warning',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();event.preventDefault();$state.go('login')};
 		if (fromState.name=='session.lockscreen'&&!$rootScope.user.loggedIn){event.preventDefault()};

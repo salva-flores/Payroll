@@ -8,7 +8,7 @@ class ViewOvertime extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", nullable=false)
      */
-    public $curdate();
+    public $curdate;
 
     /**
      *

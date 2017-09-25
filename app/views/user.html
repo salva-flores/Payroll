@@ -3,7 +3,7 @@
 	<div class="card-header p-2 align-items-center">
 		<div class="d-flex justify-content-end align-items-center">
 			<div class="mr-auto">Listado de usuarios</div>
-			<button class="btn btn-primary btn-outline btn-xs mr-1" title="Agregar usuario" ng-click="addUser()" data-toggle="modal" data-target="#userForm"><i class="fa fa-plus mr5"></i>Nuevo</button>
+			<button class="btn btn-primary btn-outline btn-xs mr-1" title="Agregar usuario" ng-click="addUser()" data-toggle="modal" data-target="#userForm"><i class="fa fa-plus mr-1"></i>Nuevo</button>
 			<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadUsers()"><i class="fa fa-repeat"></i></button>
 		</div>
 	</div>
@@ -24,13 +24,13 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="user in users | orderBy:'id'" ng-show="user.userName!='root'"> 
-					<td>{{ user.userName || 'Vacío' }}</td>
-					<td>{{ user.firstName || 'Vacío' }}</td>
+					<td>{{ user.userName || '-' }}</td>
+					<td>{{ user.firstName || '-' }}</td>
 					<td>{{showProfile(user)}}</td>
-					<td>{{ user.email || 'Vacío' }}</td>
-					<td>{{ user.phone || 'Vacío' }}</td>
+					<td>{{ user.email || '-' }}</td>
+					<td>{{ user.phone || '-' }}</td>
 					<td>{{showEmployee(user)}}</td>
-					<td>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || 'Vacío' }}</td>
+					<td>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || '-' }}</td>
 					<td align="center">
 						<button type="button" ng-click="elimina(user,$index)" class="btn btn-danger btn-outline btn-xs"><i class="fa fa-trash-o"></i></button>
 						<td align="center"><button type="button" ng-click="editUser(user)" id="editButton" class="btn btn-success btn-outline btn-xs" data-toggle="modal" data-target="#userForm" ><i class="fa fa-pencil"></i></button>

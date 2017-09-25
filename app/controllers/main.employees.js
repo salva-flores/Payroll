@@ -1,9 +1,9 @@
 'use strict';
 
 function employeesCtrl($scope, $http, $filter, payrollService) {
-
 	$scope.initVars = function () {
-		$scope.action='PUT';
+		$scope.action='POST';
+		$scope.academicLevels=[];
 		$scope.jobs = [];
 		$scope.units = [];
 		$scope.employees = [];
@@ -12,6 +12,9 @@ function employeesCtrl($scope, $http, $filter, payrollService) {
 		$scope.loadJobs();
 		$scope.loadEmployees();
 		};
+	$scope.loadAcademicLevels = function () {
+		return $scope.academicLevels.length ? null : $http.get('../hhrr/api/academicLevels').then(function (response) {$scope.academicLevels = response.data.data});
+		};
 	$scope.loadUnits = function () {
 		return $scope.units.length ? null : $http.get('../hhrr/api/unit').then(function (response) {$scope.units = response.data.data});
 		};
@@ -19,7 +22,7 @@ function employeesCtrl($scope, $http, $filter, payrollService) {
 		return $scope.jobs.length ? null : $http.get('../hhrr/api/job').then(function (response) {$scope.jobs = response.data.data});
 		};
 	$scope.loadEmployees = function () {
-		return $scope.employees.length ? null : $http.get('../hhrr/api/employee').then(function (response) {$scope.employees = response.data.data});
+		return $http.get('../hhrr/api/employee').then(function (response) {$scope.employees = response.data.data});
 		};
 	$scope.showJob = function (employee) {
 		if (employee.job && $scope.jobs.length) {
@@ -33,10 +36,13 @@ function employeesCtrl($scope, $http, $filter, payrollService) {
 			return selectedUnit.length ? selectedUnit[0].name : 'Ninguno';  
 		} else {return employee.companyUnit || 'Ninguno'}
 		};
-	$scope.addemployee = function () {
-		$scope.initemployee(); $scope.action='POST';	$scope.canEditemployee=true; $scope.accion = "Agregar";
+	$scope.addEmployee = function () {
+		$scope.initEmployee(); $scope.action='POST'; $scope.canEditEmployee=true; $scope.accion = "Agregar";
 		};
-
+	$scope.initEmployee = function () {
+		$scope.employee={};
+		// academicLevel = '',address = '',bloodType = '',city = '',companyUnit = '',createdBy = '',creationDate = '',departmentId = '',dob = '',email = '',firstName = '',gender = '',homePhone = '',id = '',idCard = '',job = '',joined = '',lastName = '',maritalStatus = '',mobilePhone = '',nationality = '',officePhone = '',profession = '',salary = '',shift = '',state = '',type = '',;
+		}
 	$scope.editemployee = function(u){
 		$scope.canEditemployee = false;
 		$scope.employee=u;
@@ -47,34 +53,33 @@ function employeesCtrl($scope, $http, $filter, payrollService) {
 		$scope.employee.password="";
 		$scope.employeeName = $scope.showEmployee(u);
 		};
-
-	$scope.saveemployee = function (employee) {
-		var selected = $filter('filter')($scope.employees, {id: employee.employeeId});
-		if (selected[0].gender==1){employee.avatar="man.png"}else{employee.avatar="female.png"};
-		if (employee.password.length==0){employee.password=$scope.tempPass};
+	$scope.saveEmployee = function (employee) {
 		if ($scope.action=='POST'){
-			return $http.post('../hhrr/api/employee', employee).then(function(response){
-				new Noty({text:response.data.message, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+			$http.post('../hhrr/api/employee', employee).then(function(response){
+				new Noty({text:response.data.message, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
+				.show()	.on('onClose', function() {$scope.loadEmployees();$('#employeeForm').modal('hide')});
 			},function(response){
-				new Noty({text:'Error:'+response.data.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:'Error: '+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
+				.show()	.on('onClose', function() {$('#employeeForm').modal('hide')});
 			});
 		}else{
-			return $http.put('../hhrr/api/employee', employee).then(function(response){
-				new Noty({text:'Registro actualizado!'+response.data, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+			$http.put('../hhrr/api/employee', employee).then(function(response){
+				new Noty({text:'Registro actualizado!'+response.data, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
+				.show()	.on('onClose', function() {$scope.loadEmployees();$('#employeeForm').modal('hide')});
 			},function(response){
-				new Noty({text:'Error al actualizar!...'+response.message, type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:'Error al actualizar!...'+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
+				.show()	.on('onClose', function() {$('#employeeForm').modal('hide')});
 			});
 		};
-		$scope.action=='PUT';
+		$scope.action='POST';
 		};
-		
-	$scope.removeemployee = function (employee) {
+	$scope.removeEmployee = function (employee) {
 		$scope.employees.splice(employee, 1);
 		};
-	$scope.filteremployee = function (employee) {
+	$scope.filterEmployee = function (employee) {
 		return employee.isDeleted !== true;
 		};
-	$scope.deleteemployee = function (id) {
+	$scope.deleteEmployee = function (id) {
 		var filtered = $filter('filter')($scope.employees, {id: id});
 		if (filtered.length) {filtered[0].isDeleted = true}
 		};

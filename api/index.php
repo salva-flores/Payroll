@@ -18,13 +18,13 @@
 	$app = new Micro($di);
 	$app->notFound(function () use ($app) {$app->response->setStatusCode(404, "API Not Found!")->sendHeaders();$app->response->setJsonContent(array('status' => 404,'message' => 'API Not Found!','error' => 'API Not Found!' ))->send();});
 //APIs
-	$app->get('/ip', function() { 
+	$app->get('/ip', function() { // returns ip address to store in syslog
 		$response=new Response();
 		try{
 			$ip = getenv('HTTP_CLIENT_IP')?:	getenv('HTTP_X_FORWARDED_FOR')?:	getenv('HTTP_X_FORWARDED')?: getenv('HTTP_FORWARDED_FOR')?: getenv('HTTP_FORWARDED')?:	getenv('REMOTE_ADDR');
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $ip));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));}; return $response;});
-	$app->post('/login', function() use($app) {
+	$app->post('/login', function() use($app) { //login...
 		$response = new Phalcon\Http\Response();
 		$req = $app->request->getJsonRawBody();
 		$username = $req->userName;
@@ -93,7 +93,7 @@
 		}
 		$response->send();
 		die();});
-	$app->get('/getToken', function() use($app){
+	$app->get('/getToken', function() use($app){ 
 		$response = new Phalcon\Http\Response();
 		try {
 			$jwt = getallheaders()[findParameterToken("HeaderToken")];
@@ -103,15 +103,16 @@
 			$response->setJsonContent(array('status'=> http_response_code(),'message'=> 'Success','data'=> $decoded,'userId' => $decoded->user[0]->id));
 		} catch (\Exception $e) {http_response_code(500);$response->setJsonContent(array('status'=> http_response_code(),'message'=>'error','data'=>$e.message));};
 		return $response; });
-	$app->get('/user', function() use($app) {
+	$app->get('/user', function() use($app) { //returns users in user table
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
-			$data = secUser::find();
+			$params = "userName != 'root'" ;
+			$data = secUser::find($params);
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));	};
 		return $response; });
-	$app->put('/user', function() use($app){
+	$app->put('/user', function() use($app){ //modifies user 
 		$response = new Phalcon\Http\Response();
 		$req = $app->request->getJsonRawBody();
 		try {
@@ -133,15 +134,15 @@
 			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Usuario agregado','commit'=> $isCommit,'data'=>$isCommit));
 		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','message'=>$e.error,'data'=>$e));};
 		return $response; });
-	$app->post('/user', function() use($app){
+	$app->post('/user', function() use($app){ //adds a new user
 		$response = new Phalcon\Http\Response();
 		$req = $app->request->getJsonRawBody();
 		$userName = $req->userName;
 		$password = $req->password;
 		try {
-			validateToken();
+			// validateToken();
 			$encryptedPassword = generarClave($userName, $password);
-			$user = new secUser();
+			$user = new SecUser();
 			$user->userName = strtolower($req->userName);
 			$user->firstName = $req->firstName;
 			$user->lastName = $req->lastName;
@@ -152,20 +153,30 @@
 			$user->phone = $req->phone;
 			$user->avatar = $req->avatar;
 			$user->isActive = $req->isActive;
+			// $user->changePass = $req->changePass;
 			$isCommit = $user->save($user);
 			if ($isCommit==true){
-				$newId = $user->getWriteConnection()->lastInsertId();
-				$useremp = new secUserEmp();
-				$useremp->userId = $newId;
-				$useremp->employeeId = $req->employeeId;
-				$isCommit = $useremp->save($useremp);
-				if ($isCommit==true){$response -> setStatusCode(200);};
+				if ($req->employeeId ){
+					$newId = $user->getWriteConnection()->lastInsertId();
+					$useremp = new secUserEmp();
+					$useremp->userId = $newId;
+					$useremp->employeeId = $req->employeeId;
+					$isCommit = $useremp->save($useremp);
+					if ($isCommit==true){$response -> setStatusCode(200);};
+				};
 			};
 			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Usuario agregado','commit'=> $isCommit,'data'=>$isCommit));
-		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','message'=>$e.error,'data'=>$e));};
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
 		return $response;	});
-	$app->get('/notUser', function() use($app) {
-		// echo 'Devuleve los empleados que todavía no tienen una cuenta de usuario.';
+	$app->post('/pass', function() use($app){ //returns password for given user and password combination... 
+		$response = new Phalcon\Http\Response();
+		$req = $app->request->getJsonRawBody();
+		$userName = $req->userName;
+		$password = $req->password;
+		$encryptedPassword = generarClave($userName, $password);
+		$response -> setJsonContent(array('Password:'=>$encryptedPassword));
+		return $response;	});
+	$app->get('/notUser', function() use($app) { // echo 'Devuleve los empleados que todavía no tienen una cuenta de usuario.';
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
@@ -176,7 +187,28 @@
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e.message));}; 
 		return $response;	});
-	$app->get('/profile', function() use($app) {
+	$app->get('/getAll/{table}', function ($table) use($app){ //Devuelve todos los registros en la tabla pasada como parametro table.
+		echo $table;
+		$response = new Phalcon\Http\Response();
+		try {
+			validateToken();
+			$data=array();
+			$phql = "SELECT * FROM $table";
+			echo 'sql:', $phql;
+			$data = $app->modelsManager->executeQuery($phql);
+			if(count($data)>0){http_response_code(200);}else{http_response_code(406);}
+			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
+		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));	}; 
+		return $response;	});
+	$app->get('/academicLevel', function() use($app) { //returns all profiles in catalogue
+		$response = new Phalcon\Http\Response();
+		try {
+			validateToken();
+			$data = CatAcademicLevel::find();
+			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
+		}catch(\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'message'=>'Error','data'=>[]));	};
+		return $response;	});
+	$app->get('/profile', function() use($app) { //returns all profiles in catalogue
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
@@ -184,7 +216,7 @@
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch(\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'message'=>'Error','data'=>[]));	};
 		return $response;	});
-	$app->get('/mainResource', function() use($app) {
+	$app->get('/mainResource', function() use($app) { //returns all Modules 
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
@@ -196,7 +228,7 @@
 			$response->setJsonContent(array('status'=> http_response_code(), 'message'=>'Token expired!', 'data'=>$e.error));
 		}catch(\Exception $e){$response->setJsonContent(array('status' => http_response_code(), 'message' => 'Error', 'data'=>$e.error ));};
 		return $response;	});
-	$app->get('/resource', function() use($app) {
+	$app->get('/resource', function() use($app) { //returns all resources
 		$response = new Response();
 		try {
 			validateToken();
@@ -204,7 +236,7 @@
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));	};
 		return $response;	});
-	$app->get('/resourceById/{id}', function($id) use($app) {
+	$app->get('/resourceById/{id}', function($id) use($app) { //returns all resources by profile id
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
@@ -219,7 +251,7 @@
 		}catch(\Firebase\JWT\ExpiredException $e){$response->setJsonContent(array('status'=> http_response_code(440),'message'=>'Token expired!','data'=>$e.message));
 		}catch(\Exception $e){$response->setJsonContent(array('status'=> http_response_code(500),'message'=>'Error','data'=>$e.message));};
 		return $response;	});
-	$app->get('/unit', function(){
+	$app->get('/unit', function(){ //returns company units 
 		$response = new Response();
 		try {
 			validateToken();
@@ -227,7 +259,7 @@
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
 		return $response;	});
-	$app->get('/job', function(){
+	$app->get('/job', function(){ //returns all jobs in catalogue
 		$response = new Response();
 		try {
 			validateToken();
@@ -235,17 +267,34 @@
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
 		return $response;	});
-	$app->get('/employee', function(){
+	$app->get('/employee', function(){ //returns all employees
 		$response = new Response();
 		try {
 			validateToken();
-			$params = "userName != 'root'" ;
-			$data = mainEmployee::find('userName' == 'root');
+			$data = MainEmployee::find();
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
 		return $response;	});
-	$app->get('/employeeBoss/{id:[0-9]+}', function ($id) use($app){
-		//Devuelve datos del jefe de un empleado
+	$app->post('/employee', function() use($app){ //adds an employee 
+		$response = new Phalcon\Http\Response();
+		$request = $app->request->getJsonRawBody();
+		try {
+			$decoded = validateToken();
+			$employee = new MainEmployee();
+			$employee->companyUnit = $request->unit;
+			$employee->email = $request->email;
+			$employee->firstName = $request->firstName;
+			$employee->job = $request->job;
+			$employee->lastName = $request->lastName;
+			$employee->mobilePhone = $request->phone;
+			$employee->salary = $request->salary;
+			// $employee->academicLevel = '1';$employee->address = '1';$employee->bloodType = '1';$employee->city = '1';$employee->createdBy = '1';$employee->creationDate = '';$employee->departmentId = '1';$employee->dob = '';$employee->gender = '1';$employee->homePhone = '1';$employee->id = '';$employee->idCard = '1';$employee->joined = '1';$employee->maritalStatus = '1';$employee->nationality = '1';$employee->officePhone = '1';$employee->profession = '1';$employee->shift = '1';$employee->state = '1';$employee->type = '1';print_r($employee);
+			$isCommit = $employee->save();
+			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','MainEmployee','POST');};
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Empleado agregado','commit'=> $isCommit,'data'=>$employee->getMessages()));
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
+		return $response; });
+	$app->get('/employeeBoss/{id:[0-9]+}', function ($id) use($app){ //Devuelve datos del jefe de un empleado
 		$response = new Phalcon\Http\Response();
 		try {
 			validateToken();
@@ -261,8 +310,7 @@
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));	}; 
 		return $response;	});
-	$app->get('/overtime', function(){
-		//Catalogo de horas extras
+	$app->get('/overtime', function(){ //Catalogo de horas extras
 		$response = new Response();
 		try {
 			validateToken();
@@ -270,8 +318,7 @@
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
 		return $response;	});
-	$app->get('/closedOvertimeRequest', function() use($app){
-		//Devuelve las solicitudes de horas extras cerradas
+	$app->get('/closedOvertimeRequest', function() use($app){	//Devuelve las solicitudes de horas extras cerradas
 		$response=new Response();
 		try {
 			// validateToken();
@@ -285,8 +332,7 @@
 			if($data){$response->setJsonContent(array('status'=>200,'message'=>'success','data'=>$data));	}else{$response->setJsonContent(array('status'=>200,'message'=>'Tabla vacía!'));};
 		}catch (Exception $e){$response->setJsonContent(array('status'=>500,'message'=>'Internar error services','error'=> $e.error));};
 		return $response;	});
-	$app->get('/allOvertimeRequest', function() use($app){
-		//Devuelve todas las solicitudes de horas extras
+	$app->get('/allOvertimeRequest', function() use($app){	//Devuelve todas las solicitudes de horas extras
 		$response=new Response();
 		try {
 			// validateToken();
@@ -299,8 +345,7 @@
 			if($data){$response->setJsonContent(array('status'=>200,'message'=>'success','data'=>$data));	}else{$response->setJsonContent(array('status'=>200,'message'=>'Tabla vacía!'));};
 		}catch (Exception $e){$response->setJsonContent(array('status'=>500,'message'=>'Internar error services','error'=> $e.error));};
 		return $response;	});
-	$app->get('/pendingOvertimeRequestbyBoss/{id}', function($id) use($app) {
-		//Devuelve las solicitudes de horas extras pendientes de aprobacion para un determinado Jefe
+	$app->get('/pendingOvertimeRequestbyBoss/{id}', function($id) use($app) { //Devuelve las solicitudes de horas extras pendientes de aprobacion para un determinado Jefe
 		$response=new Response();
 		try {
 			// validateToken();
@@ -316,8 +361,7 @@
 			if($data){$response->setJsonContent(array('status'=>200,'message'=>'success','data'=>$data));}else{$response->setJsonContent(array('status'=>200,'message'=>'Tabla vacía!'));}
 		}catch (Exception $e){$response->setJsonContent(array('status'=>500,'message'=>'Internar error services','error'=> $e.error));}
 		return $response;	});
-	$app->get('/overReqById/{id:[0-9]+}', function($id) use($app){
-		//Devuelve las solicitudes de horas extras de un empleado
+	$app->get('/overReqById/{id:[0-9]+}', function($id) use($app){ //Devuelve las solicitudes de horas extras de un empleado
 		$response=new Response();
 		try {
 			validateToken();
@@ -327,8 +371,7 @@
 			if( $data){$response->setJsonContent(array('status'  => 200, 'message' => 'success', 'data' => $data));}else{$response->setJsonContent(array('status' => 200,'message' => 'Tabla vacía!'));};
 		} catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e));};
 		return $response;	});
-	$app->get('/overReqByMonth/{id:[0-9]+}', function($id) use($app){
-		//devuelve datos para kpi y grafico
+	$app->get('/overReqByMonth/{id:[0-9]+}', function($id) use($app){ //devuelve datos para kpi y grafico
 		$response = new Phalcon\Http\Response();
 		try {
 			// validateToken();
@@ -344,8 +387,7 @@
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		} catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e.message));}; 
 		return $response;	});
-	$app->get('/overReqByRange/{range}', function($range) use($app){
-		//Devuelve datos para la planilla - solo las cerradas y autorizadas
+	$app->get('/overReqByRange/{range}', function($range) use($app){ //Devuelve datos para la planilla - solo las cerradas y autorizadas
 		$startDate = substr($range, 0, 10); 
 		$endDate = substr($range,-10); 
 		$response = new Phalcon\Http\Response();
@@ -367,8 +409,7 @@
 			};
 		} catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));};
 		return $response;	});
-	$app->post('/overReq', function() use($app){
-		//Agrega una solicitud de horas extras
+	$app->post('/overReq', function() use($app){ //Agrega una solicitud de horas extras
 		$response=new Response();
 		try {
 			$decoded = validateToken();
@@ -402,8 +443,7 @@
 			}
 		} catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e));};
 		return $response;	});
-	$app->put('/overReq', function() use($app){
-		//Modifica una solicitud
+	$app->put('/overReq', function() use($app){ //Modifica una solicitud
 		$message='';
 		$messageType='';
 		$response = new Response();
@@ -423,8 +463,7 @@
 			$response->setJsonContent(array('status' => http_response_code(), 'message' => $message, 'type' => $messageType,'commit' => $isCommit));
 		}catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e.error));};
 		return $response; 	});
-	$app->get('/overParams/{id:[0-9]+}', function($id) use($app){
-		// Devuleve los parametros de horas extras del un empleado.';
+	$app->get('/overParams/{id:[0-9]+}', function($id) use($app){ // Devuleve los parametros de horas extras del un empleado.';
 		$response = new Phalcon\Http\Response();
 		try {
 			// validateToken();
@@ -438,8 +477,7 @@
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e.message));}; 
 		return $response;	});
-	$app->get('/overDetail/{id:[0-9]+}', function($id) use($app){
-		//Devuelve el detalle de una solicitud de horas extras
+	$app->get('/overDetail/{id:[0-9]+}', function($id) use($app){ //Devuelve el detalle de una solicitud de horas extras
 		$response=new Response();
 		try {
 					// validateToken();
@@ -449,8 +487,7 @@
 			if( $data){$response->setJsonContent(array('status'  => 200, 'message' => 'success', 'data' => $data));}else{$response->setJsonContent(array('status' => 200,'message' => 'Tabla vacía!'));};
 		} catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e));};
 		return $response;	});
-	$app->post('/overDetail', function() use ($app){
-		//Agrega una linea al detalle de horas extras
+	$app->post('/overDetail', function() use ($app){	//Agrega una linea al detalle de horas extras
 		$response=new Response();
 		try {
 			$decoded = validateToken();
@@ -476,14 +513,14 @@
 			}
 		} catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e));};
 		return $response;	});
-	$app->get('/overtimeBar', function() use ($app){
+	$app->get('/overtimeBar', function() use ($app){ // returns data for overtime bar chart - hours by employee
 		$response=new Response();
 		try {
 			$data = ViewOvertime::find();
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));	};
 		return $response; });
-	$app->get('/overtimeLine', function() use ($app){
+	$app->get('/overtimeLine', function() use ($app){ // returns data for overtime line chart - total hours in month
 		$response=new Response();
 		try {
 			$data=array();
@@ -498,7 +535,7 @@
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));}; 
 		return $response; });
-	$app->get('/payrolltypes', function(){
+	$app->get('/payrolltypes', function(){ //returns payroll types
 		$response = new Response();
 		try{
 			$data = array();
@@ -507,7 +544,7 @@
 		}catch(\Exception $e){$response->setJsonContent(array('status' => 500,'message' => 'Internal error services'));};
 		return $response;	
 		});
-	$app->get('/kpi', function() use($app){
+	$app->get('/kpi', function() use($app){//returns information for indicators...
 		$response = new Response();
 		try {
 			// validateToken();
@@ -525,16 +562,7 @@
 			$response->setJsonContent(array('status'=>200,'message'=>'success', 'data'=>$data_obj));
 		}catch (Exception $e){$response->setJsonContent(array('status'=>500,'message'=>'Internar error services','error'=> $e.error));};
 		return $response; });
-	$app->get('/sendmail', function(){
-		$to      = 'salva_flores@yahoo.com';
-		$subject = 'Saludo';
-		$message = 'Hola Salvador';
-		$headers = 'From: sflores@hngsystems.com' . "\r\n" .
-		'Reply-To: sflores@hngsystems.com' . "\r\n" .
-		'X-Mailer: PHP/' . phpversion();
-		mail($to, $subject, $message, $headers);	});
-	$app->post('/sendMail',function() use($app){ });
-	$app->get('/fecha', function() {
+	$app->get('/fecha', function() {// date functions...
 		$hoy = getdate();
 		print_r($hoy);
 		echo strtotime("now"), "\n";
@@ -637,10 +665,10 @@
 		return $response;	});
 
 //Funciones
-	function new_id() {	
+	function new_id() { //retuens last payroll id... consider replacing with builtin function...
 		$planillas = RrhhPlanilla::find(); if (count($planillas)>0) {$ultima = $planillas->getLast(); $ultimo_id=$ultima->idplanilla+1;} else {$ultimo_id=1;}; return $ultimo_id;
 		};
-	function payroll_head($app) {
+	function payroll_head($app) {//devuelve el header de una planilla
 		$response = new Response();
 		$request = $app->request->getJsonRawBody();
 		$fecha = substr($request->fechapago, 0, 10); 
@@ -662,7 +690,7 @@
 			$planilla->estado = $request->estado;
 		} catch(\Exception $e){$response->setJsonContent(array('status' => 500,'message' => 'No se pudo crear el encabezado de planilla!','error' => $e));};
 		return  $planilla;};
-	function generarClave($username, $password){
+	function generarClave($username, $password){//generates an encrypted password for given user+pass combination
 		$key = pack('H*', findParameterGeneral("key"));
 		$llave = substr($username, 0,2).substr($username, -1);
 		$llave = strtoupper($llave);
