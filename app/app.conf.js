@@ -201,7 +201,6 @@ angular
 		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/pay.payroll.js')	}]},
 		data: {title: 'Cálculo de Planillas'}
 		})
-
 	}])
 .config(['IdleProvider','KeepaliveProvider', function (IdleProvider, KeepaliveProvider) {
 	IdleProvider.idle(60*15); IdleProvider.timeout(1); KeepaliveProvider.interval(2);
