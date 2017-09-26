@@ -61,6 +61,7 @@ function sessionCtrl($window, $rootScope, $scope, $state, $http, $localStorage, 
 			console.log('error...',response);
 		});
 		};
+	
 	$scope.run();
 	}
 

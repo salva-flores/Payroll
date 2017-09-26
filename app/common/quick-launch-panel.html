@@ -1,37 +1,42 @@
-<!-- <div class="container">
-	<div class="quick-launcher-inner">
-		<a href="javascript:;" class="close font-weight-bold" quick-launch>×</a>
-		<div class="css-table-xs">
-			<div class="col" ng-repeat="a in app | orderBy: 'name'" ng-class="{open: $state.includes('{{a.state}}')}" ng-show="a.isVisible==1 || user.userName=='root'" >
-				<a ui-sref="{{a.state}}"><i class="{{a.icon}}"></i><span>{{a.name}}</span></a>
-			</div>
-		</div>
-	</div>
-</div> -->
-
-....
 <div class="container">
 	<div class="quick-launcher-inner">
 		<a href="javascript:;" class="close font-weight-bold" quick-launch>×</a>
 		<div class="css-table-xs">
-			<div class="col">
-				<a ui-sref="app.apps.calendar"><i class="fa fa-users"></i><span>Recursos Humanos</span></a>
-			</div>
-			<div class="col">
-				<a ui-sref="app.apps.gallery"><i class="fa fa-ship"></i><span>Clientes</span></a>
-			</div>
-			<div class="col">
-				<a ui-sref="app.apps.messages"><i class="fa fa-desktop"></i><span>Inventario</span></a>
-			</div>
-			<div class="col">
-				<a ui-sref="app.apps.social"><i class="fa fa-cart-plus"></i><span>Pedidos</span></a>
-			</div>
-			<div class="col">
-				<a ui-sref="app.charts.flot"><i class="fa fa-pie-chart"></i><span>Analíticos</span></a>
-			</div>
-			<div class="col">
-				<a ui-sref="app.documentation"><i class="fa fa-file"></i><span>Documentación</span></a>
+			<div class="col" ng-repeat="a in apps | orderBy: 'id'" ng-class="{open: $state.includes('{{a.state}}')}" ng-show="a.isVisible==1 || user.userName=='root'" >
+				<a ui-sref="{{a.state}}" ng-click="changeApp(a)"><i class="{{a.icon}}"></i><span>{{a.name}}</span></a>
 			</div>
 		</div>
 	</div>
 </div>
+<!-- <div class="container">
+	<div class="quick-launcher-inner">
+		<a href="javascript:;" class="close font-weight-bold" quick-launch>×</a>
+		<div class="css-table-xs">
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(1)"><i class="fa fa-cogs"></i><span>Configuración</span></a>
+			</div>
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(2)"><i class="fa fa-building-o"></i><span>Empresa</span></a>
+			</div>
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(3)"><i class="fa fa-users"></i><span>RR HH</span></a>
+			</div>
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(4)"><i class="fa fa-ship"></i><span>Clientes</span></a>
+			</div>
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(0)"><i class="fa fa-desktop"></i><span>Inventario</span></a>
+			</div>
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(0)"><i class="fa fa-cart-plus"></i><span>Pedidos</span></a>
+			</div>
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(0)"><i class="fa fa-pie-chart"></i><span>Analíticos</span></a>
+			</div>
+			<div class="col">
+				<a href="javascript:;" ng-click="changeApp(0)"><i class="fa fa-file"></i><span>Documentación</span></a>
+			</div>
+		</div>
+	</div>
+</div>
+ -->

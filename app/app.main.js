@@ -4,9 +4,9 @@ angular
 .module('payrollApp')
 .controller('AppCtrl', ['$rootScope', '$scope', '$http', '$state', '$localStorage', 'payrollService', 'Idle', 
 	function AppCtrl($rootScope, $scope, $http, $state, $localStorage, payrollService, Idle) {
-		$scope.mobileView = 767; $scope.kpi = []; $scope.events = [];
+		$scope.mobileView = 767; $scope.kpi = []; $scope.apps = [];
 		$scope.app = {
-			name: 'Payroll', author: 'salva_flores@yahoo.com', version: '1.0.0', year: (new Date()).getFullYear(),
+			id:'1', name: 'Payroll', author: 'salva_flores@yahoo.com', version: '1.0.0', year: (new Date()).getFullYear(),
 			layout: {isSmallSidebar: false,isChatOpen: false,isFixedHeader: true,isFixedFooter: true,isStaticSidebar: false,isRightSidebar: false,isOffscreenOpen: false,isConversationOpen: false,isQuickLaunch: false,sidebarTheme: '',headerTheme: '',isFullScreen: false},
 			isMessageOpen: false,	isConfigOpen: false, isConfigVisible: true
 		};
@@ -20,4 +20,10 @@ angular
 			.on('afterShow', function() {Idle.unwatch();$state.go('session.lockscreen')})
 			.show();
 		});
+		$http.get('../hhrr/api/getAll/SysApp').then(function (response) {$scope.apps = response.data.data; $scope.app.id=$scope.apps[0].id; $scope.app.name=$scope.apps[0].name; $scope.app.icon=$scope.apps[0].icon; });
+		$scope.changeApp = function (n){
+			new Noty({text:'Cargando la App...',layout: 'topCenter',type:'info',timeout:5,animation:{open:'animated bounceIn',close:'animated bounceOut'}})
+			.on('afterShow', function() {$scope.app.id=n.id; $scope.app.name=n.name; $scope.app.icon=n.icon; $state.reload()})
+			.show();
+			}; 
 	}]);
