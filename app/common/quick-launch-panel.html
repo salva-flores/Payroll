@@ -2,7 +2,7 @@
 	<a href="javascript:;" class="close font-weight-bold" quick-launch>×</a>
 	<div class="css-table-xs">
 		<div class="col" ng-repeat="a in apps | orderBy: 'id'" ng-class="{open: $state.includes('{{a.state}}')}" ng-show="a.isVisible==1 || user.userName=='root'" >
-			<a ui-sref="{{a.state}}" ng-click="changeApp(a)"><i class="{{a.icon}}"></i><span>{{a.name}}</span></a>
+			<a ui-sref="{{a.state}}" ng-click="changeApp($index)"><i class="{{a.icon}}"></i><span>{{a.name}}</span></a>
 		</div>
 	</div>
 </div>

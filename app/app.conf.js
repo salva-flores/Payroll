@@ -2,6 +2,9 @@
 
 angular
 .module('payrollApp')
+// .config(['$compileProvider', function ($compileProvider) {
+//   $compileProvider.debugInfoEnabled(false);
+// }])
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/');
 	$stateProvider
@@ -127,19 +130,24 @@ angular
 		})
 	.state('app.conf.resources', {
 		url: '/resources', templateUrl: 'app/views/conf.resources.html', controller: 'resourcesCtrl',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/conf.resources.js')}]},
-		data: {title: 'Configuracion de Recursos'}
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('src/vendor/nestable/jquery.nestable.js')	.then(function () {return $ocLazyLoad.load('app/controllers/conf.resources.js')})}]}, 
+		data: {title: 'Configuración de Recursos'}
+		})
+	.state('app.conf.modules', {
+		url: '/modules', templateUrl: 'app/views/conf.modules.html', controller: 'modulesCtrl',
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/conf.modules.js')}]},
+		data: {title: 'Configuración de Módulos del Sistema'}
 		})
 	.state('app.sec', {
 		template: '<div ui-view></div>',	abstract: true,	url: '/security'
 		})
 	.state('app.sec.profiles', {
-		url: '/profiles', templateUrl: 'app/views/sec.profile.html', controller: 'ControllerCatalogoPerfil',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/pages/CatalogoPerfiles/CatalogoPerfil.js')}]},
+		url: '/profiles', templateUrl: 'app/views/sec.profiles.html', controller: 'profileCtrl',
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/sec.profile.js')}]},
 		data: {title: 'Perfiles'}
 		})
 	.state('app.sec.users', {
-		url: '/users', templateUrl: 'app/views/user.html', controller: 'userCtrl',
+		url: '/users', templateUrl: 'app/views/sec.user.html', controller: 'userCtrl',
 		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/sec.user.js')}]},
 		data: {title: 'Usuarios'}
 		})
@@ -165,7 +173,7 @@ angular
 		template: '<div ui-view></div>',	abstract: true,	url: '/overtime',
 		})	
 	.state('pay.over.request', {
-		url: '/request', templateUrl: 'app/views/overtime.request.html', controller: 'overtimeRequestCtrl',
+		url: '/request', templateUrl: 'app/views/pay.over.request.html', controller: 'overtimeRequestCtrl',
 		resolve: {
 			parametros: ['$rootScope','$http', function($rootScope, $http){return $http.get('../hhrr/api/overParams/'+$rootScope.user.employee)}],
 			deps: ['parametros', '$ocLazyLoad', function (parametros, $ocLazyLoad) {return $ocLazyLoad.load('app/controllers/overtime.request.js')}]
@@ -173,7 +181,7 @@ angular
 		data: {title: 'Solicitud de Horas Extras'}
 		})
 	.state('pay.over.approve', {	
-		url: '/approve', templateUrl: 'app/views/overtime.approve.html', controller: 'overtimeApproveCtrl',
+		url: '/approve', templateUrl: 'app/views/pay.over.approve.html', controller: 'overtimeApproveCtrl',
 		resolve: {
 			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
 				return $ocLazyLoad.load([
@@ -185,7 +193,7 @@ angular
 		data: {title: 'Aprobación de Horas Extras'}
 		})
 	.state('pay.over.payroll', {
-		url: '/payroll', templateUrl: 'app/views/overtime.payroll.html', controller: 'overtimePayrollCtrl',
+		url: '/payroll', templateUrl: 'app/views/pay.over.payroll.html', controller: 'overtimePayrollCtrl',
 		resolve: {
 			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
 				return $ocLazyLoad.load([

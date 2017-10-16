@@ -22,7 +22,7 @@ function payrollService($q, $http, $rootScope, $localStorage, $state) {
 		$rootScope.user = {id:user.id,userName:user.userName,fname:user.firstName,lname:'',email:user.email,avatar:user.avatar,profile:user.profileId,employee:user.employeeId,token:user.token,loggedIn:true};
 		$localStorage.user = $rootScope.user;
 		};
-	service.loadSidebar = function(){//Need to fix: Make an API that retuens all resources and put them in the token...
+	service.loadSidebar = function(){//Consider: Make an API that returns all resources and put them in the token...
 		$http.get('../hhrr/api/mainResource').then(function(response){$rootScope.menu = response.data.data});
 		if ($rootScope.user.userName=='root'){$http.get('../hhrr/api/resource').then(function(response){$rootScope.list = response.data.data})}
 		else{$http.get('../hhrr/api/resourceById/'+$rootScope.user.profile).then(function(response){$rootScope.list = response.data.data})};
@@ -31,7 +31,6 @@ function payrollService($q, $http, $rootScope, $localStorage, $state) {
 		if(angular.isDefined($rootScope.list)){return JSON.stringify($rootScope.list).indexOf(i)}else{return 0};
 		};
 	service.calculate = function () {
-		//should load overtime first
 		if ($scope.requests.length) {for (var i = 0; i <= $scope.requests.length - 1; i++) {$scope.calcDetail(i)}};
 		};
 	service.calcDetail = function (i) {

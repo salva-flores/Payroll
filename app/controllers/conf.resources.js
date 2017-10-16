@@ -1,19 +1,22 @@
 'use strict';
-function resourcesCtrl($rootScope, $scope, $filter, $http, payrollService, $resource, DTOptionsBuilder, DTColumnDefBuilder) {
+function resourcesCtrl($rootScope, $scope, $filter, $http, payrollService) {
+	// console.log($rootScope.menu);
+	$scope.profile=1;
+	$scope.apps=[]; $scope.modules=[]; $scope.resources=[];
+	$http.get('../hhrr/api/getAll/SysApp').then(function (response) {$scope.apps = response.data.data});
+	$http.get('../hhrr/api/getAll/SysModule').then(function (response) {$scope.modules = response.data.data});
+	$http.get('../hhrr/api/getAll/SysResource').then(function (response) {$scope.resources = response.data.data});
 
-    $scope.resources = [];
-    $scope.resources.length ? null : $http.get('../hhrr/api/resource').success(function (data) {$scope.resources = data.data});
-
-    $scope.showMenu = function (r) {
-        if (r.typeId && $scope.resources.length) {
-            var selected = $filter('filter')($rootScope.menu, {id: r.typeId});
-            return selected.length ? selected[0].name : 'Ninguno';  
-        } else {return r.typeId || 'Ninguno'}
-    };
+	$scope.showMenu = function (r) {
+		if (r.module && $scope.modules.length) {
+			var selected = $filter('filter')($scope.modules, {id: r.module});
+			return selected.length ? selected[0].name : 'Ninguno';  
+		} else {return r.module || 'Ninguno'}
+	};
 
 
 }
 
 angular
 .module('payrollApp')
-.controller('resourcesCtrl',  ['$rootScope', '$scope', '$filter', '$http', 'payrollService', '$resource', 'DTOptionsBuilder', 'DTColumnDefBuilder' , resourcesCtrl]);
+.controller('resourcesCtrl',  ['$rootScope', '$scope', '$filter', '$http', 'payrollService',  resourcesCtrl]);

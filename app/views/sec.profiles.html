@@ -1,17 +1,17 @@
-<div class="panel" ng-hide="false">
-	<div class="panel-heading">
-		<button class="btn btn-default btn-xs pull-right" ng-click="add()">Agregar</button>
-		<button class="btn btn-default btn-xs pull-right" ng-click="$state.reload();">Refrescar</button>
+<div class="card" ng-hide="false">
+	<div class="card-header">
+		<div class="btn-toolbar float-right">
+			<button class="btn btn-outline-primary btn-icon btn-xs" ng-click="add()">Agregar</button>
+			<button class="btn btn-outline-secondary btn-xs" ng-click="$state.reload();">Refrescar</button>
+		</div>
 	</div>
-	<div class="panel-body">
+	<div class="card-body">
 		<table class="table table-bordered table-hover table-condensed align-middle">
 			<tr class="bold">
 				<th>Nombre</th>
 				<th>Descripcion</th>
 				<th>Estado</th>
 				<th class="center">Eliminar</th>
-				<!-- <th class="center">Editar</th> -->
-				<!-- <th class="center">Recursos</th> -->
 			</tr>
 			<tr ng-repeat="profile in profiles | orderBy:'id'">
 				<td><span editable-text="profile.name" e-name="name" e-form="rowform" required pattern="^[a-zA-Z]*$" ng-pattern-restrict onbeforesave="checkName($data, profile.id)" e-required>{{ profile.name || 'Vacío' }}</span></td>
@@ -27,19 +27,53 @@
 						<button class="btn btn-danger btn-xs" ng-click="remove($index)">borrar</button>
 					</div>
 				</td>
-
 			</tr>
 		</table>
 	</div>
-	<div class="panel-heading">
+	<div class="card-footer">
 		<button class="btn btn-default btn-xs pull-right" ng-click="updateTable()">Guardar</button>
 	</div>
 </div>
-<div class="alpha modal">
-	<div class="background"></div>
-	<div class="modal">
-		<div class="close" ng-click="closeModal()"><i class="fa fa-close"></i></div>
-		<div ng-show="mostrarEdita" ng-include="templates[0].url"></div> 
-		<div ng-show="mostrarAsignacion" ng-include="templates[1].url"></div> 
-	</div> 
+<div class="card p-0">
+	<div class="card-header p-0">
+		<div class="btn-toolbar float-right">
+			<button class="btn btn-outline-primary btn-xs m-1" ng-click="add()">Agregar</button>
+			<button class="btn btn-outline-secondary btn-xs m-1" ng-click="$state.reload();">Refrescar</button>
+		</div>
+	</div>
+	<div class="card-body">Body</div>
+	<div  class="card-footer">Footer</div>
+</div>
+
+<div class="main-content">
+	<div class="clearfix">
+		<div class="pull-right">
+			<button ng-click="nueva()" type="button" id="nuevoPerfil" class="btn btn-success btn-sm btn-icon"><i class="fa fa-shower"></i>Nuevo Perfil</button>
+		</div>
+	</div>
+	<div class="card-body">
+		<div class="card-header">Listado de perfiles</div>
+		<table datatable="ng" class="table table-bordered bordered table-striped table-condensed datatable" >
+			<thead>
+				<tr> 
+					<th>Nombre</th>
+					<th>Descripcion</th>
+					<th>Estado</th>
+					<th class="center">Aciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="profile in profiles | orderBy:'id'"> 
+					<td>{{ profile.name }}</td>
+					<td>{{ profile.description }}</td>
+					<td>{{ profile.state_name}}</td>
+					<td class="center">
+						<button type="button"  ng-click="elimina(profile,$index)" class="btn btn-danger btn-xs"><i class="fa fa-trash-o fa-fw"></i></button>
+						<button type="button" ng-click="edita(profile)" class="btn btn-success btn-xs"><i class="fa fa-edit fa-fw"></i></button>
+						<button type="button" ng-click="recursos(profile)" class="btn btn-info btn-icon btn-xs"><i class="fa fa-shower fa-fw"></i><span>Resursos</span>	</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

@@ -8,34 +8,43 @@
 		</div>
 	</div>
 	<div class="card-body p-2">
-		<table datatable="ng" dt-options="">
+		<table datatable="ng" class="table-hover">
 			<thead>
 				<tr> 
-					<th>Usuario</th>
+					<th>Acciones</th>
+					<th>Usuario y Correo</th>
 					<th>Nombre</th>
 					<th>Perfil</th>
-					<th>Correo</th>
 					<th>Teléfono</th>
 					<th>Empleado</th>
 					<th>Estado</th>
-					<th>Eliminar</th>
-					<th>Editar</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="user in users | orderBy:'id'" ng-show="user.userName!='root'"> 
-					<td>{{ user.userName || '-' }}</td>
+				<tr ng-repeat="user in users | orderBy:'id'" ng-show="user.userName!='root'" ng-click="editUser(user)" data-toggle="modal" data-target="#userForm"> 
+					<td align="left">
+						<!-- <span class="fa fa-pencil p-1 " title="Editar" ng-click="editUser(user)" data-toggle="modal" data-target="#userForm"></span> -->
+						<!-- <span class="fa fa-key p-1 " title="Editar" ng-click="editUser(user)" data-toggle="modal" data-target="#userForm"></span> -->
+						<!-- <i class="fa fa-pencil p-1 " title="Editar" ng-click="editUser(user)" data-toggle="modal" data-target="#userForm"></i> -->
+						<!-- <i class="fa fa-key p-1" title="Cambiar Password" ng-click="editUser(user)" data-toggle="modal" data-target="#userForm"></i> -->
+						<button title="Editar" ng-click="editUser(user)" id="editButton" class="btn btn-success btn-outline btn-xs" data-toggle="modal" data-target="#userForm" ><i class="fa fa-pencil"></i></button>
+						<button title="Cambiar Contraseña" ng-click="editUser(user)" id="editButton" class="btn btn-success btn-outline btn-xs" data-toggle="modal" data-target="#userForm" ><i class="fa fa-key"></i></button>
+					</td>
+					<td>
+						<div class="d-flex justify-content-start align-items-center"">
+							<img data-ng-src="src/images/{{user.avatar}}" class="header-avatar img-circle " height="35" alt="User?" title="{{user.fname}}">
+							<div>
+								<div>{{ user.userName || '-' }}</div>
+								<div>{{ user.email || '-' }}</div>
+							</div>
+						</div>
+					</td>
 					<td>{{ user.firstName || '-' }}</td>
 					<td>{{showProfile(user)}}</td>
-					<td>{{ user.email || '-' }}</td>
 					<td>{{ user.phone || '-' }}</td>
 					<td>{{showEmployee(user)}}</td>
 					<td>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || '-' }}</td>
-					<td align="center">
-						<button type="button" ng-click="elimina(user,$index)" class="btn btn-danger btn-outline btn-xs"><i class="fa fa-trash-o"></i></button>
-						<td align="center"><button type="button" ng-click="editUser(user)" id="editButton" class="btn btn-success btn-outline btn-xs" data-toggle="modal" data-target="#userForm" ><i class="fa fa-pencil"></i></button>
-						</td>
-					</td>
+					<!-- <button type="button" ng-click="elimina(user,$index)" class="btn btn-danger btn-outline btn-xs"><i class="fa fa-trash-o"></i></button> -->
 				</tr>
 			</tbody>
 		</table>
@@ -51,7 +60,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form name="frm" novalidate>
+			<form name="frm" novalidate>
 				<div class="form-group m-1" ng-class="{ 'has-error' : frm.userName.$invalid && frm.userName.$touched, 'has-success' : frm.userName.$valid }">
 					<label class="form-control-label m-1" for="userName">Usuario</label>  
 					<input type="text" class="form-control form-control-sm" id="1" name="userName" minlength="5" maxlength="15" pattern="^[a-zA-Z]*$" ng-model="user.userName" ng-pattern-restrict required ng-disabled="!canEditUser">
@@ -102,4 +111,71 @@
 			</div>
 		</div>
 	</div>
+</div>
+---------
+<div class="panel">
+  <div class="panel-heading">
+    <button class="btn btn-default btn-xs pull-right" ng-click="addUser()">Agregar</button>
+    <button class="btn btn-default btn-xs pull-right" ng-click="$state.reload();">Refrescar</button>
+  </div>
+  <div class="panel-body">
+    <table class="table table-bordered table-hover table-condensed align-middle">
+    <thead>
+      
+      <tr class="bold">
+        <td >Usuario</td>
+        <td >Nombre</td>
+        <td >Perfil</td>
+        <td >Correo</td>
+        <td >Teléfono</td>
+        <td >Empleado</td>
+        <td >Estado</td>
+        <td >Acciones</td>
+      </tr>
+    </thead>
+      <tr ng-repeat="user in users">
+        <td>
+          <span editable-text="user.userName" 
+                edit-disabled="{{user && user.userName !== null}}" 
+                e-name="userName" e-form="rowform" e-ng-maxlength="10" e-ng-pattern="^[a-zA-Z]*$" e-ng-pattern-restrict 
+                onbeforesave="checkName($data, user.id, user.userName)" e-required>
+                {{ user.userName || 'Vacío' }}
+          </span>
+        </td>
+        <td>
+          <span editable-text="user.firstName" 
+                e-name="firstName" e-form="rowform" e-maxlength="20" e-pattern="^[a-zA-Z]*$" e-ng-pattern-restrict 
+                onbeforesave="checkName($data, user.id, user.userName, user.password, user.employeeId)" e-required>
+                {{ user.firstName || 'Vacío' }}
+          </span>
+        </td>
+        <td><span editable-select="user.profileId" e-name="profileId" e-form="rowform" e-ng-options="p.id as p.name for p in profiles">{{showProfile(user)}}</span></td>
+        <td><span editable-text="user.email" e-name="email" e-form="rowform" e-reqired>{{ user.email || 'Vacío' }}</span> </td>
+        <td><span editable-text="user.phone" e-name="phone" e-form="rowform" maxlength="8" pattern="^[0-9]*$" ng-pattern-restrict e-required>{{ user.phone || 'Vacío' }}</span></td>
+        <td>
+          <span editable-select="user.employeeId" 
+                edit-disabled="{{user && user.employeeId !== null}}" e-name="employeeId" e-form="rowform" 
+                e-ng-options="e.id as e.firstName for e in employees">
+                {{showEmployee(user)}}
+          </span>
+        </td>
+        <td><span text="user.isActive" e-name="isActive" e-form="rowform" e-required>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || 'Vacío' }}</span></td>
+
+        <td style="white-space: nowrap">
+          <form editable-form name="rowform" onbeforesave="saveUser($data, user.id, user.userName, user.password, user.emplyeeId)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">Guardar</button>
+            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">Cancelar</button>
+          </form>
+          <div class="buttons" ng-show="!rowform.$visible">
+            <button class="btn btn-primary btn-xs" ng-click="rowform.$show()">editar</button>
+            <button class="btn btn-danger btn-xs" ng-click="removeUser($index)">borrar</button>
+          </div>
+        </td>
+
+      </tr>
+    </table>
+  </div>
+  <div class="panel-heading">
+    <button class="btn btn-default btn-xs pull-right" ng-click="updateTable()">Guardar</button>
+  </div>
 </div>

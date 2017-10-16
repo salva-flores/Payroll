@@ -114,7 +114,6 @@
 		return $response; });
 	$app->put('/user', function() use($app){ //modifies user 
 		$response = new Phalcon\Http\Response();
-		$req = $app->request->getJsonRawBody();
 		try {
 			$decoded = validateToken();
 			$req = $app->request->getJsonRawBody();
@@ -130,7 +129,7 @@
 			$user->avatar = $req->avatar;
 			$user->isActive = $req->isActive;
 			$isCommit = $user->save($user);
-			if ($isCommit==true){$response -> setStatusCode(200);};
+			if ($isCommit==true){$response -> setStatusCode(200);addLog($decoded->user[0]->id,'2','SecUser','PUT');};
 			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Usuario agregado','commit'=> $isCommit,'data'=>$isCommit));
 		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','message'=>$e.error,'data'=>$e));};
 		return $response; });
@@ -279,17 +278,47 @@
 		try {
 			$decoded = validateToken();
 			$employee = new MainEmployee();
-			$employee->companyUnit = $request->unit;
+			$employee->companyUnit = $request->companyUnit;
 			$employee->email = $request->email;
 			$employee->firstName = $request->firstName;
 			$employee->job = $request->job;
 			$employee->lastName = $request->lastName;
-			$employee->mobilePhone = $request->phone;
+			$employee->mobilePhone = $request->mobilePhone;
 			$employee->salary = $request->salary;
-			// $employee->academicLevel = '1';$employee->address = '1';$employee->bloodType = '1';$employee->city = '1';$employee->createdBy = '1';$employee->creationDate = '';$employee->departmentId = '1';$employee->dob = '';$employee->gender = '1';$employee->homePhone = '1';$employee->id = '';$employee->idCard = '1';$employee->joined = '1';$employee->maritalStatus = '1';$employee->nationality = '1';$employee->officePhone = '1';$employee->profession = '1';$employee->shift = '1';$employee->state = '1';$employee->type = '1';print_r($employee);
+			$employee->idCard= $request->idCard;
+			$employee->academicLevel = $request->academicLevel;
+			$employee->profession= $request->profession;
+			$employee->maritalStatus= $request->maritalStatus;
+			$employee->gender= $request->gender;
+			$employee->joined= $request->joined;
+			// $employee->address = '1';$employee->bloodType = '1';$employee->city = '1';$employee->createdBy = '1';$employee->creationDate = '';$employee->departmentId = '1';$employee->dob = '';$employee->gender = '1';$employee->homePhone = '1';$employee->id = '';$employee->idCard = '1';$employee->joined = '1';$employee->maritalStatus = '1';$employee->nationality = '1';$employee->officePhone = '1';$employee->profession = '1';$employee->shift = '1';$employee->state = '1';$employee->type = '1';print_r($employee);
 			$isCommit = $employee->save();
 			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','MainEmployee','POST');};
 			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Empleado agregado','commit'=> $isCommit,'data'=>$employee->getMessages()));
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
+		return $response; });
+	$app->put('/employee', function() use($app){ //modifies an employee
+		$response = new Phalcon\Http\Response();
+		try {
+			$decoded=validateToken();
+			$request = $app->request->getJsonRawBody();
+			$employee = MainEmployee::findFirst($request->id);
+			$employee->companyUnit = $request->companyUnit;
+			$employee->email = $request->email;
+			$employee->firstName = $request->firstName;
+			$employee->job = $request->job;
+			$employee->lastName = $request->lastName;
+			$employee->mobilePhone = $request->mobilePhone;
+			$employee->salary = $request->salary;
+			$employee->idCard= $request->idCard;
+			$employee->academicLevel = $request->academicLevel;
+			$employee->profession= $request->profession;
+			$employee->maritalStatus= $request->maritalStatus;
+			$employee->gender= $request->gender;
+			$employee->joined= $request->joined;
+			$isCommit = $employee->save();
+			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','MainEmployee','PUT');};
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Registro modificado','commit'=> $isCommit,'data'=>$employee->getMessages()));
 		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
 		return $response; });
 	$app->get('/employeeBoss/{id:[0-9]+}', function ($id) use($app){ //Devuelve datos del jefe de un empleado
@@ -661,7 +690,6 @@
 		};
 		fclose($payroll);
 		return $response;	});
-
 //Funciones
 	function new_id() { //retuens last payroll id... consider replacing with builtin function...
 		$planillas = RrhhPlanilla::find(); if (count($planillas)>0) {$ultima = $planillas->getLast(); $ultimo_id=$ultima->idplanilla+1;} else {$ultimo_id=1;}; return $ultimo_id;
@@ -733,5 +761,4 @@
 		$phql="SELECT u.id from SecUser u inner join MainEmployee e on u.employeeId = e.id where u.employeeId='$id'"; 
 		return $app->modelsManager->executeQuery($phql);
 		};
-
 $app->handle();
