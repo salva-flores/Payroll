@@ -3,7 +3,7 @@
 		<div class="d-flex justify-content-end align-items-center">
 			<div class="text-dark font-weight-bold mr-auto">Solicitudes de Horas Extras</div>
 			<div class="btn-toolbar " role="toolbar">
-				<button class="btn btn-outline-primary btn-xs mr-1" title="Agregar solicitud" ng-click="addRequest(frm)" data-toggle="modal" data-target="#overReqForm"><i class="fa fa-plus mr5"></i>Nueva</button>
+				<button class="btn btn-outline-primary btn-xs mr-1" title="Agregar solicitud" ng-click="addRequest(frm)" data-toggle="modal" data-target="#overReqForm"><i class="fa fa-plus mr-1"></i>Nueva</button>
 				<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadRequests();"><i class="fa fa-repeat"></i></button>
 				<!-- <button class="btn btn-outline-secondary btn-xs" title="Calcular el Total" ng-click="calcFooter();"><i class="fa fa-calculator"></i></button> -->
 			</div>
@@ -56,28 +56,43 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="card">
-				<div class="card-header p-2 text-dark font-weight-bold">Solicitud de Horas Extras para el {{today|date:'EEEE, dd-MM-yyyy'}}</div>
+				<!-- <div class="card-header p-2 text-dark font-weight-bold">Solicitud de Horas Extras para el {{today|date:'EEEE, dd-MM-yyyy'}} -->
+				<div class="card-header p-2 text-dark font-weight-bold">
+					<div class="d-flex align-items-center"><div >Solicitud de Horas Extras - {{request.date | date:'EEEE, dd-MM-yyyy'}}</div></div>
+				</div>
 				<div class="card-body p-2">
 					<form name="frm">
 						<fieldset>
-							<div class="row">
+							<div class="row p-1">
+								<!-- <div class="col-sm-3">
+									<label class=" control-label bold" for="requestDate">Fecha: </label>
+									<input ng-model="request.dateStamp" id="9" name="requestDateStamp" type="datetime-local" class="form-control input-xs p-1" ng-disabled="request.state=='Cerrada'" required>
+									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestDate.$invalid && frm.requestDate.$touched">Requerido!</tt>
+								</div> -->
+							</div>
+							<div class="row p-1">
+								<div class="col-sm-3" ng-class="{ 'has-error' : frm.requestDate.$invalid && frm.requestDate.$touched}">
+									<label class=" control-label bold" for="requestDate">Fecha: </label>
+									<input ng-model="request.date" id="reqDate" name="requestDate" type="date" class="form-control input-xs p-1" ng-disabled="request.state=='Cerrada'" required>
+									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestDate.$invalid && frm.requestDate.$touched">Requerido!</tt>
+								</div>
 								<div class="col-md-3" ng-class="{ 'has-error' : frm.start.$invalid && frm.start.$touched}">
 									<label class=" control-label bold" for="start">Hora de inicio:</label>  
-									<input ng-model="hora" title="Hora en que comenzará a trabajar; Su Jornada laboral le permite a partir de las {{os|date:'h:mma'}}" id="1" name="start" type="time" class="form-control input-sm" min="{{os}}" required  >
+									<input ng-model="hora" title="Hora en que comenzará a trabajar; Su Jornada laboral le permite a partir de las {{os|date:'h:mma'}}" id="1" name="start" type="time" class="form-control input-sm p-1" min="{{os}}" required  >
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.start.$invalid && frm.start.$touched">De {{os|date:'h:mm a'}} a 11:59 pm.</tt>
 								</div>
 								<div class="col-md-3" ng-class="{ 'has-error' : frm.estimatedTime.$invalid && frm.estimatedTime.$touched}">
 									<label class=" control-label bold" for="estimatedTime">Horas estimadas:</label>  
-									<input ng-model="request.estimatedTime" title="Tiempo estimado para completar la actividad (máximo 4 hrs)." type="text" class="form-control input-sm" id="estTime" name="estimatedTime" minlength ="1" maxlength="1" pattern="^[1-4]*$" ng-pattern-restrict required>
+									<input ng-model="request.estimatedTime" title="Tiempo estimado para completar la actividad (máximo 4 hrs)." type="text" class="form-control input-sm p-1" id="estTime" name="estimatedTime" minlength ="1" maxlength="1" pattern="^[1-4]*$" ng-pattern-restrict required>
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.estimatedTime.$invalid">De 1 a 4 horas.</tt>
 								</div>
-								<div class="col-md-6" ng-class="{ 'has-error' : frm.requestedBy.$invalid && frm.requestedBy.$touched}">
+								<div class="col-md-3" ng-class="{ 'has-error' : frm.requestedBy.$invalid && frm.requestedBy.$touched}">
 									<label class="control-label bold" for="requestedBy">Persona que le asignó la actividad:</label>  
-									<input ng-model="request.requestedBy" title="Nombre del Jefe que le asignó la actividad." id="requestedBy" name="requestedBy" type="text" class="form-control input-sm" required >
+									<input ng-model="request.requestedBy" title="Nombre del Jefe que le asignó la actividad." id="requestedBy" name="requestedBy" type="text" class="form-control input-sm p-1" required >
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestedBy.$invalid && frm.requestedBy.$touched">Campo requerido!</tt>
 								</div>
 							</div>
-							<div class="row justify-content-end mt-2">
+							<div class="row justify-content-end p-1">
 								<div class="col-md-3">
 									<label class="control-label bold">Tipo:</label>
 									<div class="radio" ><label class="text" title="Asignada en Tigo." ><input ng-model="request.class" type="radio" name="t1" id="t1" value="Normal" ng-checked="true" >Asignada en TIGO</label></div>

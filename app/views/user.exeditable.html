@@ -1,66 +1,65 @@
 <div class="panel">
-  <div class="panel-heading">
-    <button class="btn btn-default btn-xs pull-right" ng-click="addUser()">Agregar</button>
-    <button class="btn btn-default btn-xs pull-right" ng-click="$state.reload();">Refrescar</button>
-  </div>
-  <div class="panel-body">
-    <table class="table table-bordered table-hover table-condensed align-middle">
-    <thead>
-      
-      <tr class="bold">
-        <td >Usuario</td>
-        <td >Nombre</td>
-        <td >Perfil</td>
-        <td >Correo</td>
-        <td >Teléfono</td>
-        <td >Empleado</td>
-        <td >Estado</td>
-        <td >Acciones</td>
-      </tr>
-    </thead>
-      <tr ng-repeat="user in users">
-        <td>
-          <span editable-text="user.userName" 
-                edit-disabled="{{user && user.userName !== null}}" 
-                e-name="userName" e-form="rowform" e-ng-maxlength="10" e-ng-pattern="^[a-zA-Z]*$" e-ng-pattern-restrict 
-                onbeforesave="checkName($data, user.id, user.userName)" e-required>
-                {{ user.userName || 'Vacío' }}
-          </span>
-        </td>
-        <td>
-          <span editable-text="user.firstName" 
-                e-name="firstName" e-form="rowform" e-maxlength="20" e-pattern="^[a-zA-Z]*$" e-ng-pattern-restrict 
-                onbeforesave="checkName($data, user.id, user.userName, user.password, user.employeeId)" e-required>
-                {{ user.firstName || 'Vacío' }}
-          </span>
-        </td>
-        <td><span editable-select="user.profileId" e-name="profileId" e-form="rowform" e-ng-options="p.id as p.name for p in profiles">{{showProfile(user)}}</span></td>
-        <td><span editable-text="user.email" e-name="email" e-form="rowform" e-reqired>{{ user.email || 'Vacío' }}</span> </td>
-        <td><span editable-text="user.phone" e-name="phone" e-form="rowform" maxlength="8" pattern="^[0-9]*$" ng-pattern-restrict e-required>{{ user.phone || 'Vacío' }}</span></td>
-        <td>
-          <span editable-select="user.employeeId" 
-                edit-disabled="{{user && user.employeeId !== null}}" e-name="employeeId" e-form="rowform" 
-                e-ng-options="e.id as e.firstName for e in employees">
-                {{showEmployee(user)}}
-          </span>
-        </td>
-        <td><span text="user.isActive" e-name="isActive" e-form="rowform" e-required>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || 'Vacío' }}</span></td>
+	<div class="panel-heading">
+		<button class="btn btn-default btn-xs pull-right" ng-click="addUser()">Agregar</button>
+		<button class="btn btn-default btn-xs pull-right" ng-click="$state.reload();">Refrescar</button>
+	</div>
+	<div class="panel-body">
+		<table class="table table-bordered table-hover table-condensed align-middle">
+			<thead>
+				<tr class="bold">
+					<td >Usuario</td>
+					<td >Nombre</td>
+					<td >Perfil</td>
+					<td >Correo</td>
+					<td >Teléfono</td>
+					<td >Empleado</td>
+					<td >Estado</td>
+					<td >Acciones</td>
+				</tr>
+			</thead>
+			<tr ng-repeat="user in users">
+				<td>
+					<span editable-text="user.userName" 
+					edit-disabled="{{user && user.userName !== null}}" 
+					e-name="userName" e-form="rowform" e-ng-maxlength="10" e-ng-pattern="^[a-zA-Z]*$" e-ng-pattern-restrict 
+					onbeforesave="checkName($data, user.id, user.userName)" e-required>
+					{{ user.userName || 'Vacío' }}
+					</span>
+				</td>
+				<td>
+					<span editable-text="user.firstName" 
+					e-name="firstName" e-form="rowform" e-maxlength="20" e-pattern="^[a-zA-Z]*$" e-ng-pattern-restrict 
+					onbeforesave="checkName($data, user.id, user.userName, user.password, user.employeeId)" e-required>
+					{{ user.firstName || 'Vacío' }}
+					</span>
+				</td>
+		<td><span editable-select="user.profileId" e-name="profileId" e-form="rowform" e-ng-options="p.id as p.name for p in profiles">{{showProfile(user)}}</span></td>
+		<td><span editable-text="user.email" e-name="email" e-form="rowform" e-reqired>{{ user.email || 'Vacío' }}</span> </td>
+		<td><span editable-text="user.phone" e-name="phone" e-form="rowform" maxlength="8" pattern="^[0-9]*$" ng-pattern-restrict e-required>{{ user.phone || 'Vacío' }}</span></td>
+		<td>
+			<span editable-select="user.employeeId" 
+			edit-disabled="{{user && user.employeeId !== null}}" e-name="employeeId" e-form="rowform" 
+			e-ng-options="e.id as e.firstName for e in employees">
+			{{showEmployee(user)}}
+		</span>
+	</td>
+	<td><span text="user.isActive" e-name="isActive" e-form="rowform" e-required>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || 'Vacío' }}</span></td>
 
-        <td style="white-space: nowrap">
-          <form editable-form name="rowform" onbeforesave="saveUser($data, user.id, user.userName, user.password, user.emplyeeId)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
-            <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">Guardar</button>
-            <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">Cancelar</button>
-          </form>
-          <div class="buttons" ng-show="!rowform.$visible">
-            <button class="btn btn-primary btn-xs" ng-click="rowform.$show()">editar</button>
-            <button class="btn btn-danger btn-xs" ng-click="removeUser($index)">borrar</button>
-          </div>
-        </td>
+	<td style="white-space: nowrap">
+		<form editable-form name="rowform" onbeforesave="saveUser($data, user.id, user.userName, user.password, user.emplyeeId)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+			<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary btn-xs">Guardar</button>
+			<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default btn-xs">Cancelar</button>
+		</form>
+		<div class="buttons" ng-show="!rowform.$visible">
+			<button class="btn btn-primary btn-xs" ng-click="rowform.$show()">editar</button>
+			<button class="btn btn-danger btn-xs" ng-click="removeUser($index)">borrar</button>
+		</div>
+	</td>
 
-      </tr>
-    </table>
-  </div>
-  <div class="panel-heading">
-    <button class="btn btn-default btn-xs pull-right" ng-click="updateTable()">Guardar</button>
-  </div>
+</tr>
+</table>
+</div>
+<div class="panel-heading">
+	<button class="btn btn-default btn-xs pull-right" ng-click="updateTable()">Guardar</button>
+</div>
 </div>

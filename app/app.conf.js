@@ -143,7 +143,13 @@ angular
 		})
 	.state('app.sec.profiles', {
 		url: '/profiles', templateUrl: 'app/views/sec.profiles.html', controller: 'profileCtrl',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/sec.profile.js')}]},
+		resolve: {	
+			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{insertBefore: '#load_styles_before',files: ['src/vendor/angular-xeditable/dist/css/xeditable.css']},
+					{name: 'xeditable', files: ['src/vendor/angular-xeditable/dist/js/xeditable.js']}
+					]).then(function () {return $ocLazyLoad.load('app/controllers/sec.profile.js')})}]
+		},
 		data: {title: 'Perfiles'}
 		})
 	.state('app.sec.users', {

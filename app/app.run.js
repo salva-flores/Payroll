@@ -2,7 +2,7 @@
 
 angular
 .module('payrollApp')
-.run(['$rootScope', '$state', '$stateParams', '$localStorage', 'payrollService', 'Idle', function ($rootScope, $state, $stateParams, $localStorage, payrollService, Idle){
+.run(['$rootScope', '$state', '$stateParams', '$localStorage', 'payrollService', 'Idle', 'DTDefaultOptions', function ($rootScope, $state, $stateParams, $localStorage, payrollService, Idle, DTDefaultOptions){
 	$rootScope.$state=$state; $rootScope.$stateParams=$stateParams; document.body.style.zoom="100%";
 	$rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options){
 		// console.log('From:',fromState.name,'To:',toState.name);
@@ -14,4 +14,5 @@ angular
 	});
 	$rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams){window.scrollTo(0,0)});
 	$rootScope.$on('$stateChangeError', function(event){$state.go('err.404')});
+	DTDefaultOptions.setDisplayLength(25);
 }]);

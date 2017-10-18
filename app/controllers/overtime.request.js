@@ -30,6 +30,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.enableCloseButton=false;
 		$scope.email={}; 
 		$scope.email.from='admin@hngsystems.com'; $scope.email.name='Admin'; $scope.email.email='';  $scope.email.subject='Solicitud de Horas Extras'; $scope.email.message='Tiene una solicitud de Horas Extras.';
+		$http.get('../hhrr/api/getAll/CatHoliday').then(function(response){ $scope.holidays = response.data.data; console.log($scope.holidays) },function(response){console.log('Hubo un error al cargar el Catálogo de Feriados!')});
 		};
 	$scope.loadOvertime = function () {
 		payrollService.fetch('GET','overtime').
@@ -77,13 +78,17 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.addRequest = function(frm){
 		$scope.estado='';frm.$setPristine();frm.$setUntouched();
 		$scope.request = {id:'',employeeId:$rootScope.user.employee,date:'',startTime:'',estimatedTime:'',requestedBy:'',class:'Normal',description:'',state:'',decidedBy:'',decisionDate:'',authorizedBy:'',authorizationDate:'',payDate:'',observations:''};
-		$('#overReqForm').on('shown.bs.modal', function () { $('#estTime').focus()});
+		$('#overReqForm').on('shown.bs.modal', function () { $('#reqDate').focus()});
 		};
 	$scope.saveRequest = function (h) {
 		$scope.request.startTime=$filter('date')(h, 'HH:mm:ss');
-		$scope.request.date=$filter('date')($scope.today, 'yyyy-MM-dd');
+		// $scope.request.date=$filter('date')($scope.today, 'yyyy-MM-dd'); se comenta y se agrega la siguiente linea para habilitar el ingreso de otras fechas.
+		$scope.request.date=$filter('date')($scope.request.date, 'yyyy-MM-dd');
 		payrollService.fetch('POST','overReq',JSON.stringify($scope.request))
-		.then(function(response){$scope.loadRequests();$scope.notifyBoss()},function(response){
+		.then(function(response){$scope.loadRequests();$scope.notifyBoss();
+			new Noty({text:'Registro agregado',type:'success',theme:'relax',timeout:1000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
+			.show().on('onClose', function() {$('#overReqForm').modal('hide')});
+		},function(response){
 			if(response.isValid==false){$state.go('login')}else{new Noty({text:'Error... '+response.data.message,type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
 			.show().on('onClose', function() {$('#overReqForm').modal('hide')})};
 			});

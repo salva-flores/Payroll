@@ -5,6 +5,7 @@ function profileCtrl($scope, $filter, $http, $q, payrollService) {
 	$scope.action='PUT';
 	$scope.profiles = [];
 	$scope.loadProfiles = function () {$http.get('../hhrr/api/getAll/SecProfile').then(function (response) {$scope.profiles = response.data.data})};
+	$scope.showprof = function (prof){$scope.prof=prof};
 	$scope.add = function () {
 		$scope.action='POST';
 		$scope.inserted = {id:$scope.profiles.length + 1,name:'',description:'',state:'1'};

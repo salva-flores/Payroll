@@ -24,6 +24,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			$scope.overtime = response.data.data;
 			$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.showReqs=false;$scope.calcReqs(e.currentTarget.value);});
 		});
+		$http.get('../hhrr/api/getAll/CatHoliday').then(function(response){ $scope.holidays = response.data.data },function(response){console.log('Hubo un error!')});
 		};
 	$scope.calcPayroll = function () {
 		$scope.showPayroll=true;
