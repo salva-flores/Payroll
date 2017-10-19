@@ -15,7 +15,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.initVars = function() {
 		$scope.status=[];
 		$scope.today = new Date();
-		if ($scope.user.userName=='root'){$scope.overtimeStart='';$scope.maxOverPerWeek='16';$scope.empName=''}else{$scope.overtimeStart=parametros.data.data[0].Permitido;$scope.maxOverPerWeek=parametros.data.data[0].Semana;$scope.empName=parametros.data.data[0].Empleado	};
+		if ($scope.user.userName=='root'){$scope.overtimeStart='';$scope.maxOverPerWeek='16';$scope.empName=''}else{$scope.overtimeStart=parametros.data.data[0].Permitido;$scope.maxOverPerWeek=parametros.data.data[0].Semana;$scope.empName=parametros.data.data[0].Empleado};
 		$scope.os = new Date($filter('date')($scope.today, 'yyyy-MM-dd')+'T'+$scope.overtimeStart);
 		$scope.fecha = $filter('date')($scope.today, 'dd-MMMM-yyyy');
 		$scope.hora = $scope.os;
@@ -61,7 +61,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = totalHoras*1, a=0, isHoliday=false;
 			var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
 			var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
-			angular.forEach($scope.holidays, function(value, key){if (dEnd.getDate()*1==value.day*1 && dEnd.getMonth()*1+1==value.month*1){isHoliday=true}}); 
+			angular.forEach($scope.holidays, function(value, key){if (dStart.getDate()*1==value.day*1 && dStart.getMonth()*1+1==value.month*1){isHoliday=true}}); 
 			$scope.t = [];
 			for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0};
 			for (var k = 0; k <= $scope.overtime.length - 2; k++) {
@@ -114,7 +114,11 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.request = r;
 		$scope.activity.requestId=r.id;
 		$scope.fecha = $filter('date')(r.date, 'dd-MMMM-yyyy');
+		var isHoliday=false;
+		var dEnd = new Date($filter('date')(r.date, 'yyyy-MM-dd')+'T'+$filter('date')(r.startTime, 'HH:mm:ss'));
+		angular.forEach($scope.holidays, function(value, key){ if (dEnd.getDate()*1==value.day*1 && dEnd.getMonth()*1+1==value.month*1){isHoliday=true}}); 
 		$scope.hora = new Date($filter('date')(r.date, 'yyyy-MM-dd')+'T'+r.startTime);
+		if (dEnd.getDay()==0||dEnd.getDay()==6||isHoliday){ $scope.os = new Date($filter('date')(r.date, 'yyyy-MM-dd')+'T'+$filter('date')("00:00:01" , 'HH:mm:ss'));$scope.hora = new Date($filter('date')(r.date, 'yyyy-MM-dd')+'T'+$filter('date')("00:00:01" , 'HH:mm:ss'));};
 		$scope.activity.startTime = $scope.hora;
 		$scope.activity.startTime = $scope.hora;
 		$scope.hora2 = new Date($filter('date')(r.date, 'yyyy-MM-dd')+'T'+r.startTime);

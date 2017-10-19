@@ -49,7 +49,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = totalHoras*1, a=0, isHoliday=false;
 			var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
 			var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
-			angular.forEach($scope.holidays, function(value, key){if (dEnd.getDate()*1==value.day*1 && dEnd.getMonth()*1+1==value.month*1){isHoliday=true}});
+			angular.forEach($scope.holidays, function(value, key){if (dStart.getDate()*1==value.day*1 && dStart.getMonth()*1+1==value.month*1){isHoliday=true}});
 			$scope.t = []; 
 			for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0};
 			for (var k = 0; k <= $scope.overtime.length - 2; k++) {
