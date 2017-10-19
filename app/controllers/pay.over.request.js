@@ -8,10 +8,9 @@ Reglas del negocios a considerar. Verificación en HHEE.
 - Quien Autoriza [Default: Gerente General, Definido por el admin] definir Roles (por el momento el sistema busca al gerente general)
 */
 function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payrollService, parametros) {
-
 	$scope.run = function(){
 		$scope.initVars();
-		$scope.loadOvertime();
+		// $scope.loadOvertime();
 		};
 	$scope.initVars = function() {
 		$scope.status=[];
@@ -29,8 +28,9 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.showReqs=false;
 		$scope.enableCloseButton=false;
 		$scope.email={}; 
-		$scope.email.from='admin@hngsystems.com'; $scope.email.name='Admin'; $scope.email.email='';  $scope.email.subject='Solicitud de Horas Extras'; $scope.email.message='Tiene una solicitud de Horas Extras.';
-		$http.get('../hhrr/api/getAll/CatHoliday').then(function(response){ $scope.holidays = response.data.data; console.log($scope.holidays) },function(response){console.log('Hubo un error al cargar el Catálogo de Feriados!')});
+		$scope.email.from='sflores@hngsystems.com'; $scope.email.name='Admin'; $scope.email.email='';  $scope.email.subject='Solicitud de Horas Extras'; $scope.email.message='Tiene una solicitud de Horas Extras.';
+		$scope.holidays=[];
+		$http.get('../hhrr/api/getAll/CatHoliday').then(function(response){ $scope.holidays = response.data.data; $scope.loadOvertime(); },function(response){console.log('Hubo un error al cargar el Catálogo de Feriados!')});
 		};
 	$scope.loadOvertime = function () {
 		payrollService.fetch('GET','overtime').
@@ -61,7 +61,8 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = totalHoras*1, a=0, isHoliday=false;
 			var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
 			var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
-			$scope.t = []; 
+			angular.forEach($scope.holidays, function(value, key){if (dEnd.getDate()*1==value.day*1 && dEnd.getMonth()*1+1==value.month*1){isHoliday=true}}); 
+			$scope.t = [];
 			for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0};
 			for (var k = 0; k <= $scope.overtime.length - 2; k++) {
 				var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));

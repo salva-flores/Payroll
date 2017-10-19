@@ -193,6 +193,11 @@ class SMTP
      */
     public function connect($host, $port = null, $timeout = 30, $options = array())
     {
+        //Edited by Sal to solve  SSL get server certificate problem
+        if (count($options) == 0) {
+           $options['ssl'] = array('verify_peer' => false, 'verify_peer_name' => false, 'allow_self_signed' => true);
+       }
+
         // Clear errors to avoid confusion
         $this->error = null;
         // Make sure we are __not__ connected

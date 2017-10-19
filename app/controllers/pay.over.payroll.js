@@ -20,11 +20,11 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.endDate="";
 		$scope.reqsTableInst = false; 
 		$scope.payrollTableInst = false; 
+		$http.get('../hhrr/api/getAll/CatHoliday').then(function(response){ $scope.holidays = response.data.data },function(response){console.log('Hubo un error!')});
 		$http.get('../hhrr/api/overtime').then(function (response) {
 			$scope.overtime = response.data.data;
 			$('input[name="daterange"]').daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate}).on('change', function(e) {$scope.showReqs=false;$scope.calcReqs(e.currentTarget.value);});
 		});
-		$http.get('../hhrr/api/getAll/CatHoliday').then(function(response){ $scope.holidays = response.data.data },function(response){console.log('Hubo un error!')});
 		};
 	$scope.calcPayroll = function () {
 		$scope.showPayroll=true;
@@ -84,6 +84,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
 		var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
 		$scope.t = []; $scope.u = [];  
+		angular.forEach($scope.holidays, function(value, key){if (dEnd.getDate()*1==value.day*1 && dEnd.getMonth()*1+1==value.month*1){isHoliday=true}});
 		for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0;$scope.u[k] =0};
 		for (var k = 0; k <= $scope.overtime.length - 2; k++) {
 			var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));

@@ -182,7 +182,7 @@ angular
 		url: '/request', templateUrl: 'app/views/pay.over.request.html', controller: 'overtimeRequestCtrl',
 		resolve: {
 			parametros: ['$rootScope','$http', function($rootScope, $http){return $http.get('../hhrr/api/overParams/'+$rootScope.user.employee)}],
-			deps: ['parametros', '$ocLazyLoad', function (parametros, $ocLazyLoad) {return $ocLazyLoad.load('app/controllers/overtime.request.js')}]
+			deps: ['parametros', '$ocLazyLoad', function (parametros, $ocLazyLoad) {return $ocLazyLoad.load('app/controllers/pay.over.request.js')}]
 		},
 		data: {title: 'Solicitud de Horas Extras'}
 		})
@@ -193,7 +193,7 @@ angular
 				return $ocLazyLoad.load([
 					{insertBefore: '#load_styles_before',files:['src/vendor/bootstrap-daterangepicker/daterangepicker.css']},
 					{serie:true,files:['src/vendor/bootstrap-daterangepicker/moment.min.js','src/vendor/bootstrap-daterangepicker/daterangepicker.js']},
-				]).then(function () {return $ocLazyLoad.load('app/controllers/overtime.approve.js')});
+				]).then(function () {return $ocLazyLoad.load('app/controllers/pay.over.approve.js')});
 			}]
 		},
 		data: {title: 'Aprobación de Horas Extras'}
@@ -205,7 +205,7 @@ angular
 				return $ocLazyLoad.load([
 					{insertBefore: '#load_styles_before',files:['src/vendor/bootstrap-daterangepicker/daterangepicker.css']},
 					{serie:true,files:['src/vendor/bootstrap-daterangepicker/moment.min.js','src/vendor/bootstrap-daterangepicker/daterangepicker.js']},
-				]).then(function () {return $ocLazyLoad.load('app/controllers/overtime.payroll.js')});
+				]).then(function () {return $ocLazyLoad.load('app/controllers/pay.over.payroll.js')});
 			}]
 		},
 		data: {title: 'Cálculo de Planilla de Horas Extras'}
