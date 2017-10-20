@@ -125,7 +125,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 				columns: [
 					{data:'firstName',className:'text-left'},
 					{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
-					{data:'date',className:'text-left'},
+					{data:'date',className:'text-left', render: function (data, type, row) {return $filter('date')(data,'EEE yyyy-MMM-dd')}},
 					{data:'estimatedTime'},
 					{data:'totalHoras'},
 					{data:'t.0', render: function (data, type, row) {return data>0 ? $filter('number')(data,2) : '-' }},

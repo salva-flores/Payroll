@@ -4,7 +4,7 @@
 			<div class="text-dark font-weight-bold mr-auto">Solicitudes de Horas Extras</div>
 			<div class="btn-toolbar " role="toolbar">
 				<button class="btn btn-outline-primary btn-xs mr-1" title="Agregar solicitud" ng-click="addRequest(frm)" data-toggle="modal" data-target="#overReqForm"><i class="fa fa-plus mr-1"></i>Nueva</button>
-				<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadRequests();"><i class="fa fa-repeat"></i></button>
+				<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="run();"><i class="fa fa-repeat"></i></button>
 				<!-- <button class="btn btn-outline-secondary btn-xs" title="Calcular el Total" ng-click="calcFooter();"><i class="fa fa-calculator"></i></button> -->
 			</div>
 		</div>
@@ -27,7 +27,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="r in requests" ng-class="{'text-primary':r.state=='Autorizada','text-success':r.state=='Aprobada','text-warning':r.state=='Pendiente','text-secondary':r.state=='Cerrada','text-danger':r.state=='Rechazada'||r.state=='Devuelta','text-dark':r.state=='Pagada'}" >
-					<td title="{{r.date}}">{{ r.date |date : 'dd-MMM-yy'}}</td>
+					<td title="{{r.date}}">{{ r.date |date : 'EEE dd-MMM-yy'}}</td>
 					<td ng-show="isAdmin">{{ r.firstName }}</td>
 					<!-- <td ng-show="!isAdmin">{{ r.requestedBy }}</td> -->
 					<td>{{ r.requestedBy }}</td>
@@ -135,6 +135,7 @@
 				</div>
 				<div class="card-body m-0 p-2 d-print-none">
 					<form id="detailForm" name="detailForm" novalidate>
+						
 						<div class="row">
 							<div class="col-sm-3">
 								<label class="control-label bold" for="date">Fecha: </label>
