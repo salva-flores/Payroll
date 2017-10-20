@@ -63,12 +63,12 @@
 				<div class="card-body p-2">
 					<form name="frm">
 						<fieldset>
-							<div class="row p-1">
-								<!-- <div class="col-sm-3">
-									<label class=" control-label bold" for="requestDate">Fecha: </label>
-									<input ng-model="request.dateStamp" id="9" name="requestDateStamp" type="datetime-local" class="form-control input-xs p-1" ng-disabled="request.state=='Cerrada'" required>
-									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestDate.$invalid && frm.requestDate.$touched">Requerido!</tt>
-								</div> -->
+							<div class="d-flex flex-row p-1">
+								<!--<div class="form-group sm pr-2 mr-auto">
+									<label class="control-label bold pr-1 align-self-auto">Inicio:</label>
+									<input class="form-control input-xs p-1" ng-model="activity.dateTimeStamp" id="actDateTime" name="dateTimeStamp" type="datetime-local" ng-disabled="request.state=='Cerrada'" required/>
+									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.dateTimeStamp.$invalid && frm.dateTimeStamp.$touched">Requerido!</tt>
+								</div>  -->
 							</div>
 							<div class="row p-1">
 								<div class="col-sm-3" ng-class="{ 'has-error' : frm.requestDate.$invalid && frm.requestDate.$touched}">
