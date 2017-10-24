@@ -26,8 +26,9 @@
 					<td>{{ r.requestedBy }}</td>
 					<td>{{ r.description }}</td>
 					<td>
-						<i ng-class="{'fa fa-windows':r.class=='Ventana','fa fa-building-o':r.class=='Normal','fa fa-home':r.class=='Interna'}"></i>
-						-{{ r.class }}
+						<div class="d-flex justify-content-center">
+							<i ng-class="{'fa fa-windows fa-lg':r.class=='Ventana','fa fa-building-o fa-lg':r.class=='Normal','fa fa-home fa-lg':r.class=='Interna'}" title="{{ r.class }}"></i>
+						</div> 
 					</td>
 					<td class="text-center">{{ r.estimatedTime }}</td>
 					<td ng-repeat="o in overtime" class="text-center" ng-show="isAdmin">{{r.t[$index]>0 ? r.t[$index] : '-'}}</td>

@@ -113,8 +113,13 @@ angular
 		})
 	.state('app.cat.empresas', {
 		url: '/empresas', templateUrl: 'app/views/Empresa.html',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('src/vendor/jquery.maskedinput/dist/jquery.maskedinput.min.js')	.then(function () {return $ocLazyLoad.load('app/controllers/catCompany.js')})}]},
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('src/vendor/jquery.maskedinput/dist/jquery.maskedinput.min.js').then(function () {return $ocLazyLoad.load('app/controllers/cat.company.js')})}]},
 		data: {title: 'Empresas'}
+		})
+	.state('app.cat.overtime',{
+		url: '/overtime', templateUrl: 'app/views/cat.overtime.html', controller: 'catOvertimeCtrl',
+		resolve: {deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/cat.overtime.js')}]},
+		data: {title: 'Catálogo de Horas Extras'}
 		})
 	.state('app.conf', {
 		template: '<div ui-view></div>',	abstract: true,	url: '/config'

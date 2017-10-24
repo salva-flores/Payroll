@@ -29,7 +29,8 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.enableCloseButton=false;
 		$scope.email={}; 
 		$scope.email.from='sflores@hngsystems.com'; $scope.email.name='Admin'; $scope.email.email='';  $scope.email.subject='Solicitud de Horas Extras'; $scope.email.message='Tiene una solicitud de Horas Extras.';
-		$scope.holidays=[];
+		$scope.holidays=[];$scope.employees=[];
+		$http.get('../hhrr/api/getAll/MainEmployee').then(function(response){$scope.employees=response.data.data }, function(response){ console.log('Hubo un error al cargar los Empleados!')});
 		$http.get('../hhrr/api/getAll/CatHoliday').then(function(response){ $scope.holidays = response.data.data; $scope.loadOvertime(); },function(response){console.log('Hubo un error al cargar el Catálogo de Feriados!')});
 		};
 	$scope.loadOvertime = function () {
@@ -81,7 +82,18 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.request = {id:'',employeeId:$rootScope.user.employee,date:'',startTime:'',estimatedTime:'',requestedBy:'',class:'Normal',description:'',state:'',decidedBy:'',decisionDate:'',authorizedBy:'',authorizationDate:'',payDate:'',observations:''};
 		$('#overReqForm').on('shown.bs.modal', function () { $('#reqDate').focus()});
 		};
+
+	$scope.checkDate = function (d) {
+		var isHoliday=false;
+		var dEnd = new Date($filter('date')(d, 'yyyy-MM-dd')+'T'+$filter('date')(d, 'HH:mm:ss'));
+		angular.forEach($scope.holidays, function(value, key){ if (dEnd.getDate()*1==value.day*1 && dEnd.getMonth()*1+1==value.month*1){isHoliday=true}}); 
+		if (dEnd.getDay()==0||dEnd.getDay()==6||isHoliday){ $scope.os = new Date($filter('date')(d, 'yyyy-MM-dd')+'T'+$filter('date')("00:00:01" , 'HH:mm:ss'));$scope.hora = new Date($filter('date')(d, 'yyyy-MM-dd')+'T'+$filter('date')("00:00:01" , 'HH:mm:ss'));}
+		else{$scope.os = new Date($filter('date')($scope.today, 'yyyy-MM-dd')+'T'+$scope.overtimeStart);$scope.hora = $scope.os;}
+		console.log('Check date',d, 'Result:',isHoliday);
+	};
+
 	$scope.saveRequest = function (h) {
+		$('#overReqForm').modal('hide');
 		$scope.request.startTime=$filter('date')(h, 'HH:mm:ss');
 		// $scope.request.date=$filter('date')($scope.today, 'yyyy-MM-dd'); se comenta y se agrega la siguiente linea para habilitar el ingreso de otras fechas.
 		$scope.request.date=$filter('date')($scope.request.date, 'yyyy-MM-dd');

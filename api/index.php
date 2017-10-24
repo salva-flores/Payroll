@@ -468,8 +468,11 @@
 				addLog($decoded->user[0]->id,'2','payOvertimeRequest','POST');
 				$response->setJsonContent(array('status'  => 200, 'message' => 'Su solicitud ha sido enviada para aprobación.', 'commit' => $isCommit));
 			}
-		} catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e));};
+		} catch (Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e.message));}; 
 		return $response;	});
+
+		// } catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e));};
+		// return $response;	});
 	$app->put('/overReq', function() use($app){ //Modifica una solicitud
 		$message='';
 		$messageType='';

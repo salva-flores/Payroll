@@ -33,8 +33,9 @@
 					<td>{{ r.requestedBy }}</td>
 					<td>{{ r.description }}</td>
 					<td>
-						<i ng-class="{'fa fa-windows':r.class=='Ventana','fa fa-building-o':r.class=='Normal','fa fa-home':r.class=='Interna'}"></i>
-						-{{ r.class }}
+						<div class="d-flex justify-content-center">
+							<i ng-class="{'fa fa-windows fa-lg':r.class=='Ventana','fa fa-building-o fa-lg':r.class=='Normal','fa fa-home fa-lg':r.class=='Interna'}" title="{{ r.class }}"></i>
+						</div> 
 					</td>
 					<td class="text-right pr-3">{{ r.estimatedTime }}</td>
 					<td ng-repeat="o in overtime" class="text-center">{{r.t[$index]>0 ? r.t[$index] : '-'}}</td>
@@ -63,17 +64,16 @@
 				<div class="card-body p-2">
 					<form name="frm">
 						<fieldset>
-							<div class="d-flex flex-row p-1">
-								<!--<div class="form-group sm pr-2 mr-auto">
-									<label class="control-label bold pr-1 align-self-auto">Inicio:</label>
-									<input class="form-control input-xs p-1" ng-model="activity.dateTimeStamp" id="actDateTime" name="dateTimeStamp" type="datetime-local" ng-disabled="request.state=='Cerrada'" required/>
-									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.dateTimeStamp.$invalid && frm.dateTimeStamp.$touched">Requerido!</tt>
-								</div>  -->
+							<div class="d-flex flex-row p-1 mb-1" ng-show="isAdmin">
+								<div class="col-sm-4">
+									<label class="control-label bold">Empleado:</label>
+									<select  class="custom-control input-group-xs p-1" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName for e in employees | orderBy:'firstName'"></select>
+								</div> 
 							</div>
 							<div class="row p-1">
 								<div class="col-sm-3" ng-class="{ 'has-error' : frm.requestDate.$invalid && frm.requestDate.$touched}">
 									<label class=" control-label bold" for="requestDate">Fecha: </label>
-									<input ng-model="request.date" title="Fecha en que realizó el trabajo." id="reqDate" name="requestDate" type="date" class="form-control input-group-sm p-1" ng-disabled="request.state=='Cerrada'" required>
+									<input ng-model="request.date" ng-change="checkDate(request.date)" title="Fecha en que realizó el trabajo." id="reqDate" name="requestDate" type="date" class="form-control input-group-sm p-1" ng-disabled="request.state=='Cerrada'" required>
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestDate.$invalid && frm.requestDate.$touched">Requerido!</tt>
 								</div>
 								<div class="col-md-3" ng-class="{ 'has-error' : frm.start.$invalid && frm.start.$touched}">
