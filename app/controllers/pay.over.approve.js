@@ -92,7 +92,8 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			// 	new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
 			// 	.show();
 			// });
-		},function(response){console.log('Hubo un error!')});	
+		},function(response){console.log('Hubo un error!')});
+		$scope.refresh();
 		};
 	$scope.closeDetail = function (stateForm) {
 		$scope.showDetail=false; 

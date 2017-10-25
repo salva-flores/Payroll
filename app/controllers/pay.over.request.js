@@ -10,7 +10,6 @@ Reglas del negocios a considerar. Verificación en HHEE.
 function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payrollService, parametros) {
 	$scope.run = function(){
 		$scope.initVars();
-		// $scope.loadOvertime();
 		};
 	$scope.initVars = function() {
 		$scope.status=[];

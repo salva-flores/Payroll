@@ -118,7 +118,13 @@ angular
 		})
 	.state('app.cat.overtime',{
 		url: '/overtime', templateUrl: 'app/views/cat.overtime.html', controller: 'catOvertimeCtrl',
-		resolve: {deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/cat.overtime.js')}]},
+		resolve: {
+			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{insertBefore: '#load_styles_before',files: ['src/vendor/angular-xeditable/dist/css/xeditable.css']},
+					{name: 'xeditable', files: ['src/vendor/angular-xeditable/dist/js/xeditable.js']}
+					]).then(function () {return $ocLazyLoad.load('app/controllers/cat.overtime.js')})}]
+		},
 		data: {title: 'Catálogo de Horas Extras'}
 		})
 	.state('app.conf', {

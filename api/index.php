@@ -420,11 +420,12 @@
 		$response = new Phalcon\Http\Response();
 		try {
 			// $tok=validateToken();
+			// where r.date>='$startDate ' and r.date<='$endDate' and (r.state='Cerrada' or r.state='Autorizada')
 			$data=array();
 			$phql="SELECT e.id as employeeId, e.firstName, r.id, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.decidedBy, r.decisionDate , r.observations, e.salary
 			from payOvertimeRequest r
 			inner join mainEmployee e on r.employeeId = e.id
-			where r.date>='$startDate ' and r.date<='$endDate' and (r.state='Cerrada' or r.state='Autorizada')
+			where r.date>='$startDate ' and r.date<='$endDate' and r.state='Autorizada'
 			order by e.firstName,r.date";
 			$data = $app->modelsManager->executeQuery($phql);
 			if (count($data)>0) {
