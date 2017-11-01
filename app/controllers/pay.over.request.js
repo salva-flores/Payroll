@@ -48,32 +48,55 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$http.get('../hhrr/api/overDetail/'+$scope.requests[i].id).then(function(response){$scope.detail=response.data.data;$scope.calcOver(i);$scope.showReqs=true});
 		};
 	$scope.calcOver = function(i) {
-		$scope.status=[]; $scope.totalHoras=0;
+		// $scope.status=[]; $scope.totalHoras=0;
+		// for (var j=0; j<=($scope.detail.length-1); j++){
+		// 	var diff = 0; 
+		// 	var dEnd = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].endTime);
+		// 	var dStart = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].startTime);
+		// 	diff = (dEnd - dStart);
+		// 	if (diff < 0) { diff=diff+24*60*60*1000 };
+		// 	$scope.totalHoras=$scope.totalHoras+diff;
+		// };
+		// if ($scope.totalHoras>0){
+		// 	var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = totalHoras*1, a=0, isHoliday=false;
+		// 	var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
+		// 	var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
+		// 	angular.forEach($scope.holidays, function(value, key){if (dStart.getDate()*1==value.day*1 && dStart.getMonth()*1+1==value.month*1){isHoliday=true}}); 
+		// 	$scope.t = [];
+		// 	for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0};
+		// 	for (var k = 0; k <= $scope.overtime.length - 2; k++) {
+		// 		var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));
+		// 		diff = $filter('number')((oEnd.getTime() - dStart.getTime())/60/60/1000,1)*1;
+		// 		if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if ($filter('number')(diff,0)*1==-16){a=tot};
+		// 		if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.t[$scope.overtime.length-1]=$scope.t[$scope.overtime.length-1]+a } else {$scope.t[k] = $scope.t[k] + a};
+		// 	}
+		// 	var totalDevengado=0;
+		// 	for (var k = 0; k <= $scope.overtime.length - 1; k++) {totalDevengado = totalDevengado + $scope.t[k]*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8};
+		// 	angular.extend($scope.requests[i], {t:$scope.t}, {totalHoras:totalHoras},{totDev:totalDevengado});
+		// };
+		$scope.status=[]; $scope.totalHoras=0; $scope.t = []; $scope.u = [];  
+		for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0;$scope.u[k] =0};
 		for (var j=0; j<=($scope.detail.length-1); j++){
-			var diff = 0; 
+			var diff = 0, totalDevengado=0; 
 			var dEnd = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].endTime);
-			var dStart = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].startTime);
+			var dStart = new Date($scope.detail[j].activityDate+'T'+$scope.detail[j].startTime); 
 			diff = (dEnd - dStart);
 			if (diff < 0) { diff=diff+24*60*60*1000 };
 			$scope.totalHoras=$scope.totalHoras+diff;
-		};
-		if ($scope.totalHoras>0){
-			var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = totalHoras*1, a=0, isHoliday=false;
-			var dStart = new Date($filter('date')($scope.detail[0].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[0].startTime, 'HH:mm:ss'));
-			var dEnd = new Date($filter('date')($scope.detail[$scope.detail.length-1].activityDate, 'yyyy-MM-dd')+'T'+$filter('date')($scope.detail[$scope.detail.length-1].endTime, 'HH:mm:ss'));
-			angular.forEach($scope.holidays, function(value, key){if (dStart.getDate()*1==value.day*1 && dStart.getMonth()*1+1==value.month*1){isHoliday=true}}); 
-			$scope.t = [];
-			for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.t[k] = 0};
+			var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = $filter('number')(diff/60/60/1000,1)*1, a=0, isHoliday=false;
+			angular.forEach($scope.holidays, function(value, key){if (dStart.getDate()*1==value.day*1 && dStart.getMonth()*1+1==value.month*1){isHoliday=true}});
 			for (var k = 0; k <= $scope.overtime.length - 2; k++) {
+				var oStart = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].start, 'HH:mm:ss'));
 				var oEnd = new Date($filter('date')(dStart, 'yyyy-MM-dd')+'T'+$filter('date')($scope.overtime[k].end, 'HH:mm:ss'));
 				diff = $filter('number')((oEnd.getTime() - dStart.getTime())/60/60/1000,1)*1;
-				if (dStart.getTime()<oEnd.getTime()){	if (tot>diff) {a=diff} else {a=tot}; tot=tot-a; dStart = oEnd} else if ($filter('number')(diff,0)*1==-16){a=tot};
-				if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.t[$scope.overtime.length-1]=$scope.t[$scope.overtime.length-1]+a } else {$scope.t[k] = $scope.t[k] + a};
+				if (dStart.getTime()<oEnd.getTime()) { if (diff>=tot) {a=tot} else {a=diff}; dStart=oEnd;} else if (diff<=-16){a=tot}else{a=0};
+				tot=tot-a;
+				if (oEnd.getDay()==0||oEnd.getDay()==6||isHoliday) {$scope.t[$scope.overtime.length-1]=$scope.t[$scope.overtime.length-1]+a ; $scope.u[$scope.overtime.length-1]=$scope.u[$scope.overtime.length-1]+a*(1+$scope.overtime[$scope.overtime.length-1].percent*1)*$scope.requests[i].salary/30/8}
+				else { $scope.t[k] = $scope.t[k] + a; $scope.u[k] = $scope.u[k] +a*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8};
 			}
-			var totalDevengado=0;
-			for (var k = 0; k <= $scope.overtime.length - 1; k++) {totalDevengado = totalDevengado + $scope.t[k]*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8};
-			angular.extend($scope.requests[i], {t:$scope.t}, {totalHoras:totalHoras},{totDev:totalDevengado});
-		};
+			for (var k = 0; k <= $scope.overtime.length - 1; k++) {totalDevengado = totalDevengado + $scope.t[k]*(1+$scope.overtime[k].percent*1)*$scope.requests[i].salary/30/8;};
+			angular.extend($scope.requests[i], {t:$scope.t}, {u:$scope.u}, {totalHoras:totalHoras},{totDev:totalDevengado});
+			};
 		};
 	$scope.calcFooter = function() {};
 	$scope.addRequest = function(frm){
