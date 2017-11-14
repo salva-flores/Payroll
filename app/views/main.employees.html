@@ -17,7 +17,6 @@
 					<th>@</th>
 					<th>ID</th>
 					<th>Editar</th>
-
 				</tr>
 			</thead>
 			<tbody>
@@ -39,98 +38,100 @@
 		<div class="modal-content">
 			<div class="modal-header p-0 m-2">
 				<h6 class="modal-title" id="userFormLabel">{{accion}} empleado</h6>
-				<button class="btn btn-xs" type="button" class="close" data-dismiss="modal" aria-label="Close">x</button>
 			</div>
 			<div class="modal-body p-0 m-2" ng-show="step==1">
-				<div class="d-flex">
-					<div class="form-group m-1 w-50">
-						<label class="form-control-label m-0" for="employeeName">Nombre</label>  
-						<input type="text" class="form-control form-control-sm" ng-model="employee.firstName">
+				<form name="frm">
+					<div class="d-flex">
+						<div class="form-group m-1 w-50">
+							<label class="form-control-label m-0" for="employeeName">Nombre</label>  
+							<input type="text" class="form-control form-control-sm" ng-model="employee.firstName">
+						</div>
+						<div class="form-group m-1 w-50">
+							<label class="form-control-label m-0" for="employeeLastName">Apellidos</label>  
+							<input type="text" class="form-control form-control-sm" ng-model="employee.lastName">
+						</div>
 					</div>
-					<div class="form-group m-1 w-50">
-						<label class="form-control-label m-0" for="employeeLastName">Apellidos</label>  
-						<input type="text" class="form-control form-control-sm" ng-model="employee.lastName">
+					<div class="d-flex">
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.email.$invalid && frm.email.$touched, 'has-success' : frm.email.$valid }">
+							<label class="form-control-label m-0"  for="email">Correo</label>
+							<input type="email" class="form-control form-control-sm" id="3" name="email" ng-model="employee.email" ng-pattern-restrict required>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.email.$invalid && frm.email.$touched">Dirección inválida.</small>
+						</div>
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.phone.$invalid && frm.phone.$touched, 'has-success' : frm.phone.$valid }">
+							<label class="form-control-label m-0"  for="phone">Teléfono</label>
+							<input type="text" class="form-control form-control-sm" id="4" name="phone" minlength ="8" maxlength="8" ng-model="employee.mobilePhone" pattern="^[0-9]*$" ng-pattern-restrict required>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.phone.$invalid && frm.phone.$touched">Número telefónico inválido.</small>
+						</div>
 					</div>
-				</div>
-				<div class="d-flex">
-					<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.email.$invalid && frm.email.$touched, 'has-success' : frm.email.$valid }">
-						<label class="form-control-label m-0"  for="email">Correo</label>
-						<input type="email" class="form-control form-control-sm" id="3" name="email" ng-model="employee.email" ng-pattern-restrict required>
-						<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.email.$invalid && frm.email.$touched">Dirección inválida.</small>
+					<div class="d-flex">
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.unit.$invalid && frm.unit.$touched, 'has-success' : frm.unit.$valid }">
+							<label class="form-control-label m-0"  for="unit">Departamento</label>
+							<select class="form-control form-control-sm" name="unit" ng-model="employee.companyUnit" ng-options="d.id as d.name for d in units" required><option value="">-- Seleccione un Departamento --</option></select>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.unit.$invalid && frm.unit.$touched">Seleccione un departamento.</small>
+						</div>
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.job.$invalid && frm.job.$touched, 'has-success' : frm.job.$valid }">
+							<label class="form-control-label m-0"  for="job">Puesto</label>
+							<select class="form-control form-control-sm" name="job" ng-model="employee.job" ng-options="j.id as j.name for j in jobs" required>	<option value="">-- Seleccione un Puesto --</option></select>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.job.$invalid && frm.job.$touched">Seleccione un puesto.</small>
+						</div>
 					</div>
-					<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.phone.$invalid && frm.phone.$touched, 'has-success' : frm.phone.$valid }">
-						<label class="form-control-label m-0"  for="phone">Teléfono</label>
-						<input type="text" class="form-control form-control-sm" id="4" name="phone" minlength ="8" maxlength="8" ng-model="employee.mobilePhone" pattern="^[0-9]*$" ng-pattern-restrict required>
-						<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.phone.$invalid && frm.phone.$touched">Número telefónico inválido.</small>
+					<div class="d-flex">
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.employeeIdCard.$invalid, 'has-success' : frm.employeeIdCard.$valid }">
+							<label class="form-control-label m-0" for="employeeIdCard">Tarjeta de Identidad</label>  
+							<input type="text" class="form-control form-control-sm" name="employeeIdCard" ng-model="employee.idCard" ng-pattern-restrict="^\d{0,4}(\d{0,4}(\d{0,5})?)?$" required>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.employeeIdCard.$invalid && frm.employeeIdCard.$touched">Campo requerido!</small>
+						</div>
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.salary.$invalid, 'has-success' : frm.salary.$valid }" >
+							<label class="form-control-label m-0" for="employee.salary">Salario</label>  
+							<input type="number" class="form-control form-control-sm" name="salary" ng-model="employee.salary" required ng-pattern-restrict>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.salary.$invalid && frm.salary.$touched">Campo requerido!</small>
+						</div>
 					</div>
-				</div>
-				<div class="d-flex">
-					<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.unit.$invalid && frm.unit.$touched, 'has-success' : frm.unit.$valid }">
-						<label class="form-control-label m-0"  for="unit">Departamento</label>
-						<select class="form-control form-control-sm" name="unit" ng-model="employee.companyUnit" ng-options="d.id as d.name for d in units" required>
-							<option value="">-- Seleccione un Departamento --</option>
-						</select>
-						<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.unit.$invalid && frm.unit.$touched">Seleccione un departamento.</small>
+					<div class="d-flex">
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.academicLevel.$invalid, 'has-success' : frm.academicLevel.$valid }" >
+							<label class="form-control-label m-0"  for="academicLevel">Nivel Académico</label>
+							<select class="form-control form-control-sm" name="academicLevel" ng-model="employee.academicLevel" ng-options="al.id as al.name for al in academicLevels" required><option value="">-- Seleccione un Nivel Académico --</option></select>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.unit.$invalid && frm.unit.$touched">Seleccione un nivel académico.</small>
+						</div>
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.profession.$invalid, 'has-success' : frm.profession.$valid }" >
+							<label class="form-control-label m-0"  for="profession">Profesión</label>
+							<select class="form-control form-control-sm" name="profession" ng-model="employee.profession" ng-options="p.id as p.name for p in professions" required><option value="">-- Seleccione una Profesión --</option></select>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.profession.$invalid && frm.profession.$touched">Seleccione una profesión.</small>
+						</div>
 					</div>
-					<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.job.$invalid && frm.job.$touched, 'has-success' : frm.job.$valid }">
-						<label class="form-control-label m-0"  for="job">Puesto</label>
-						<select class="form-control form-control-sm" name="job" ng-model="employee.job" ng-options="j.id as j.name for j in jobs" required>
-							<option value="">-- Seleccione un Puesto --</option>
-						</select>
-						<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.job.$invalid && frm.job.$touched">Seleccione un puesto.</small>
+					<div class="d-flex">
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.maritalStatus.$invalid, 'has-success' : frm.maritalStatus.$valid }">
+							<label class="form-control-label m-0"  for="maritalStatus">Estado Civil</label>
+							<!-- <select class="form-control form-control-sm" name="maritalStatus" ng-model="employee.maritalStatus" ng-options="ms.id as ms.name for ms in maritalStatus" >	<option value="">-- Seleccione un Estado Civil --</option></select> -->
+							<select class="form-control form-control-sm" name="maritalStatus" ng-model="employee.maritalStatus" ng-options="ms.name as ms.name for ms in maritalStatus" >	<option value="">-- Seleccione un Estado Civil --</option></select>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.maritalStatus.$invalid && frm.maritalStatus.$touched">Seleccione un estado civil.</small>
+						</div>
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.gender.$invalid, 'has-success' : frm.gender.$valid }">
+							<label class="form-control-label m-0" for="gender">Género</label>  
+							<select class="form-control form-control-sm" name="gender" ng-model="employee.gender" ng-options="g.id as g.name for g in gender" required><option value="">-- Seleccione un Genero --</option></select>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.gender.$invalid && frm.gender.$touched">Campo requerido!</small>
+						</div>
 					</div>
-				</div>
-				<div class="d-flex">
-					<div class="form-group m-1 w-50">
-						<label class="form-control-label m-0" for="employeeIdCard">Tarjeta de Identidad</label>  
-						<input type="text" class="form-control form-control-sm" name="employeeIdCard" ng-model="employee.idCard">
+					<div class="d-flex">
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.joined.$invalid, 'has-success' : frm.joined.$valid }" >
+							<label class="form-control-label m-0"  for="joined">Fecha de Ingreso</label> 
+							<input type="date" class="form-control form-control-sm" name="joined" ng-model="employee.joined" required>
+						</div>
+						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.shift.$invalid, 'has-success' : frm.shift.$valid }" >
+							<label class="form-control-label m-0"  for="shift">Jornada Laboral</label>
+							<select class="form-control form-control-sm" name="shift" ng-model="employee.shift" ng-options="s.id as s.name for s in shifts" required><option value="">-- Seleccione una Jornada Laboral --</option></select>
+							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.shift.$invalid && frm.shift.$touched">Seleccione una Jornada Laboral.</small>
+						</div>
 					</div>
-					<div class="form-group m-1 w-50">
-						<label class="form-control-label m-0" for="employee.salary">Salario</label>  
-						<input type="text" class="form-control form-control-sm" ng-model="employee.salary">
-					</div>
-				</div>
-				<div class="d-flex">
-					<div class="form-group m-1 w-50" >
-						<label class="form-control-label m-0"  for="academicLevel">Nivel Académico</label>
-						<select class="form-control form-control-sm" name="academicLevel" ng-model="employee.academicLevel" ng-options="al.id as al.name for al in academicLevels" required>
-							<option value="">-- Seleccione un Nivel Académico --</option>
-						</select>
-						<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.unit.$invalid && frm.unit.$touched">Seleccione un nivel académico.</small>
-					</div>
-					<div class="form-group m-1 w-50">
-						<label class="form-control-label m-0"  for="profession">Profesión</label>
-						<select class="form-control form-control-sm" name="profession" ng-model="employee.profession" ng-options="p.id as p.name for p in professions" required>
-							<option value="">-- Seleccione una Profesión --</option>
-						</select>
-						<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.profession.$invalid && frm.profession.$touched">Seleccione una profesión.</small>
-					</div>
-				</div>
-				<div class="d-flex">
-					<div class="form-group m-1 w-50"> <!-- ng-class="{ 'has-error' : frm.maritalStatus.$invalid && frm.maritalStatus.$touched, 'has-success' : frm.maritalStatus.$valid }">-->
-						<label class="form-control-label m-0"  for="maritalStatus">Estado Civil</label>
-						<select class="form-control form-control-sm" name="maritalStatus" ng-model="employee.maritalStatus" ng-options="ms.id as ms.name for ms in maritalStatus" required>
-							<option value="">-- Seleccione un Estado Civil --</option>
-						</select>
-						<!-- <small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.maritalStatus.$invalid && frm.maritalStatus.$touched">Seleccione un estado civil.</small> -->
-					</div>
-					<div class="form-group m-1 w-50">
-						<label class="form-control-label m-0" for="gender">Género</label>  
-						<input type="text" class="form-control form-control-sm" ng-model="employee.gender">
-					</div>
-				</div>
-				<div class="form-group m-1">
-					<label class="form-control-label m-0"  for="joined">Fecha de Ingreso</label>
-					<input type="date" class="form-control form-control-sm" id="3" name="joined" ng-model="employee.joined" ng-pattern-restrict required>
-				</div>
+				</form>
 			</div>
-			<div class="modal-footer p-0 m-2 justify-content-end">
+			<div class="modal-footer p-2 justify-content-end">
 				<!-- <button class="btn btn-info btn-outline btn-xs" ng-click="nextStep(-1)" ng-disabled="step<2"  ><i class="fa fa-arrow-left mr-1" ></i><span>Anterior</span></button> -->
 				<!-- <button class="btn btn-outline-danger btn-xs" ng-click="step=1">Cancelar</button> -->
 				<!-- <button class="btn btn-outline-danger btn-xs p-1" data-dismiss="modal" ng-click="step=1">Cancelar</button> -->
-				<!-- <button class="btn btn-success btn-outline btn-xs" ng-click="saveEmployee(employee)" ng-disabled="!frm.$valid" ><i class="fa fa-send mr-1"></i><span>Guardar</span></button> -->
-				<button class="btn btn-outline-secondary btn-xs" data-dismiss="modal"><i class="fa fa-close"></i> Cancelar</button>
+				<!-- <button class="btn btn-success btn-outline btn-xs" ng-click="saveEmployee(employee)" ng-disabled="!frm.$valid" data-dismiss="modal"><i class="fa fa-send mr-1"></i><span>Guardar</span></button> -->
 				<button class="btn btn-success btn-outline btn-xs" ng-click="saveEmployee(employee)" data-dismiss="modal"><i class="fa fa-send mr-1"></i><span>Guardar</span></button>
+				<button class="btn btn-outline-dark btn-xs" data-dismiss="modal"><i class="fa fa-close mr-1"></i>Salir</button>
 				<!-- <button class="btn btn-info btn-outline btn-xs" ng-click="nextStep(1)" ng-disabled="step>2"  ><i class="fa fa-arrow-right mr-1" ></i><span>Siguiente</span></button> -->
 			</div>
 		</div>

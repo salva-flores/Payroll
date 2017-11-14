@@ -82,11 +82,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="modal-footer justify-content-between">
-				<button class="btn btn-info btn-outline btn-xs" ng-click="nextStep(-1)" ng-disabled="step<2"  ><i class="fa fa-arrow-left mr-1" ></i><span>Anterior</span></button>
-				<button class="btn btn-outline-dark btn-xs" data-dismiss="modal" ng-click="step=1">Cancelar</button>
+			<!-- <div class="modal-footer justify-content-between"> -->
+			<div class="modal-footer">
 				<button class="btn btn-outline-success btn-xs" ng-click="saveEmployee(employee)" ><i class="fa fa-send mr-1"></i><span>Guardar</span></button>
-				<button class="btn btn-outline-info btn-xs" ng-click="nextStep(1)" ng-disabled="step>2"  ><i class="fa fa-arrow-right mr-1" ></i><span>Siguiente</span></button>
+				<button class="btn btn-outline-dark btn-xs" data-dismiss="modal" ng-click="step=1">Salir</button>
 			</div>
 		</div>
 	</div>

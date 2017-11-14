@@ -3,19 +3,16 @@
 		<div class="d-flex justify-content-end align-items-center">
 			<div class="text-dark font-weight-bold mr-auto">Solicitudes de Horas Extras</div>
 			<div class="btn-toolbar " role="toolbar">
-				<button class="btn btn-outline-primary btn-xs mr-1" title="Agregar solicitud" ng-click="addRequest(frm)" data-toggle="modal" data-target="#overReqForm"><i class="fa fa-plus mr-1"></i>Nueva</button>
+				<button class="btn btn-outline-primary btn-xs mr-1" title="Agregar solicitud" ng-click="addRequest(frm)" data-toggle="modal" data-target="#overReqForm"><i class="fa fa-sticky-note-o mr-1"></i>Agregar Solicitud</button>
 				<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="run();"><i class="fa fa-repeat"></i></button>
-				<!-- <button class="btn btn-outline-secondary btn-xs" title="Calcular el Total" ng-click="calcFooter();"><i class="fa fa-calculator"></i></button> -->
 			</div>
 		</div>
 	</div>
-	<!-- <div class="card-body p-2" ng-class="{'animated fadeIn 1': showReqs==true, 'animated fadeOut 0.25': showReqs==false}"> -->
 	<div class="card-body p-2" ng-class="{'animated fadeIn 1': showReqs==true}">
 		<table datatable="ng" class="row-border hover" id="reqsTable">
 			<thead>
 				<th>Fecha</th>
 				<th ng-show="isAdmin">Empleado</th>
-				<!-- <th ng-show="!isAdmin">Solicitante</th> -->
 				<th>Solicitante</th>
 				<th>Descripción</th>
 				<th>Tipo</th>
@@ -23,28 +20,34 @@
 				<th ng-repeat="o in overtime" class="text-right" >{{o.name}}</th>
 				<th class="text-right">Real</th>
 				<th>Estado</th>
+				<th>Detalle</th>
 				<th ng-show="!isAdmin">Observaciones</th>
 			</thead>
 			<tbody>
 				<tr ng-repeat="r in requests" ng-class="{'text-primary':r.state=='Autorizada','text-success':r.state=='Aprobada','text-warning':r.state=='Pendiente','text-secondary':r.state=='Cerrada','text-danger':r.state=='Rechazada'||r.state=='Devuelta','text-dark':r.state=='Pagada'}" >
-					<td title="{{r.date}}">{{ r.date |date : 'EEE dd-MMM-yy'}}</td>
+					<td title="{{r.date}}">{{ r.date | date:'EEE, dd-MMM-yy'}}</td>
 					<td ng-show="isAdmin">{{ r.firstName }}</td>
-					<!-- <td ng-show="!isAdmin">{{ r.requestedBy }}</td> -->
 					<td>{{ r.requestedBy }}</td>
 					<td>{{ r.description }}</td>
 					<td>
-						<div class="d-flex justify-content-center">
-							<i ng-class="{'fa fa-windows fa-lg':r.class=='Ventana','fa fa-building-o fa-lg':r.class=='Normal','fa fa-home fa-lg':r.class=='Interna'}" title="{{ r.class }}"></i>
-						</div> 
+						<div class="d-flex justify-content-center"><i ng-class="{'fa fa-windows fa-lg':r.class=='Ventana','fa fa-building-o fa-lg':r.class=='Normal','fa fa-home fa-lg':r.class=='Interna'}" title="{{ r.class }}"></i>	</div>
 					</td>
 					<td class="text-right pr-3">{{ r.estimatedTime }}</td>
-					<td ng-repeat="o in overtime" class="text-center">{{r.t[$index]>0 ? r.t[$index] : '-'}}</td>
+					<td ng-repeat="o in overtime" class="text-center">{{r.t[$index]>0 ? (r.t[$index] |number:1) : '-'}}</td>
 					<td class="text-right pr-3">{{ r.totalHoras }}</td>
+					<td >
+						<div class="d-flex justify-content-start">
+							<button title="Cambiar Estado" data-toggle="modal" data-target="#overDetailForm" ng-click="changeState(r)" class="btn btn-outline btn-xs mr-1 " ng-class="{'btn-primary':r.state=='Autorizada','btn-success':r.state=='Aprobada', 'btn-info':r.state=='Cerrada','btn-warning':r.state=='Pendiente','btn-danger':r.state=='Rechazada'||r.state=='Devuelta','btn-dark':r.state=='Pagada',}" ng-show="isAdmin"> 
+								<i class="fa-fw" ng-class="{'fa fa-thumbs-up':r.state=='Autorizada','fa fa-pencil-square-o':r.state=='Aprobada', 'fa fa-inbox':r.state=='Cerrada','fa fa-warning':r.state=='Pendiente'||r.state=='Devuelta', 'fa fa-thumbs-down':r.state=='Rechazada' }"></i>
+							</button>{{ r.state }}
+						</div>
+					</td>
 					<td>
-						<button title="Detalle de actividades." data-toggle="modal" data-target="#overDetailForm" ng-click="fillDetail(r)" class="btn btn-outline btn-xs" ng-class="{'btn-primary':r.state=='Autorizada','btn-success':r.state=='Aprobada', 'btn-secondary':r.state=='Cerrada','btn-warning':r.state=='Pendiente','btn-danger':r.state=='Rechazada'||r.state=='Devuelta','btn-dark':r.state=='Pagada',}" ng-disabled="r.state=='Rechazada'||r.state=='Devuelta'||r.state=='Pendiente'">
-							<i class="fa" ng-class="{'fa fa-thumbs-up':r.state=='Autorizada','fa-pencil-square-o':r.state=='Aprobada'||r.state=='Cerrada','fa-warning':r.state=='Pendiente'||r.state=='Devuelta', 'fa-thumbs-o-down':r.state=='Rechazada' }"></i>
-						</button>
-						- {{ r.state }}
+						<div class="d-flex justify-content-center">
+							<button title="Detalle de actividades." data-toggle="modal" data-target="#overDetailForm" ng-click="fillDetail(r)" class="btn btn-outline btn-xs" ng-class="{'btn-primary':r.state=='Autorizada','btn-success':r.state=='Aprobada', 'btn-info':r.state=='Cerrada','btn-warning':r.state=='Pendiente','btn-danger':r.state=='Rechazada'||r.state=='Devuelta','btn-dark':r.state=='Pagada',}"> 
+								<i class="fa-fw" ng-class="{'fa fa-thumbs-up':r.state=='Autorizada','fa fa-pencil-square-o':r.state=='Aprobada', 'fa fa-inbox':r.state=='Cerrada','fa fa-warning':r.state=='Pendiente'||r.state=='Devuelta', 'fa fa-thumbs-down':r.state=='Rechazada' }"></i>
+							</button>
+						</div>
 					</td>
 					<td ng-show="!isAdmin">{{ r.observations }}</td>
 				</tr>
@@ -57,49 +60,49 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="card">
-				<!-- <div class="card-header p-2 text-dark font-weight-bold">Solicitud de Horas Extras para el {{today|date:'EEEE, dd-MM-yyyy'}} -->
 				<div class="card-header p-2 text-dark font-weight-bold">
 					<div class="d-flex align-items-center"><div >Solicitud de Horas Extras - {{request.date | date:'EEEE, dd-MM-yyyy'}}</div></div>
 				</div>
-				<div class="card-body p-2">
+				<div class="card-body p-1">
 					<form name="frm">
 						<fieldset>
-							<div class="d-flex flex-row p-1 mb-1" ng-show="isAdmin">
-								<div class="col-sm-4">
-									<label class="control-label bold">Empleado:</label>
-									<select  class="custom-control input-group-xs p-1" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName for e in employees | orderBy:'firstName'"></select>
-								</div> 
+							<div class="d-flex mb-2" ng-show="isAdmin">
+								<div class="form-group col-sm-3 pr-1 m-0">
+									<label class="control-label bold m-0">Empleado:</label>
+									<select  class="form-control form-control-sm p-0" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName for e in employees | orderBy:'firstName'" ng-change="checkEmployee(request.employeeId)"></select>
+								</div>
 							</div>
-							<div class="row p-1">
-								<div class="col-sm-3" ng-class="{ 'has-error' : frm.requestDate.$invalid && frm.requestDate.$touched}">
-									<label class=" control-label bold" for="requestDate">Fecha: </label>
-									<input ng-model="request.date" ng-change="checkDate(request.date)" title="Fecha en que realizó el trabajo." id="reqDate" name="requestDate" type="date" class="form-control input-group-sm p-1" ng-disabled="request.state=='Cerrada'" required>
+							<div class="row mb-2">
+								<div class="form-group col-sm-3 pr-1 m-0" ng-class="{ 'has-error' : frm.requestDate.$invalid && frm.requestDate.$touched}">
+									<label class=" control-label bold m-0" for="requestDate">Fecha: </label>
+									<input ng-model="request.date" ng-change="checkDate(request.date)" title="Fecha en que realizará el trabajo." id="reqDate" name="requestDate" type="date" class="form-control input-group-sm p-1" ng-disabled="request.state=='Cerrada'" required>
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestDate.$invalid && frm.requestDate.$touched">Requerido!</tt>
 								</div>
-								<div class="col-md-3" ng-class="{ 'has-error' : frm.start.$invalid && frm.start.$touched}">
-									<label class=" control-label bold" for="start">Hora de inicio:</label>  
+								<div class="form-group col-sm-3 pr-1 m-0" ng-class="{ 'has-error' : frm.start.$invalid && frm.start.$touched}">
+									<label class=" control-label bold m-0" for="start">Hora de inicio:</label>  
 									<input ng-model="hora" title="Hora en que comenzará a trabajar; Su Jornada laboral le permite a partir de las {{os|date:'h:mma'}}" id="1" name="start" type="time" class="form-control input-group-sm p-1" min="{{os}}" required  >
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.start.$invalid && frm.start.$touched">De {{os|date:'h:mm a'}} a 11:59 pm.</tt>
 								</div>
-								<div class="col-md-3" ng-class="{ 'has-error' : frm.estimatedTime.$invalid && frm.estimatedTime.$touched}">
-									<label class=" control-label bold" for="estimatedTime">Horas estimadas:</label>  
-									<input ng-model="request.estimatedTime" title="Tiempo estimado para completar la actividad (máximo 4 hrs)." type="text" class="form-control input-group-sm p-1" id="estTime" name="estimatedTime" minlength ="1" maxlength="1" pattern="^[1-4]*$" ng-pattern-restrict required>
+								<div class="form-group col-sm-2 pr-1 m-0" ng-class="{ 'has-error' : frm.estimatedTime.$invalid && frm.estimatedTime.$touched}">
+									<label class=" control-label bold m-0" for="estimatedTime">Horas estimadas:</label>  
+									<!-- <input ng-model="request.estimatedTime" title="Tiempo estimado para completar la actividad (máximo 4 hrs)." type="text" class="form-control input-group-sm p-1" id="estTime" name="estimatedTime" minlength ="1" maxlength="1" pattern="^[1-4]*$" ng-pattern-restrict required> -->
+									<input ng-model="request.estimatedTime" title="Tiempo estimado para completar la actividad (máximo 4 hrs)." type="number" class="form-control input-group-sm p-1" id="estTime" name="estimatedTime" min="1" max="4" pattern="^[1-4]*$" ng-pattern-restrict required>
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.estimatedTime.$invalid">De 1 a 4 horas.</tt>
 								</div>
-								<div class="col-md-3" ng-class="{ 'has-error' : frm.requestedBy.$invalid && frm.requestedBy.$touched}">
-									<label class="control-label bold" for="requestedBy">Persona que le asignó la actividad:</label>  
+								<div class="form-group col-sm-4 pr-1 m-0" ng-class="{ 'has-error' : frm.requestedBy.$invalid && frm.requestedBy.$touched}">
+									<label class="control-label bold m-0" for="requestedBy">Persona que le asignó la actividad:</label>  
 									<input ng-model="request.requestedBy" title="Nombre del Jefe que le asignó la actividad." id="requestedBy" name="requestedBy" type="text" class="form-control input-group-sm p-1" required >
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.requestedBy.$invalid && frm.requestedBy.$touched">Campo requerido!</tt>
 								</div>
 							</div>
-							<div class="row justify-content-end p-1">
-								<div class="col-md-3">
+							<div class="row justify-content-end">
+								<div class="form-group col-sm-3 m-0">
 									<label class="control-label bold">Tipo:</label>
 									<div class="radio" ><label class="text" title="Asignada en Tigo." ><input ng-model="request.class" type="radio" name="t1" id="t1" value="Normal" ng-checked="true" >Asignada en TIGO</label></div>
 									<div class="radio" ><label class="text" title="Asignada en CENTEC."><input ng-model="request.class" type="radio" name="t2" id="t2" value="Interna" >Asignada en CENTEC</label></div>
 									<div class="radio" ><label class="text" title="Ventana programada."><input ng-model="request.class" type="radio" name="t3" id="t3" value="Ventana" >Ventana Programda</label></div>
 								</div>
-								<div class="col-md-9" ng-class="{ 'has-error' : frm.description.$invalid && frm.description.$touched}">
+								<div class="form-group col-sm-6 m-0" ng-class="{ 'has-error' : frm.description.$invalid && frm.description.$touched}">
 									<label class="control-label bold" for="description">Descripción:</label>
 									<textarea ng-model="request.description" style="overflow:auto;resize:none" title="Descripción detallada de la actividad que se le asignó." class="form-control" id="description" name="description" rows="4" required ></textarea>
 									<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.description.$invalid && frm.description.$touched">Por favor describa la actividad realizada.</tt>
@@ -112,7 +115,7 @@
 					<div class="d-flex justify-content-end">
 						<div class="btn-toolbar " role="toolbar">
 							<button class="btn btn-outline-secondary btn-xs mr-1" ng-click="saveRequest(hora);" ng-disabled="!frm.$valid" ng-class="{'btn-success':frm.$valid}"><i class="fa fa-send"/> Enviar</button>
-							<button class="btn btn-outline-secondary btn-xs" data-dismiss="modal"><i class="fa fa-close"></i> Cancelar</button>
+							<button class="btn btn-outline-dark btn-xs" data-dismiss="modal"><i class="fa fa-close"></i> Salir</button>
 						</div>
 					</div>
 				</div>
@@ -124,7 +127,7 @@
 <div class="modal fade" id="overDetailForm" tabindex="-1" role="dialog" data-backdrop="static">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
-			<div class="card d-print-none" ng-show="request.state=='Aprobada' ">
+			<div class="card d-print-none" ng-show="request.state=='Aprobada' && !showState">
 				<div class="card-header m-0 p-2" >
 					<div class="d-flex justify-content-end">
 						<div class="mr-auto mr-2">Detalle de Actividades</div>
@@ -135,24 +138,21 @@
 				</div>
 				<div class="card-body m-0 p-2 d-print-none">
 					<form id="detailForm" name="detailForm" novalidate>
-						
-						<div class="row">
-							<div class="col-sm-3">
-								<label class="control-label bold" for="date">Fecha: </label>
-								<input ng-model="activity.activityDate" id="actDate" name="date" type="date" class="form-control input-sm" ng-disabled="request.state=='Cerrada'" >
-								<!-- <input ng-model="activity.activityDate" id="actDate" name="date" type="date" class="form-control input-sm" ng-disabled="true"> -->
+						<div class="row p-1" >
+							<div class="col-sm-3" ng-class="{ 'has-error' : detailForm.requestStartTimeStamp.$invalid}">
+								<label class=" control-label bold" for="requestStartTimeStamp">Fecha y Hora de Inicio: </label>
+								<input ng-model="activity.startTimeStamp" ng-change="checkDate(request.date)" title="Fecha y hora en que comenzó el trabajo. Mínimo: {{minStart | date:'h:mm a'}}" id="reqDate" name="requestStartTimeStamp" type="datetime-local" class="form-control input-group-sm p-1" min="{{minStart}}" ng-disabled="request.state=='Cerrada'" required>
+								<!-- {{detailForm.requestStartTimeStamp}} {{minStart | date:'h:mm a'}}-->
+								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.requestStartTimeStamp.$invalid && detailForm.requestStartTimeStamp.$touched">Requerido!</tt>
+								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.requestStartTimeStamp.$error.min">Mínimo: {{minStart | date:'dd-MMM h:mm a'}}.</tt>
 							</div>
-							<div class="col-sm-2" ng-class="{ 'has-error' : detailForm.start.$invalid && detailForm.start.$touched}">
-								<label class=" control-label bold" for="start">Hora de inicio:</label>  
-								<input ng-model="activity.startTime" id="actStart" name="start" type="time" class="form-control input-sm" min="{{minStart}}" required ng-disabled="request.state=='Cerrada'" title="{{activity.startTime|date:'medium'}}"> 
-								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.start.$invalid && detailForm.start.$touched">De {{minStart|date:'h:mm a'}} en adelante.</tt>
+							<div class="col-sm-3" ng-class="{ 'has-error' : detailForm.requestEndTimeStamp.$invalid}">
+								<label class=" control-label bold" for="requestEndTimeStamp">Fecha y Hora de Finalización: </label>
+								<input ng-model="activity.endTimeStamp" ng-change="checkDate(request.date)" title="Fecha y hora en que finalizó el trabajo. {{minEnd | date:'h:mm a'}}" id="reqDate" name="requestEndTimeStamp" type="datetime-local" class="form-control input-group-sm p-1" min="{{minEnd}}" ng-disabled="request.state=='Cerrada'" required>
+								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.requestEndTimeStamp.$error.min">Mínimo: {{minEnd | date:'dd-MMM h:mm a'}}.</tt>
+								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.requestEndTimeStamp.$invalid && detailForm.requestEndTimeStamp.$touched">Requerido!</tt>
 							</div>
-							<div class="col-sm-2" ng-class="{ 'has-error' : detailForm.end.$invalid && detailForm.end.$touched}">
-								<label class=" control-label bold" for="end">Hora de finalización:</label>  
-								<input ng-model="activity.endTime" title="Hora en que terminó la actividad, {{activity.endTime|date:'medium'}}" id="actEnd" name="end" type="time" class="form-control input-sm" min="{{minEnd}}" required  ng-disabled="request.state=='Cerrada'">
-								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.end.$invalid && detailForm.end.$touched">Rango: {{activity.startTime|date:'h:mm a'}} - 11:59 p.m.</tt>
-							</div>
-							<div class="col-sm-5 mb5">
+							<div class="col-sm-6">
 								<label class="control-label bold" for="description">Descripción:</label>
 								<textarea ng-model="activity.activities" class="form-control" id="actDesc" name="description" rows="2" ng-required="request.state!='Cerrada'" ng-disabled="request.state=='Cerrada'" ></textarea>
 								<tt style="color:maroon; font-size:10px; font-weight:bold" ng-show="detailForm.description.$invalid">Por favor describa la actividad realizada.</tt>
@@ -160,46 +160,119 @@
 						</div>
 					</form>
 				</div>
-				<div class="card-footer mb-2 p-2">
+				<div class="card-footer p-2">
 					<div class="d-flex justify-content-end">
-						<div class="btn-toolbar" role="toolbar">
-							<button class="btn btn-default btn-outline btn-xs" title="Agregar esta actividad al detalle" ng-disabled="!detailForm.$valid||request.state=='Cerrada'" ng-click="addDetailRow(detailForm)" ng-class="{'btn-success':detailForm.$valid}"  ng-hide="request.state=='Cerrada'"><i class="fa fa-plus-circle"></i></button>
+						<div class="btn-toolbar d-print-none " role="toolbar" >
+							<button class="btn btn-default btn-outline btn-xs mr-1" title="Agregar esta actividad al detalle" ng-disabled="!detailForm.$valid||request.state=='Cerrada'" ng-click="addDetailRow(detailForm)" ng-class="{'btn-success':detailForm.$valid}"  ng-hide="request.state=='Cerrada'"><i class="fa fa-plus-circle mr-1"></i>Agregar al Detalle</button>
+							<!-- <button class="btn btn-primary btn-outline btn-xs mr-1" ng-disabled="!enableCloseButton" ng-class="{'btn-success':enableCloseButton,'btn-danger':!enableCloseButton }" ng-click="closeRequest()" ng-show="request.state=='Aprobada' && !showState"><i class="fa fa-window-close-o"/> Cerrar Detalle</button> -->
+							<!-- <button class="btn btn-outline-dark btn-xs" data-dismiss="modal" ng-click="closeDetail(detailForm)"><i class="fa fa-close"></i> Salir</button> -->
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="card" >
+			<div class="card p-0" >
 				<div class="card-header p-2" >
 					<div class="d-flex justify-content-end">
 						<div class="mr-auto">Desglose por Horas</div>	
-						<!-- <button class="btn btn-primary btn-outline btn-xs mr-1 d-print-none" title="Validar el detalle" ng-click="validateDetail()"><i class="fa fa-calculator"></i></button>
+						<!-- <button class="btn btn-primary btn-outline btn-xs mr-1 d-print-none" title="Validar el detalle" ng-click="validateDetail()"><i class="fa fa-calculator"></i> {{totalHorasDetalle}} horas</button>
 						<div ><a href="javascript:window.print()" class="btn btn-outline-success btn-xs d-print-none" title="Imprimir Detalle" ><i class="fa fa-print"></i></a> </div> -->
 					</div>
 				</div>
-				<div class="card-body m-0 p-2">
+				<div class="card-body m-0 p-0">
 					<table class="table table-bordered m-0">
-						<thead>
-							<th>Fecha</th>
-							<th>Inicio</th>
-							<th>Fin</th>
-							<th>Actividades</th>
+						<thead >
+							<th class="p-1">Inicio</th>
+							<th class="p-1">Finalización</th>
+							<th class="p-1">Actividades</th>
+							<th class="p-1 text-right">Editar</th>
 						</thead>
 						<tbody>
-							<tr ng-repeat="a in detail">
-								<td>{{ a.activityDate |date:'EEE, dd-MMM-yyyy'}}</td>
-								<td>{{ a.activityDate+'T'+a.startTime |date:'h:mm a'}}</td>
-								<td>{{ a.activityDate+'T'+a.endTime |date:'h:mm a'}}</td>
-								<td>{{ a.activities }}</td>
+							<tr ng-repeat="a in detail" >
+								<td class="p-1">{{ a.startTimeStamp.substring(0,10) | date:'EEE, dd-MMM-yyyy'}}, {{a.startTimeStamp.substring(0,10)+'T'+a.startTimeStamp.substring(11) | date:'h:mm a'}}</td>
+								<td class="p-1">{{ a.endTimeStamp.substring(0,10) | date:'EEE, dd-MMM-yyyy'}}, {{a.endTimeStamp.substring(0,10)+'T'+a.endTimeStamp.substring(11) | date:'h:mm a'}}</td>
+								<td class="p-1">{{ a.activities }}</td>
+								<td class="p-1 text-right"><button class="btn btn-outline-success btn-xs" title="Editar" ng-click="rowform.$show()"><i class="fa fa-pencil"></i></button></td>
 							</tr>
 						</tbody>
+						<thead >
+							<th class="border-0"></th>
+							<th class="border-0"></th>
+							<th class="p-1 border-0">Total: {{totalHorasDetalle}} horas</th>
+							<th class="border-0"></th>
+						</thead>
 					</table>
 				</div>
-				<div class="card-footer m-0 p-2">
+				<div class="card-footer m-0 p-2" ng-show="!showState">
 					<div class="d-flex justify-content-end">
-						<div class="btn-toolbar d-print-none " role="toolbar">
-							<button class="btn btn-default btn-outline btn-xs mr-1" ng-disabled="!enableCloseButton" ng-class="{'btn-success':enableCloseButton,'btn-danger':!enableCloseButton }" ng-click="closeRequest()" ng-show="request.state=='Aprobada'"><i class="fa fa-send"/> Cerrar Detalle</button>
-							<button class="btn btn-default btn-outline btn-xs" data-dismiss="modal" ng-click="closeDetail(detailForm)"><i class="fa fa-close"></i> Salir</button>
+					<!-- <div class="d-flex "> 
+						<div class="d-flex mr-3">
+							Total de horas: {{totalHorasDetalle}}
+						</div>-->
+						<div class="btn-toolbar d-print-none " role="toolbar" ng-show="!showState">
+							<!-- <button class="btn btn-success btn-outline btn-xs mr-1" ng-click="changeState()" ng-show="isAdmin"><i class="fa fa-dot-circle-o"></i> Cambiar Estado</button> -->
+							<button class="btn btn-primary btn-outline btn-xs mr-1" ng-disabled="!enableCloseButton" ng-class="{'btn-success':enableCloseButton,'btn-danger':!enableCloseButton }" ng-click="closeRequest()" ng-show="request.state=='Aprobada' && !showState"><i class="fa fa-window-close-o"/> Cerrar Detalle</button>
+							<!-- <button class="btn btn-info btn-outline btn-xs mr-1" ng-click="edit()"><i class="fa fa-pencil"></i> Editar</button> -->
+							<button class="btn btn-outline-dark btn-xs" data-dismiss="modal" ng-click="closeDetail(detailForm)"><i class="fa fa-close"></i> Salir</button>
 						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex flex-row-reverse" >
+				<div class="card p-0 w-50" ng-show="showState" >
+					<div class="card-header p-1">Estado</div>
+					<div class="card-body p-1 ">
+						<form class="form-horizontal" id="stateForm" name="stateForm" novalidate>
+							<div class="form-row ">
+								<div class="col-sm-4">
+									<div class="radio"><label class="text mb-1"><input ng-model="request.state" type="radio" name="optionsRadios" id="1" value="Aprobada" ng-checked="true">Aprobada</label></div>
+									<div class="radio"><label class="text mb-1"><input ng-model="request.state" type="radio" name="optionsRadios" id="2" value="Rechazada">Rechazada</label></div>
+									<div class="radio"><label class="text mb-1"><input ng-model="request.state" type="radio" name="optionsRadios" id="3" value="Devuelta">Devuelta</label></div>
+									<div class="radio"><label class="text mb-1"><input ng-model="request.state" type="radio" name="optionsRadios" id="4" value="Cerrada" ng-disabled>Cerrada</label></div>
+									<div class="radio"><label class="text mb-1"><input ng-model="request.state" type="radio" name="optionsRadios" id="5" value="Autorizada">Autorizada</label></div>
+								</div>
+								<div class="col-sm-8">
+									<label class="text m5">Notas:</label>
+									<textarea class="form-control" type="text" ng-model="request.observations" name="notas" id="notas" rows="4" required></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="card-footer d-flex justify-content-end p-1">
+						<button class="btn btn-outline btn-xs mr-1" ng-click="updateState()" ng-class="{'btn-success' : stateForm.$valid}" data-dismiss="modal"><i class="fa fa-send"/> Guardar</button>
+						<button class="btn btn-outline-secondary btn-xs" data-dismiss="modal"><i class="fa fa-close"></i> Salir</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="overStateForm" tabindex="-1" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="d-flex flex-row-reverse">
+				<div class="card p-1 w-100" ng-show="showState" >
+					<div class="card-header p-2">Estado</div>
+					<div class="card-body p-2 ">
+						<form class="form-horizontal" id="stateForm" name="stateForm" novalidate>
+							<div class="form-row ">
+								<div class="col-sm-4">
+									<div class="radio"><label class="text"><input ng-model="request.state" type="radio" name="optionsRadios" id="1" value="Aprobada" ng-checked="true">Aprobada</label></div>
+									<div class="radio"><label class="text"><input ng-model="request.state" type="radio" name="optionsRadios" id="2" value="Rechazada">Rechazada</label></div>
+									<div class="radio"><label class="text"><input ng-model="request.state" type="radio" name="optionsRadios" id="3" value="Devuelta">Devuelta</label></div>
+									<div class="radio"><label class="text"><input ng-model="request.state" type="radio" name="optionsRadios" id="4" value="Cerrada" ng-disabled>Cerrada</label></div>
+									<div class="radio"><label class="text"><input ng-model="request.state" type="radio" name="optionsRadios" id="5" value="Autorizada">Autorizada</label></div>
+								</div>
+								<div class="col-sm-8">
+									<label class="text m5">Notas:</label>
+									<textarea class="form-control" type="text" ng-model="request.observations" name="notas" id="notas" rows="5" required></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="card-footer d-flex justify-content-end p-2">
+						<button class="btn btn-outline-secondary btn-xs mr-1" data-dismiss="modal"><i class="fa fa-close"></i> Cancelar</button>
+						<button class="btn btn-outline btn-xs mr-1" ng-click="updateState()" ng-class="{'btn-success' : stateForm.$valid}" data-dismiss="modal"><i class="fa fa-send"/> Guardar</button>
 					</div>
 				</div>
 			</div>

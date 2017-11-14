@@ -68,8 +68,8 @@ angular
 		resolve: {
 			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
 				return $ocLazyLoad.load([
-					{insertBefore: '#load_styles_before',files:['src/vendor/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css']},
-					{serie:true,files:['src/vendor/Charts/Chart.js','src/vendor/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js']},
+					{insertBefore: '#load_styles_before',files:['src/vendor/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css','src/vendor/bootstrap-daterangepicker/daterangepicker.css']},
+					{serie:true,files:['src/vendor/Charts/Chart.js','src/vendor/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js','src/vendor/bootstrap-daterangepicker/moment.min.js','src/vendor/bootstrap-daterangepicker/daterangepicker.js']},
 				]).then(function () {return $ocLazyLoad.load('app/controllers/app.charts.js')});
 			}]
 		},
@@ -177,8 +177,8 @@ angular
 		template: '<div ui-view></div>',	abstract: true,	url: '/ded'
 		})	
 	.state('pay.ded.employee', {
-		url: '/employee', templateUrl: 'app/views/deduction.html', controller: 'deductionCtrl',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/deduction.js')}]},
+		url: '/employee', templateUrl: 'app/views/pay.ded.employee.html', controller: 'employeeDeductionCtrl',
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/pay.ded.employee.js')}]},
 		data: {title: 'Deducciones del empleado'}
 		})
 	.state('pay.isr', {
@@ -193,7 +193,11 @@ angular
 		url: '/request', templateUrl: 'app/views/pay.over.request.html', controller: 'overtimeRequestCtrl',
 		resolve: {
 			parametros: ['$rootScope','$http', function($rootScope, $http){return $http.get('../hhrr/api/overParams/'+$rootScope.user.employee)}],
-			deps: ['parametros', '$ocLazyLoad', function (parametros, $ocLazyLoad) {return $ocLazyLoad.load('app/controllers/pay.over.request.js')}]
+			deps: ['parametros','$ocLazyLoad', function (parametros, $ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{insertBefore: '#load_styles_before',files: ['src/vendor/angular-xeditable/dist/css/xeditable.css']},
+					{name: 'xeditable', files: ['src/vendor/angular-xeditable/dist/js/xeditable.js']}
+					]).then(function () {return $ocLazyLoad.load('app/controllers/pay.over.request.js')})}]
 		},
 		data: {title: 'Solicitud de Horas Extras'}
 		})

@@ -14,7 +14,10 @@
 	$loader = new Loader();
 	$loader->registerDirs(array( __DIR__ . '/models/'))->register();
 	$di = new FactoryDefault();
-	$di->set('db', function() {return new PdoMysql( array("host" => "localhost","username" => "user","password" => "user","dbname" => "hhrr", "options" => array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')));});
+	$di->set('db', function() {return new PdoMysql( array(
+		"host" => "localhost",
+		// "host" => "172.16.1.99",
+		"username" => "user","password" => "user","dbname" => "hhrr", "options" => array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')));});
 	$app = new Micro($di);
 	$app->notFound(function () use ($app) {$app->response->setStatusCode(404, "API Not Found!")->sendHeaders();$app->response->setJsonContent(array('status' => 404,'message' => 'API Not Found!','error' => 'API Not Found!' ))->send();});
 //APIs
@@ -197,13 +200,13 @@
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));	}; 
 		return $response;	});
-	$app->get('/academicLevel', function() use($app) { //returns all profiles in catalogue
+	$app->get('/academicLevel', function() use($app) { //returns all academic levels in catalogue
 		$response = new Phalcon\Http\Response();
 		try {
-			validateToken();
+			// validateToken();
 			$data = CatAcademicLevel::find();
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
-		}catch(\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'message'=>'Error','data'=>[]));	};
+		}catch(\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'message'=>'Error','data'=>$e));	};
 		return $response;	});
 	$app->get('/profile', function() use($app) { //returns all profiles in catalogue
 		$response = new Phalcon\Http\Response();
@@ -315,8 +318,9 @@
 			$employee->profession= $request->profession;
 			$employee->maritalStatus= $request->maritalStatus;
 			$employee->gender= $request->gender;
+			$employee->shift= $request->shift;
 			$employee->joined= $request->joined;
-			$isCommit = $employee->save();
+			$isCommit = $employee->save($employee);
 			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','MainEmployee','PUT');};
 			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Registro modificado','commit'=> $isCommit,'data'=>$employee->getMessages()));
 		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
@@ -364,7 +368,7 @@
 		try {
 			// validateToken();
 			$data=[];
-			$phql="SELECT e.firstName, r.id, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.observations, e.salary
+			$phql="SELECT e.firstName, r.id, r.dateTimeStamp, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.observations, e.salary
 			from payOvertimeRequest r
 			inner join mainEmployee e on r.employeeId = e.id
 			order by e.id, r.date";
@@ -421,12 +425,14 @@
 		try {
 			// $tok=validateToken();
 			// where r.date>='$startDate ' and r.date<='$endDate' and (r.state='Cerrada' or r.state='Autorizada')
+			// where (r.dateTimeStamp>='$startDate ' and r.dateTimeStamp<='$endDate ' and r.state='Autorizada')
 			$data=array();
-			$phql="SELECT e.id as employeeId, e.firstName, r.id, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.decidedBy, r.decisionDate , r.observations, e.salary
+			$phql="SELECT e.id as employeeId, e.firstName, r.id, r.date, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.decidedBy, r.decisionDate , r.observations, e.salary
 			from payOvertimeRequest r
 			inner join mainEmployee e on r.employeeId = e.id
 			where r.date>='$startDate ' and r.date<='$endDate' and r.state='Autorizada'
-			order by e.firstName,r.date";
+			order by e.firstName,r.dateTimeStamp";
+			// print_r($phql);
 			$data = $app->modelsManager->executeQuery($phql);
 			if (count($data)>0) {
 				http_response_code(200);
@@ -452,6 +458,7 @@
 				$hora = new payOvertimeRequest();
 				$hora->employeeId = $request->employeeId;
 				$hora->date = $request->date;
+				$hora->dateTimeStamp = $request->dateTimeStamp;
 				$hora->startTime = $request->startTime;
 				$hora->estimatedTime = $request->estimatedTime;
 				$hora->requestedBy = $request->requestedBy;
@@ -538,6 +545,8 @@
 				$detail->startTime = $request->startTime;
 				$detail->endTime = $request->endTime;
 				$detail->activities = $request->activities;
+				$detail->startTimeStamp = $request->startTimeStamp;
+				$detail->endTimeStamp = $request->endTimeStamp;
 				$isCommit = $detail->save($detail);
 				addLog($decoded->user[0]->id,'2','payOvertimeDetail','POST');
 				$response->setJsonContent(array('status'  => 200, 'message' => 'Registro agregado.', 'commit' => $isCommit));
@@ -551,20 +560,37 @@
 			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
 		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));	};
 		return $response; });
+	$app->get('/overtimeBar/{range}', function($range) use($app){ // returns data for overtime bar chart - hours by employee
+		$response=new Response();
+		$startDate = substr($range, 0, 10); 
+		$endDate = substr($range,-10); 
+		try {
+			$data=array();
+			$phql="SELECT r.employeeId, u.userName as Usuario, e.firstName as Empleado, count(r.estimatedTime) as Solicitudes, sum(r.estimatedTime) as Horas
+				from PayOvertimeRequest r
+				inner join MainEmployee e on r.employeeId=e.id
+				inner join SecUser u on r.employeeId=u.employeeId
+				where r.date>='$startDate ' and r.date<='$endDate' and r.state='Autorizada'
+				group by r.employeeId ";
+			$data = $app->modelsManager->executeQuery($phql);
+			if (count($data)>0) {http_response_code(200);$response -> setJsonContent(array('status' =>http_response_code(),'message' => 'Ok','data'=> $data));} 
+			else {http_response_code(406); $response -> setJsonContent(array('status' =>http_response_code(),'message' => 'No hay datos en ese rango!','data'=> $data));};
+		} catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
+		return $response;	});
 	$app->get('/overtimeLine', function() use ($app){ // returns data for overtime line chart - total hours in month
 		$response=new Response();
 		try {
 			$data=array();
 			$phql = "SELECT monthname(r.date) as Mes, week(r.date) as Semana, dayname(r.date) as Dia, r.date, r.employeeId, u.userName as Usuario, e.firstName as Empleado, count(r.estimatedTime) as Solicitudes, sum(r.estimatedTime) as Horas
-			from payOvertimeRequest r
-			inner join mainEmployee e on r.employeeId=e.id
-			inner join secUser u on r.employeeId=u.employeeId
-			group by r.date
-			order by r.date";
+				from PayOvertimeRequest r
+				inner join MainEmployee e on r.employeeId=e.id
+				inner join SecUser u on r.employeeId=u.employeeId
+				group by r.date
+				order by r.date";
 			$data = $app->modelsManager->executeQuery($phql);
 			if(count($data)>0){http_response_code(200);}else{http_response_code(200);}
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
-		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));}; 
+		} catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));}; 
 		return $response; });
 	$app->get('/payrolltypes', function(){ //returns payroll types
 		$response = new Response();

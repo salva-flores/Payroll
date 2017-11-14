@@ -1,3 +1,4 @@
+//not used, everything is in request.js
 'use strict';
 
 function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payrollService) {
@@ -91,7 +92,7 @@ function overtimeApproveCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			// 	.show();
 			// });
 		},function(response){console.log('Hubo un error!')});
-		$scope.refresh();
+		// $scope.refresh();
 		};
 	$scope.closeDetail = function (stateForm) {
 		$scope.showDetail=false; 

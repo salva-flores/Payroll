@@ -11,16 +11,15 @@ function chartsCtrl($scope, $rootScope, $http, $filter, $state, payrollService) 
 	$scope.showLineChart=false;
 	$scope.bar=[];
 	$scope.line=[];
+	$scope.startDate= $filter('date')(new Date(), 'yyyy-MM-dd');  ;
 	$scope.setColor= function() {
-		if($scope.showBarChart){
-			$scope.showBarChart=!$scope.showBarChart;
-			$scope.showBar();
-		}else{
-			$scope.showLineChart=!$scope.showLineChart;
-			$scope.showLine();
-		}
+		if($scope.showBarChart){	$scope.showBarChart=!$scope.showBarChart; $scope.showBar();}
+		else{$scope.showLineChart=!$scope.showLineChart; $scope.showLine();	}
 		};
 	$('#cp').colorpicker({align:'right' }).on('changeColor', function(e) {$scope.myColor=e.color.toString('hex');$scope.setColor();});
+	$('input[name="daterange"]')
+	.daterangepicker({locale: { format: 'YYYY-MM-DD' },startDate: $scope.startDate})
+	.on('change', function(e) {$scope.rango = e.currentTarget.value; console.log('Rango',$scope.rango);});
 	$scope.barGraph = function() {
 		$scope.labels=[];$scope.data=[];$scope.data2=[];
 		for (var i = $scope.bar.length; i--;){
@@ -35,7 +34,7 @@ function chartsCtrl($scope, $rootScope, $http, $filter, $state, payrollService) 
 				labels:$scope.labels,
 				datasets:[{label: 'Horas Extras', backgroundColor:$scope.myColor, data:$scope.data}]
 			},
-			options: {title:{text:'Horas Extras por Empleado, '+$filter('date')($scope.clock, 'MMMM')}}
+			options: {title:{text:'Horas Extras por Empleado, '+$scope.rango}}
 			});
 		};
 	$scope.lineGraph = function() {
@@ -60,12 +59,13 @@ function chartsCtrl($scope, $rootScope, $http, $filter, $state, payrollService) 
 			options: {title:{text:'Horas Extras por Día'}}
 			});
 		};
-	$scope.loadBarData = function () {return  $http.get('../hhrr/api/overtimeBar').then(function (response) {$scope.bar = response.data.data;$scope.barGraph()})};
+	$scope.loadBarData = function () {return  $http.get('../hhrr/api/overtimeBar/'+$scope.rango).then(function (response) {$scope.bar = response.data.data;$scope.barGraph()})};
+	// $scope.loadBarData = function () {return  $http.get('../hhrr/api/overtimeBar').then(function (response) {$scope.bar = response.data.data;$scope.barGraph()})};
 	$scope.loadLineData = function () {return  $http.get('../hhrr/api/overtimeLine').then(function (response) {$scope.line = response.data.data;$scope.lineGraph()})};
 	$scope.showBar = function	(){
 		$scope.showBarChart=!$scope.showBarChart;
 		$scope.showLineChart=false;
-		$scope.graphTitle = "Horas Extras por Empleado, "+$filter('date')($scope.clock, 'MMMM');
+		$scope.graphTitle = "Horas Extras por Empleado, "+$scope.rango;
 		$scope.barOptions = {scaleShowGridLines: false,barShowStroke: false};
 		angular.extend($scope.barOptions, $scope.globalOptions);
 		$scope.bar=[];

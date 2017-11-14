@@ -7,7 +7,8 @@ angular
 		$scope.mobileView = 767; $scope.kpi = []; $scope.apps = []; 
 		$scope.app = {
 			id:'1',name: 'App Manager', author: 'salva_flores@yahoo.com', version: '1.0.0', year: (new Date()).getFullYear(), api:'../hhrr/api/',
-			layout: {id:'1',isSmallSidebar: false,isChatOpen: false,isFixedHeader: true,isFixedFooter: true,isStaticSidebar: false,isRightSidebar: false,isOffscreenOpen: false,isConversationOpen: false,isQuickLaunch: false,sidebarTheme: '',headerTheme: '',isFullScreen: false},
+			// layout: {id:'1',isSmallSidebar: false,isChatOpen: false,isFixedHeader: true,isFixedFooter: true,isStaticSidebar: false,isRightSidebar: false,isOffscreenOpen: false,isConversationOpen: false,isQuickLaunch: false,sidebarTheme: '',headerTheme: '',isFullScreen: false},
+			layout: {isSmallSidebar: false,isChatOpen: false,isFixedHeader: true,isFixedFooter: true,isStaticSidebar: false,isRightSidebar: false,isOffscreenOpen: false,isConversationOpen: false,isQuickLaunch: false,sidebarTheme: '',headerTheme: '',isFullScreen: false},
 			isMessageOpen: false,	isConfigOpen: false, isConfigVisible: false
 		};
 		if (angular.isDefined($localStorage.user)) {$rootScope.user = $localStorage.user} else {$localStorage.user = $rootScope.user};
