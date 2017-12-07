@@ -32,6 +32,7 @@ class CatDeduction extends \Phalcon\Mvc\Model
      * @Column(type="string", length=100, nullable=false)
      */
     public $description;
+    public $isMandatory;
 
     /**
      * Initialize method for model.

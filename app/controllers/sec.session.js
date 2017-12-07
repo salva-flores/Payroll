@@ -5,7 +5,7 @@ function sessionCtrl($window, $rootScope, $scope, $state, $http, $localStorage, 
 		if (Idle.running()){Idle.unwatch()};
 		if ($state.current.name=="session.lockscreen"&&$scope.user.loggedIn==false){$scope.show=false;return};
 		if ($state.current.name=="session.lockscreen"){$scope.temp=$scope.user;$scope.user.loggedIn=false;}else{payrollService.resetUser()};
-		$scope.show=true;
+		$scope.show=true; $scope.showSpinner = false;
 		document.getElementById("1").focus();
 		$scope.formData={};
 		$scope.formData.from='admin@hngsystems.com'; 
@@ -51,12 +51,12 @@ function sessionCtrl($window, $rootScope, $scope, $state, $http, $localStorage, 
 		// if (resetToken is valid? and  reset token !expired?) {	allow password change; delete reset token; email user change confirmation;} else {restart the process};
 		};
 	$scope.sendMail = function(){
-		$scope.submitted = true; $scope.submitButtonDisabled = true;
+		$scope.submitted = true; $scope.showSpinner = true;
 		$http({	method : 'POST', url : 'api/sendMail.php', data : $.param($scope.formData), headers : { 'Content-Type': 'application/x-www-form-urlencoded' }})
 		.then(function(response){	
 			console.log('then',response);
-			new Noty({text:'Se ha enviado un Link a su correo. ', type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
-			.show().on('onClose', function() {$('#overReqForm').modal('hide')});
+			new Noty({text:'Se ha enviado un Link a su correo. ', type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
+			.show().on('onClose', function() {$state.go('login')});
 		}, function (response){
 			console.log('error...',response);
 		});

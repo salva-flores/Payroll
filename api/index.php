@@ -8,6 +8,8 @@
 	use Phalcon\Http\Response;
 	use Phalcon\Exception;
 	use Phalcon\Validation;
+	// use Phalcon\Mvc\Model;
+	use Phalcon\Mvc\Model\Message;
 	use Phalcon\Mvc\Model\Query;
 	use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
 	use \Firebase\JWT\JWT;
@@ -133,7 +135,7 @@
 			$user->isActive = $req->isActive;
 			$isCommit = $user->save($user);
 			if ($isCommit==true){$response -> setStatusCode(200);addLog($decoded->user[0]->id,'2','SecUser','PUT');};
-			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Usuario agregado','commit'=> $isCommit,'data'=>$isCommit));
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Usuario modificado','commit'=> $isCommit,'data'=>[]));
 		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','message'=>$e.error,'data'=>$e));};
 		return $response; });
 	$app->post('/user', function() use($app){ //adds a new user
@@ -183,7 +185,7 @@
 		try {
 			validateToken();
 			$data=array();
-			$phql ="SELECT e.id, e.firstName FROM mainEmployee e LEFT OUTER JOIN secUserEmp ue ON e.id = ue.employeeId WHERE (ue.employeeId IS NULL AND e.firstName!='root') ";
+			$phql ="SELECT e.id, e.firstName, e.lastName FROM mainEmployee e LEFT OUTER JOIN secUserEmp ue ON e.id = ue.employeeId WHERE (ue.employeeId IS NULL AND e.state='1' AND e.firstName!='root') ";
 			$data = $app->modelsManager->executeQuery($phql);
 			if(count($data)>0){http_response_code(200);}else{http_response_code(200);}
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
@@ -198,8 +200,95 @@
 			$data = $app->modelsManager->executeQuery($phql);
 			if(count($data)>0){http_response_code(200);}else{http_response_code(406);}
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
-		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));	}; 
+		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e));}; 
 		return $response;	});
+	$app->put('/empDed', function() use($app){
+		$response = new Phalcon\Http\Response();
+		try{
+			$decoded=validateToken();
+			$req = $app->request->getJsonRawBody();
+			$deduction = PayEmpDeduction::findFirst($req->id);
+			$deduction->amount = $req->amount;
+			$deduction->balance = $req->balance;
+			$deduction->deduction = $req->deduction;
+			$deduction->employee = $req->employee;
+			$deduction->fees = $req->fees;
+			$deduction->feesPayed = $req->feesPayed;
+			$deduction->isActive = $req->isActive;
+			$deduction->isFirst = $req->isFirst;
+			$deduction->isSecond = $req->isSecond;
+			$deduction->start = $req->start;
+			$deduction->totalDebt = $req->totalDebt;
+			$isCommit = $deduction->save();
+			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','PayEmpDeduction','PUT');};
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>$isCommit?'success':'error','message'=>$isCommit?'Deducción modificada':'Error al modificar la deducción!','commit'=> $isCommit,'data'=>$deduction->getMessages()));
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
+		return $response; });
+	$app->post('/empDed', function() use($app) {//Asigna (agrega) una deduccion a un empleado.
+		$response = new Phalcon\Http\Response();
+		try{
+			$decoded=validateToken();
+			$req = $app->request->getJsonRawBody();
+			$deduction = new PayEmpDeduction();
+			$deduction->amount = $req->amount;
+			$deduction->balance = $req->balance;
+			$deduction->deduction = $req->deduction;
+			$deduction->employee = $req->employee;
+			$deduction->fees = $req->fees;
+			$deduction->feesPayed = $req->feesPayed;
+			$deduction->isActive = $req->isActive;
+			$deduction->isFirst = $req->isFirst;
+			$deduction->isSecond = $req->isSecond;
+			$deduction->start = $req->start;
+			$deduction->totalDebt = $req->totalDebt;
+			$isCommit = $deduction->save();
+			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','PayEmpDeduction','POST');};
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>$isCommit?'success':'error','message'=>$isCommit?'Deducción agregada':'Error al agregar la deducción!','commit'=> $isCommit));
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
+		return $response; });
+	$app->get('/dedByEmp/{id:[0-9]+}', function($id) use($app) {//Devuelve las deducciones asignadas a un empleado
+		$response = new Response();
+		try {
+			validateToken();
+			$phql ="	SELECT d.amount, d.balance, d.deduction, d.employee, d.fees, d.feesPayed, d.id, d.isActive, d.isFirst, d.isSecond, d.start, d.totalDebt
+						FROM PayEmpDeduction d
+						INNER JOIN MainEmployee e ON d.employee = e.id
+						INNER JOIN CatDeduction cd ON d.deduction = cd.id
+						WHERE d.employee = '$id'";
+			$data = [];
+			$data = $app->modelsManager->executeQuery($phql);
+			$response -> setJsonContent(array('status'=> http_response_code(200),'message'=> 'Success','data'=> $data));
+		}catch(\Firebase\JWT\ExpiredException $e){$response->setJsonContent(array('status'=> http_response_code(440),'message'=>'Token expired!','data'=>$e.message));
+		}catch(\Exception $e){$response->setJsonContent(array('status'=> http_response_code(500),'message'=>'Error','data'=>$e.message));};
+		return $response;	});
+	$app->post('/deduction', function() use($app){//Agrega una deduccion al catalogo de deducciones
+		$response = new Phalcon\Http\Response();
+		try{
+			$decoded=validateToken();
+			$req = $app->request->getJsonRawBody();
+			$deduction = new CatDeduction();
+			$deduction->name = $req->name;
+			$deduction->type = $req->type;
+			$deduction->description = $req->description;
+			$isCommit = $deduction->save();
+			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','CatDeduction','POST');};
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>$isCommit?'success':'error','message'=>$isCommit?'Deducción agregada':'Error al agregar la deducción!','commit'=> $isCommit,'data'=>$deduction->getMessages()));
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
+		return $response; });
+	$app->put('/deduction', function() use($app){
+		$response = new Phalcon\Http\Response();
+		try{
+			$decoded=validateToken();
+			$req = $app->request->getJsonRawBody();
+			$deduction = CatDeduction::findFirst($req->id);
+			$deduction->name = $req->name;
+			$deduction->type = $req->type;
+			$deduction->description = $req->description;
+			$isCommit = $deduction->save();
+			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','CatDeduction','PUT');};
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>$isCommit?'success':'error','message'=>$isCommit?'Deducción modificada':'Error al modificar la deducción!','commit'=> $isCommit,'data'=>$deduction->getMessages()));
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
+		return $response; });
 	$app->get('/academicLevel', function() use($app) { //returns all academic levels in catalogue
 		$response = new Phalcon\Http\Response();
 		try {
@@ -320,6 +409,7 @@
 			$employee->gender= $request->gender;
 			$employee->shift= $request->shift;
 			$employee->joined= $request->joined;
+			$employee->state=$request->state;
 			$isCommit = $employee->save($employee);
 			if ($isCommit==true){$response -> setStatusCode(200); addLog($decoded->user[0]->id,'2','MainEmployee','PUT');};
 			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Registro modificado','commit'=> $isCommit,'data'=>$employee->getMessages()));
@@ -368,7 +458,7 @@
 		try {
 			// validateToken();
 			$data=[];
-			$phql="SELECT e.firstName, r.id, r.dateTimeStamp, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.observations, e.salary
+			$phql="SELECT e.firstName, e.lastName, r.id, r.dateTimeStamp, r.date, r.startTime, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.observations, e.salary
 			from payOvertimeRequest r
 			inner join mainEmployee e on r.employeeId = e.id
 			order by e.id, r.date";
@@ -496,8 +586,7 @@
 			$overreq->authorizationDate = $request->authorizationDate;
 			$overreq->observations = $request->observations;
 			$isCommit = $overreq->save($overreq);
-			addLog($decoded->user[0]->id,'2','pay_overtime_request','PUT');
-			if ($isCommit) { $message = 'Registro actualizado.'; $messageType='success';}else{$message='No se pudo actualizar el registro!'; $messageType='error';};
+			if ($isCommit) { addLog($decoded->user[0]->id,'2','pay_overtime_request','PUT');$message = 'Registro actualizado.'; $messageType='success';}else{$message='No se pudo actualizar el registro!'; $messageType='error';};
 			$response->setJsonContent(array('status' => http_response_code(), 'message' => $message, 'type' => $messageType,'commit' => $isCommit));
 		}catch (Exception $e) {$response->setJsonContent(array('status' => 500,'message' => 'Internar error services','error' => $e.error));};
 		return $response; 	});
@@ -776,7 +865,8 @@
 		}catch(\Firebase\JWT\ExpiredException $e) {$response->setStatusCode(440, "Token expired!"); $response->setJsonContent(array('isValid'=>false, 'message'=>'Token expired!'));
 		}catch (\UnexpectedValueException $e) {	$response->setStatusCode(500); $response->setJsonContent(array('isValid'=>false, 'message'=>'Unexpected value exception...'));
 		}catch (\Exception $e) {$response->setStatusCode(500); $response->setJsonContent(array('isValid'=>false, 'message'=>'Unexpected exception...'));};
-		$response->send(); die();};
+		$response->send(); 
+		};
 	function addLog($id,$action,$table,$enum) {
 		$ip = getenv('HTTP_CLIENT_IP')?:	getenv('HTTP_X_FORWARDED_FOR')?:	getenv('HTTP_X_FORWARDED')?: getenv('HTTP_FORWARDED_FOR')?: getenv('HTTP_FORWARDED')?:	getenv('REMOTE_ADDR');
 		$record = new SysLog();

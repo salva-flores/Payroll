@@ -35,6 +35,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		function(response){new Noty({text:'Error... '+response.message,type:'error',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
 		};
 	$scope.loadRequests = function () { 
+		// how to control what records to show
 		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		else{$http.get('../hhrr/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};

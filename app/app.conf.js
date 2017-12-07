@@ -106,6 +106,17 @@ angular
 		},
 		data: {title: 'Empresas'}
 		})
+	.state('app.cat.deductions',{
+		url: '/deductions', templateUrl: 'app/views/cat.deduction.html', controller: 'catDeductionCtrl',
+		resolve: {
+			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{insertBefore: '#load_styles_before',files: ['src/vendor/angular-xeditable/dist/css/xeditable.css']},
+					{name: 'xeditable', files: ['src/vendor/angular-xeditable/dist/js/xeditable.js']}
+					]).then(function () {return $ocLazyLoad.load('app/controllers/cat.deduction.js')})}]
+		},
+		data: {title: 'Catálogo de Deducciones'}
+		})
 	.state('app.cat.employees', {
 		url: '/employees', templateUrl: 'app/views/main.employees.html', controller: 'employeesCtrl',
 		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/main.employees.js')}]},
@@ -178,7 +189,13 @@ angular
 		})	
 	.state('pay.ded.employee', {
 		url: '/employee', templateUrl: 'app/views/pay.ded.employee.html', controller: 'employeeDeductionCtrl',
-		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/pay.ded.employee.js')}]},
+		resolve: {
+			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{insertBefore: '#load_styles_before',files: ['src/vendor/angular-xeditable/dist/css/xeditable.css']},
+					{name: 'xeditable', files: ['src/vendor/angular-xeditable/dist/js/xeditable.js']}
+					]).then(function () {return $ocLazyLoad.load('app/controllers/pay.ded.employee.js')})}]
+		},
 		data: {title: 'Deducciones del empleado'}
 		})
 	.state('pay.isr', {

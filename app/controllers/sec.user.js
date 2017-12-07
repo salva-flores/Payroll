@@ -1,18 +1,10 @@
 'use strict';
 function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBuilder, DTColumnDefBuilder) {
 	$scope.initVars = function () {
-		$scope.action='PUT';
-		$scope.isEmployee=false;
-		$scope.canEditUser=true;
-		$scope.users = [];
-		$scope.profiles = [];
-		$scope.employees = [];
-		$scope.notUsers = [];
+		$scope.action='PUT'; $scope.isEmployee=false; $scope.canEditUser=true;
+		$scope.users = []; $scope.profiles = []; $scope.employees = []; $scope.notUsers = [];
 		$scope.user={avatar:'',email:'',employeeId:'',firstName:'',id:'',isActive:1,lastName:'',password:'',phone:'',profileId:'',userName:'',changePass:'0'}
-		$scope.loadUsers();
-		$scope.loadProfiles();
-		$scope.loadEmployees();
-		$scope.loadNotUsers();
+		$scope.loadUsers(); $scope.loadProfiles(); $scope.loadEmployees(); $scope.loadNotUsers();
 		};
 	$scope.initUser = function() {$scope.user={avatar:'',email:'',employeeId:'',firstName:'',id:'',isActive:1,lastName:'',password:'',phone:'',profileId:'',userName:''}};
 	$scope.loadUsers = function () {return $http.get('../hhrr/api/user').then(function (response) {$scope.users = response.data.data})};
@@ -20,16 +12,10 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 	$scope.loadEmployees = function () {return $scope.employees.length ? null : $http.get('../hhrr/api/employee').then(function (response) {$scope.employees = response.data.data})};
 	$scope.loadNotUsers = function () {return $scope.notUsers.length ? null : $http.get('../hhrr/api/notUser').then(function (response) {$scope.notUsers = response.data.data})};
 	$scope.showProfile = function (user) {
-		if (user.profileId && $scope.profiles.length) {
-			var selectedProfile = $filter('filter')($scope.profiles, {id: user.profileId});
-			return selectedProfile.length ? selectedProfile[0].name : 'Ninguno';  
-		} else {return user.profileId || 'Ninguno'}
+		if (user.profileId && $scope.profiles.length) {var selectedProfile = $filter('filter')($scope.profiles, {id: user.profileId});	return selectedProfile.length ? selectedProfile[0].name : 'Ninguno'; } else {return user.profileId || 'Ninguno'}
 		};
 	$scope.showEmployee = function (user) {
-		if (user.employeeId && $scope.employees.length) {
-			var selectedEmployee = $filter('filter')($scope.employees, {id: user.employeeId});
-			return selectedEmployee.length&&user.employeeId!='0' ? selectedEmployee[0].firstName : 'Externo';  
-		} else {return user.employeeId || 'Ninguno'}
+		if (user.employeeId && $scope.employees.length) {var selectedEmployee = $filter('filter')($scope.employees, {id: user.employeeId});return selectedEmployee.length&&user.employeeId!='0' ? selectedEmployee[0].firstName : 'Externo';} else {return user.employeeId || 'Ninguno'}
 		};
 	$scope.showNotUser = function (user) {
 		if (user.employeeId && $scope.employees.length) {

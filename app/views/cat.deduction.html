@@ -1,0 +1,44 @@
+<div class="card">
+	<div class="card-header p-2">
+		<div class="d-flex justify-content-end align-items-center">
+			<div class="mr-auto font-weight-bold">Catálogo de Deducciones</div>
+			<a href="javascript:;" class="btn btn-outline-success btn-xs mr-1" title="Agregar Deducción" ng-click="add()"><i class="fa fa-plus mr-1"></i>Agregar Deducción</a>
+			<a href="javascript:;" class="btn btn-outline-dark btn-xs" title="Refrescar lista" ng-click="run()"><i class="fa fa-repeat"></i></a>
+		</div>
+	</div>
+	<div class="card-body p-2">
+		<!-- <table datatable='ng' class="table table-bordered table-condensed align-middle m-0"> -->
+		<table class="table table-bordered table-condensed align-middle m-0">
+			<thead><tr class="bold"><td class="p-1">Nombre</td><td class="p-1">Tipo</td><td class="p-1">Descripción</td><td class="p-1">Acciones</td></tr></thead>
+			<tr ng-repeat="d in deductions | orderBy: 'id'">
+				<!-- <td class="p-1" ><div e-class="form-control form-control-sm m-0 p-0" editable-text="d.name" e-name="name" e-form="rowform" e-pattern="^[a-zA-Z]*$" e-maxlength="25" e-minlength="3" onbeforesave="checkName($data, d.id)" e-required >{{ d.name || '-' }}</div></td> -->
+				<td class="p-1"><div e-class="form-control form-control" editable-text="d.name" e-name="name" e-form="rowform" e-required>{{ d.name || '-' }}</div></td>
+				<td class="p-1"><div e-class="form-control form-control-sm" editable-select="d.type" e-name="type" e-form="rowform" e-ng-options="t.id as t.name for t in types" e-required>{{ showType(d) || '-' }}</div></td>
+				<td class="p-1"><div e-class="form-control form-control" editable-text="d.description" e-name="description" e-form="rowform" e-required>{{ d.description || '-' }}</span></td>
+				<td style="white-space: nowrap" class="p-1">
+					<form editable-form name="rowform" onbeforesave="save($data, d.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == d">
+						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-outline-primary btn-xs mr-1"><i class="fa fa-save mr-1"></i>guardar</button>
+						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-outline-dark btn-xs"><i class="fa fa-window-close mr-1"></i>cancelar</button>
+					</form>
+					<div class="buttons" ng-show="!rowform.$visible">
+						<!-- <button class="btn btn-outline-primary btn-xs" ng-click="rowform.$show();action='PUT';"><i class="fa fa-edit mr-1"></i>editar</button> -->
+						<button class="btn btn-outline-primary btn-xs" ng-click="rowform.$show()"><i class="fa fa-edit mr-1"></i>editar</button>
+						<button class="btn btn-outline-danger btn-xs" ng-click="remove($index)"><i class="fa fa-trash mr-1"></i>borrar</button>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div class="modal fade" id="addDedForm" tabindex="-1" role="dialog" data-backdrop="static">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">Header</div>
+			<div class="modal-body">Body	</div>
+			<div class="modal-footer">
+				<a href="javascript:$('#addDedForm').modal('hide');" class="btn btn-outline-dark btn-xs" title="Salir" ><i class="fa fa-window-close-o fa-lg"></i></a>
+			</div>
+		</div>
+	</div>
+</div>

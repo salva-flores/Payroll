@@ -1,0 +1,139 @@
+<div class="modal fade" id="addDedFrm"  tabindex="-1" role="dialog" data-backdrop="static" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="card">
+				<div class="card-header p-2">{{action=="POST" ? "Agergar" : "Editar"}} deducción</div>
+				<div class="card-body p-1">
+					<form  name="addDedFrm" novalidate>
+						<div class="row p-1" >
+							<div class="col-sm-5" ng-class="{ 'has-error' : addDedFrm.deduction.$invalid && addDedFrm.deduction.$touched}">
+								<label class="form-control-label bold m-0" for="deduction">Deducción:</label>
+								<select  ng-model="ded.deduction" class="form-control form-control-sm p-0" name="deduction" ng-options="d.id as d.name disable when d.isAssigned=='1' for d in deductions | orderBy:'id'" ng-change="checkDed(ded.deduction)"  required></select>
+								<tt style="color:maroon;" ng-show="addDedFrm.deduction.$invalid && addDedFrm.deduction.$touched"><i class="fa fa-info-circle mr-1"></i>Campo requerido!</tt>
+							</div>
+						</div>
+						<div class="row p-1">
+							<div class="col-sm-5" ng-class="{ 'has-error' : addDedFrm.totalDebt.$touched&&addDedFrm.totalDebt.$invalid}">
+								<label class="form-control-label bold m-0" for="totalDebt">Valor total de la deuda:</label>
+								<input 	ng-model="ded.totalDebt" id="totalDebt" name="totalDebt"  class="form-control input-sm" type="number" min="1.00" max="99999.99" title="Rango: 1.00- 99,999.99" required>
+								<tt style="color:maroon;" ng-show="addDedFrm.totalDebt.$invalid && addDedFrm.totalDebt.$touched"><i class="fa fa-info-circle mr-1"></i>Campo requerido!</tt>
+							</div>
+							<div class="col-sm-2" ng-class="{ 'has-error' : addDedFrm.cuotas.$touched&&addDedFrm.cuotas.$invalid}">
+								<label class="form-control-label bold m-0" for="cuotas"># cuotas:</label>  
+								<input ng-model="ded.fees" class="form-control input-sm" type="number" name="cuotas" id="cuotas" min="1" max="24" title="De 1 a 24 cuotas" required>
+								<tt style="color:maroon;" ng-show="addDedFrm.cuotas.$invalid && addDedFrm.cuotas.$touched"><i class="fa fa-info-circle mr-1"></i>De 1 a 24</tt>
+							</div>
+							<div class="col-sm-5" ng-class="{ 'has-error' : addDedFrm.amount.$touched&&addDedFrm.amount.$invalid}">
+								<label class="form-control-label bold m-0" for="amount">Valor de la deducción:</label> {{ (ded.totalDebt/ded.fees) | number:'2'}}
+								<input 	ng-model="ded.amount" id="amount" name="amount"  class="form-control input-sm" type="number" min="1.00" max="99999.99" title="Rango: 1.00- 99,999.99" required>
+								<tt style="color:maroon;" ng-show="addDedFrm.amount.$invalid && addDedFrm.amount.$touched"><i class="fa fa-info-circle mr-1"></i>Campo requerido!</tt>
+							</div>
+						</div>
+						<div class="row p-1 align-items-end">
+							<div class="col-sm-6 border" ng-class="{ 'has-error' : !(addDedFrm.pri.$viewValue || addDedFrm.seg.$viewValue)&&(addDedFrm.pri.$touched||addDedFrm.seg.$touched)}">
+								<label class="control-label bold">Quincena a Aplicar</label>
+								<div class="checkbox"><label for="pri"><input ng-model="ded.isFirst" type="checkbox" name="pri" id="pri" ng-checked="ded.isFirst=='1'" ng-true-value="'1'" ng-false-value="'0'"> Primera Quincena </label></div>
+								<div class="checkbox"><label for="seg"><input ng-model="ded.isSecond" type="checkbox" name="seg" id="seg" ng-checked="ded.isSecond=='1'" ng-true-value="'1'" ng-false-value="'0'"> Segunda Quincena </label></div>
+								<tt style="color:maroon;" ng-show="!(addDedFrm.pri.$viewValue || addDedFrm.seg.$viewValue)&&(addDedFrm.pri.$touched||addDedFrm.seg.$touched)"><i class="fa fa-info-circle mr-1"></i>Requerido!</tt>
+							</div>
+							<div class="col-sm-6" ng-class="{ 'has-error' : addDedFrm.primera.$touched&&addDedFrm.primera.$invalid}">
+								<label class="form-control-label bold m-0" for="primera">Mes de la primer deducción</label>  
+								<input ng-model="ded.start" class="form-control input-sm" id="primera" name="primera" type="month" required>
+								<tt style="color:maroon;" ng-show="addDedFrm.primera.$touched&&addDedFrm.primera.$invalid"><i class="fa fa-info-circle mr-1"></i>Seleccione un Mes.</tt>
+							</div>
+						</div>
+						<div class="row p-1"></div>
+					</form>
+				</div>
+			<div class="d-flex card-footer p-2 justify-content-end">
+				<button class="btn btn-success btn-outline btn-xs mr-1" ng-disabled="!addDedFrm.$valid || !(addDedFrm.pri.$viewValue || addDedFrm.seg.$viewValue)" ng-click="saveDed()" data-dismiss="modal"><i class="fa fa-plus-circle mr-1"></i><span>Guardar</span></button>
+				<button class="btn btn-outline-dark btn-xs" data-dismiss="modal"><i class="fa fa-close mr-1"></i>Salir</button>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card w-100" id="empDedFrm" ng-hide="!employees.length" ng-class="{'animated fadeIn 2': employees.length}">
+	<div class="card-header p-2">
+		<div class="d-flex justify-content-end align-items-end ">
+			<div class="text-dark font-weight-bold mr-auto">
+				<div class="form-inline" >
+					<label class="control-label bold mr-1">Empleado:</label>
+					<select  class="form-control form-control-sm mr-2" id="1" name="employeeId" ng-model="employeeId" ng-options="e.id as e.firstName+' '+e.lastName disable when e.state=='0' for e in employees | orderBy:'firstName' " ng-change="showEmpDed(employeeId)" ></select>
+				</div>
+			</div>
+			<button class="btn btn-outline-primary btn-xs float-right mr-1" title="Agregar Deducción" ng-click="addDed(employeeId)" ng-hide="!employeeId"><i class="fa fa-calendar-plus-o mr-1"></i>Agregar Deducción</button>
+			<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="showEmpDed(employeeId)"><i class="fa fa-repeat"></i></button>
+		</div>
+	</div>
+	<div class="card-body p-2" ng-hide="!empDeds.length" ng-class="{'animated fadeIn 0.5': employeeId.length}">
+		<table datatable="ng" class="table table-bordered table-condensed">
+			<thead class="bold"><tr><th>Deducción</th><th>1er Deducción</th><th>1<sup>a</sup>Qna</th><th>2<sup>da</sup>Qna</th><th class="text-right">Valor</th><th class="text-right">Cuotas Pagadas</th><th class="text-right">Total adeudado</th><th class="text-right">Saldo</th><th >Acciones</th></tr></thead>
+			<tbody>
+				<tr ng-repeat="d in empDeds">
+					<td>{{ showDeduction(d) || '-' }}</td>
+					<td>{{ d.start | date:'MMM-yyyy' }}</td>
+					<td class="text-center"><input type="checkbox" ng-checked="d.isFirst=='1'" disabled="true"></td>
+					<td class="text-center"><input type="checkbox" ng-checked="d.isSecond=='1'" disabled="true"></td>
+					<td class="text-right">{{ d.amount | currency:"L" }}</td>
+					<td class="text-right">{{ d.feesPayed>0?(d.feesPayed | number:'0'):'-'}}</td>
+					<td class="text-right">{{ d.totalDebt | currency:"L" }}</td>
+					<td class="text-right">{{ d.balance | currency:"L" }}</td>
+					<td>
+						<a href="javascript:;" title="Editar" class="btn-outline-success mr-1" ng-click="editDed(d,$index,1)"><i class="fa fa-edit fa-lg"></i></a>
+						<a href="javascript:;" title="Eliminar" class="btn-outline-danger mr-1" ><i class="fa fa-trash fa-lg"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--
+<div class="p-5 "></div>
+<div class="card w-100" id="empDedFrm" ng-hide="!employees.length" ng-class="{'animated fadeIn 2': employees.length}">
+	<div class="card-header p-2">
+		<div class="d-flex justify-content-end align-items-end ">
+			<div class="text-dark font-weight-bold mr-auto">
+				<div class="form-inline" >
+					<label class="control-label bold mr-1">Empleado:</label>
+					<select  class="form-control form-control-sm mr-2" id="1" name="employeeId" ng-model="employeeId" ng-options="e.id as e.firstName+' '+e.lastName disable when e.state=='0' for e in employees | orderBy:'firstName' " ng-change="showEmpDed(employeeId)" ></select>
+				</div>
+			</div>
+			<button class="btn btn-outline-primary btn-xs float-right mr-1" title="Agregar Deducción" ng-click="addDed(employeeId)" ng-hide="!employeeId"><i class="fa fa-calendar-plus-o mr-1"></i>Agregar Deducción</button>
+			<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="showEmpDed(employeeId)"><i class="fa fa-repeat"></i></button>
+		</div>
+	</div>
+	<div class="card-body p-2" ng-hide="!empDeds.length" ng-class="{'animated fadeIn 0.5': employeeId.length,'animated fadeOut 2': !empDeds.length}">
+		<table datatable="ng" class="table table-bordered table-condensed" ng-class="{'animated fadeOut 2': !empDeds.length}">
+			<thead class="bold"><tr><th>Deducción</th><th>1er Deducción</th><th>1<sup>a</sup>Qna</th><th>2<sup>da</sup>Qna</th><th class="text-right">Valor</th><th class="text-right">Cuotas Pagadas</th><th class="text-right">Total adeudado</th><th class="text-right">Saldo</th><th >Acciones</th></tr></thead>
+			<tbody>
+				<tr ng-repeat="d in empDeds">
+					<td class="p-1"><div e-class="form-control form-control-sm m-0 p-0" editable-select="d.deduction" e-name="deduction" e-form="rowform" e-ng-options="x.id as x.name disable when x.isAssigned=='1' for x in deductions | orderBy:'id'" onbeforesave="validateDed($data)" e-ng-disabled="isEditing" e-required>{{ showDeduction(d) || '-' }}</div></td>
+					<td class="p-1"><div editable-date="d.start" e-form="rowform" e-required>  {{ d.start | date:'dd-MMM-yyyy' }}</div></td>
+					<td class="text-center p-1">
+						<input type="checkbox" ng-checked="d.isFirst=='1'" ng-show="!rowform.$visible">
+						<input editable-checkbox="d.isFirst" type="checkbox" e-ng-checked="d.isFirst=='1'" e-form="rowform" ng-show="rowform.$visible" ng-disabled="!rowform.$visible">{{d.isFirst}}
+					</td>
+					<td class="text-center p-1"><input editable-checkbox="d.isSecond" type="checkbox" e-ng-checked="d.isSecond=='1'" e-form="rowform" ng-disabled="!rowform.$visible">{{d.isSecond}}</td>
+					<td class="text-right p-1"><div e-class="form-control form-control-sm m-0 p-0" editable-number="d.amount" e-name="amount" e-form="rowform" e-min="1.00" e-max="99999.99" title="Rango: 1.00- 99,999.99" e-required>{{ (d.amount | number:2) || '-' }}</div></td>
+					<td class="text-right p-1"><div e-class="form-control form-control-sm m-0 p-0" editable-number="d.feesPayed" e-form="rowform" e-required>{{ d.feesPayed | number:0}}</div></td>
+					<td class="text-right p-1"><div e-class="form-control form-control-sm m-0 p-0" editable-number="d.totalDebt" e-form="rowform" e-required>{{ d.totalDebt | number:2}}</div></td>
+					<td class="text-right p-1"><div e-class="form-control form-control-sm m-0 p-0" editable-number="d.balance" e-form="rowform" e-required>{{ d.balance | number:2}}</div></td>
+					<td style="white-space: nowrap" class="p-1">
+						<form editable-form name="rowform" onbeforesave="save($data, d.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == d">
+							<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-outline-primary btn-xs mr-1" ng-click="isAdding=false;isEditing=false"><i class="fa fa-save"></i></button>
+							<button type="button" ng-disabled="rowform.$waiting" class="btn btn-outline-primary btn-xs mr-1" ng-click="isAdding=false;isEditing=false"><i class="fa fa-check"></i></button>
+							<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel();isEditing=false" class="btn btn-outline-dark btn-xs"><i class="fa fa-window-close"></i></button>
+						</form>
+						<div class="buttons" ng-show="!rowform.$visible">
+							<a href="javascript:;" title="Editar" class="btn-outline-success mr-1" ng-click="rowform.$show();editDed(d,$index,0)"><i class="fa fa-edit fa-lg"></i></a>
+							<a href="javascript:;" title="Eliminar" class="btn-outline-danger mr-1" ng-click="removeDed($index)" ng-disabled="isEditing||isAdding"><i class="fa fa-trash fa-lg"></i></a>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div> 

@@ -3,7 +3,7 @@
 	<div class="card border-light align-self-center">
 		<img class="card-img-top w-50 align-self-center m-2" src="src/images/logo-dark.png" class="img-fluid" alt="CENTEC" >
 		<div class="card-body m-2 p-0">
-			<p class="card-text text-center mb-2">Bienvenido. Porfavor ingrese sus credenciales.</p>
+			<p class="card-text text-center text-dark mb-2">Bienvenido. Porfavor ingrese sus credenciales.</p>
 			<form>
 				<div class="form-group">
 					<input type="text" ng-model="user.userName" id="1" name="userName" class="form-control input-lg" placeholder="Usuario" autofocus required maxlength="10" pattern="^[a-zA-Z]*$" ng-pattern-restrict ng-disabled="!show">
@@ -15,7 +15,7 @@
 					<!-- <button id="login" class="btn btn-success btn-block" ng-click="login(user)" full-screen><span> {{show ? "Entrar" : "Acceso Bloqueado!"}}</span></button> -->
 					<button id="login" class="btn btn-success btn-block" ng-click="login(user)"><span> {{show ? "Entrar" : "Acceso Bloqueado!"}}</span></button>
 				</div>
-				<p class="text-center mb-2"  ><a ui-sref="session.signup"><small>Crear una cuenta </small></a>· <a href="javascript:;">· </a>· <a ui-sref="session.forgot"><small> Olvidó su contraseña?</small></a></p>
+				<p class="text-center text-dark mb-2"  ><a ui-sref="session.signup"><small>Crear una cuenta </small></a>· <a href="javascript:;">· </a>· <a ui-sref="session.forgot"><small> Olvidó su contraseña?</small></a></p>
 			</form>
 		</div>
 	</div>

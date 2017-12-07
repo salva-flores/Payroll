@@ -20,8 +20,10 @@ function employeesCtrl($scope, $http, $filter, payrollService) {
 	$scope.showUnit = function (employee) {
 		if (employee.companyUnit && $scope.units.length) {var selectedUnit = $filter('filter')($scope.units, {id: employee.companyUnit}); return selectedUnit.length ? selectedUnit[0].name : 'Ninguno'} else {return employee.companyUnit || 'Ninguno'}};
 	$scope.addEmployee = function () {
+		$scope.frm.$setUntouched();$scope.frm.$setPristine();
 		$scope.employee={};$scope.action='POST'; $scope.canEditEmployee=true; $scope.accion = "Agregar";};
 	$scope.edit = function(e){ 
+		$scope.frm.$setUntouched();$scope.frm.$setPristine();
 		$scope.employee=e;$scope.employee.joined=new Date($scope.employee.joined); 
 		$scope.employee.salary=$scope.employee.salary*1;
 		$scope.action='PUT';$scope.accion = "Editar";

@@ -189,6 +189,7 @@ class MainEmployee extends \Phalcon\Mvc\Model
      * @Column(type="integer", length=3, nullable=false)
      */
     public $createdBy;
+    public $state; 
 
     /**
      * Validations and business logic

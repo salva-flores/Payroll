@@ -17,14 +17,14 @@ class PayEmpDeduction extends \Phalcon\Mvc\Model
      * @var integer
      * @Column(type="integer", length=5, nullable=false)
      */
-    public $employeeId;
+    public $employee;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=3, nullable=false)
      */
-    public $deductionId;
+    public $deduction;
 
     /**
      *

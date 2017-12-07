@@ -26,7 +26,7 @@
 			<tbody>
 				<tr ng-repeat="r in requests" ng-class="{'text-primary':r.state=='Autorizada','text-success':r.state=='Aprobada','text-warning':r.state=='Pendiente','text-secondary':r.state=='Cerrada','text-danger':r.state=='Rechazada'||r.state=='Devuelta','text-dark':r.state=='Pagada'}" >
 					<td title="{{r.date}}">{{ r.date | date:'EEE, dd-MMM-yy'}}</td>
-					<td ng-show="isAdmin">{{ r.firstName }}</td>
+					<td ng-show="isAdmin">{{ r.firstName+' '+r.lastName }}</td>
 					<td>{{ r.requestedBy }}</td>
 					<td>{{ r.description }}</td>
 					<td>
@@ -69,7 +69,7 @@
 							<div class="d-flex mb-2" ng-show="isAdmin">
 								<div class="form-group col-sm-3 pr-1 m-0">
 									<label class="control-label bold m-0">Empleado:</label>
-									<select  class="form-control form-control-sm p-0" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName for e in employees | orderBy:'firstName'" ng-change="checkEmployee(request.employeeId)"></select>
+									<select  class="form-control form-control-sm p-0" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName+' '+e.lastName for e in employees | orderBy:'firstName'" ng-change="checkEmployee(request.employeeId)"></select>
 								</div>
 							</div>
 							<div class="row mb-2">
