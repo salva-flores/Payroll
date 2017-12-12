@@ -60,7 +60,8 @@
 			<div class="text-dark font-weight-bold mr-auto">
 				<div class="form-inline" >
 					<label class="control-label bold mr-1">Empleado:</label>
-					<select  class="form-control form-control-sm mr-2" id="1" name="employeeId" ng-model="employeeId" ng-options="e.id as e.firstName+' '+e.lastName disable when e.state=='0' for e in employees | orderBy:'firstName' " ng-change="showEmpDed(employeeId)" ></select>
+					<!-- <select  class="form-control form-control-sm mr-2" id="1" name="employeeId" ng-model="employeeId" ng-options="e.id as e.firstName+' '+e.lastName disable when e.state=='0' for e in employees | orderBy:'firstName' " ng-change="showEmpDed(employeeId)" ></select> -->
+					<select  class="form-control form-control-sm mr-2" id="1" name="employeeId" ng-model="employeeId" ng-options="e.id as e.firstName+' '+e.lastName for e in employees | filter: {state:'1'} | orderBy:'firstName' " ng-change="showEmpDed(employeeId)" ></select>
 				</div>
 			</div>
 			<button class="btn btn-outline-primary btn-xs float-right mr-1" title="Agregar Deducción" ng-click="addDed(employeeId)" ng-hide="!employeeId"><i class="fa fa-calendar-plus-o mr-1"></i>Agregar Deducción</button>

@@ -7,7 +7,7 @@
 		</div>
 	</div>
 	<div class="card-body p-2">
-		<table datatable="ng" class="table table-bordered table-condensed" >
+		<table datatable="ng" class="table table-bordered table-condensed table-hover" >
 			<thead>
 				<tr> 
 					<th>Nombre</th>
@@ -21,7 +21,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="e in employees " ng-class="{'text-danger': e.state=='0'}" >
+				<tr ng-repeat="e in employees" ng-class="{'text-danger': e.state=='0'}" >
 					<td>{{ e.firstName+' '+e.lastName }}</td>
 					<td>{{ showJob(e) }}</td>
 					<td>{{ showUnit(e) }}</td>
@@ -76,7 +76,7 @@
 						</div>
 						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.job.$invalid && frm.job.$touched, 'has-success' : frm.job.$valid }">
 							<label class="form-control-label m-0"  for="job">Puesto</label>
-							<select class="form-control form-control-sm" name="job" ng-model="employee.job" ng-options="j.id as j.name for j in jobs" required>	<option value="">-- Seleccione un Puesto --</option></select>
+							<select class="form-control form-control-sm" name="job" ng-model="employee.job" ng-options="j.id as j.name for j in jobs | orderBy:'name'" required>	<option value="">-- Seleccione un Puesto --</option></select>
 							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.job.$invalid && frm.job.$touched"><i class="fa fa-info-circle mr-1"></i>Seleccione un puesto.</small>
 						</div>
 					</div>

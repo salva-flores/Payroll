@@ -172,6 +172,27 @@
 			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Usuario agregado','commit'=> $isCommit,'data'=>$isCommit));
 		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','error'=>$e));};
 		return $response;	});
+	$app->put('/pass', function() use($app){ //returns password for given user and password combination... 
+		$response = new Phalcon\Http\Response();
+		try {
+			$decoded = validateToken();
+			$req = $app->request->getJsonRawBody();
+			$user = secUser::findFirst($req->id);
+			$user->userName = strtolower($req->userName);
+			$user->firstName = $req->firstName;
+			$user->lastName = $req->lastName;
+			$user->password = generarClave($req->userName, $req->password);
+			$user->profileId = $req->profileId;
+			$user->employeeId = $req->employeeId;
+			$user->email = $req->email;
+			$user->phone = $req->phone;
+			$user->avatar = $req->avatar;
+			$user->isActive = $req->isActive;
+			$isCommit = $user->save($user);
+			if ($isCommit==true){$response -> setStatusCode(200);addLog($decoded->user[0]->id,'2','SecUser','Change password');};
+			$response -> setJsonContent(array('status'=> http_response_code(),'type'=>'info','message'=>'Password updated','commit'=> $isCommit,'data'=>[]));
+		}catch (\Exception $e) {http_response_code(500);	$response->setJsonContent(array('status'=> http_response_code(),'type'=>'error','message'=>$e.error,'data'=>$e));};
+		return $response; });
 	$app->post('/pass', function() use($app){ //returns password for given user and password combination... 
 		$response = new Phalcon\Http\Response();
 		$req = $app->request->getJsonRawBody();

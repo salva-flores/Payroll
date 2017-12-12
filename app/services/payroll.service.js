@@ -19,7 +19,8 @@ function payrollService($q, $http, $rootScope, $localStorage, $state) {
 		$rootScope.user = {id:'',userName:'',fname:'',lname:'',email:'',avatar:'myAvatar.png',profile:'',employee:'',token:'',loggedIn:false};
 		};
 	service.setCredentials = function(user) {
-		$rootScope.user = {id:user.id,userName:user.userName,fname:user.firstName,lname:'',email:user.email,avatar:user.avatar,profile:user.profileId,employee:user.employeeId,token:user.token,loggedIn:true};
+		console.log(user);
+		$rootScope.user = {id:user.id,userName:user.userName,fname:user.firstName,lname:user.lastName,email:user.email,avatar:user.avatar,profile:user.profileId,employee:user.employeeId,token:user.token,loggedIn:true};
 		$localStorage.user = $rootScope.user;
 		};
 	service.loadSidebar = function(){//Consider: Make an API that returns all resources and put them in the token...

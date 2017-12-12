@@ -1,5 +1,5 @@
 'use strict';
-function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBuilder, DTColumnDefBuilder) {
+function userCtrl($scope, $state, $filter, $http, payrollService, $resource, DTOptionsBuilder, DTColumnDefBuilder) {
 	$scope.initVars = function () {
 		$scope.action='PUT'; $scope.isEmployee=false; $scope.canEditUser=true;
 		$scope.users = []; $scope.profiles = []; $scope.employees = []; $scope.notUsers = [];
@@ -15,7 +15,7 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 		if (user.profileId && $scope.profiles.length) {var selectedProfile = $filter('filter')($scope.profiles, {id: user.profileId});	return selectedProfile.length ? selectedProfile[0].name : 'Ninguno'; } else {return user.profileId || 'Ninguno'}
 		};
 	$scope.showEmployee = function (user) {
-		if (user.employeeId && $scope.employees.length) {var selectedEmployee = $filter('filter')($scope.employees, {id: user.employeeId});return selectedEmployee.length&&user.employeeId!='0' ? selectedEmployee[0].firstName : 'Externo';} else {return user.employeeId || 'Ninguno'}
+		if (user.employeeId && $scope.employees.length) {var selectedEmployee = $filter('filter')($scope.employees, {id: user.employeeId});return selectedEmployee.length&&user.employeeId!='0' ? selectedEmployee[0].firstName+' '+selectedEmployee[0].lastName : 'Externo';} else {return user.employeeId || 'Ninguno'}
 		};
 	$scope.showNotUser = function (user) {
 		if (user.employeeId && $scope.employees.length) {
@@ -42,21 +42,37 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 		var selected = $filter('filter')($scope.employees, {id: user.employeeId});
 		if (selected[0].gender==1){user.avatar="man.png"}else{user.avatar="female.png"};
 		if (user.password.length==0){user.password=$scope.tempPass};
+		console.info(user);
 		if ($scope.action=='POST'){
 			$http.post('../hhrr/api/user', user).then(function(response){
-				new Noty({text:response.data.message, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:response.data.message, type: response.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();
 			},function(response){
-				new Noty({text:'Error: '+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:'Error: '+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();
 			});
 		}else{
 			$http.put('../hhrr/api/user', user).then(function(response){
-				new Noty({text:'Registro actualizado!'+response.data.message, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:'Registro actualizado!'+response.data.message, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();
 			},function(response){
-				new Noty({text:'Error al actualizar!...'+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}}).show();
+				new Noty({text:'Error al actualizar!...'+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();
 			});
 		};
 		$scope.action=='PUT';
 		};
+	$scope.changePassword = function(i,u){
+		console.info('index',i,'user',u);
+		$scope.user=u;
+		$scope.p2=$scope.p1='';
+		$scope.passForm.$setPristine();
+		$scope.passForm.$setUntouched();
+		};
+	$scope.savePass = function(){
+		$scope.user.password=$scope.p1;
+		payrollService.fetch('PUT','pass',JSON.stringify($scope.user)).then(function(response){
+			new Noty({text:'Password updated.'+response.data.message, type:'success',theme:'relax',timeout:500,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();
+			// payrollService.resetUser();$state.go('login')
+		},function(response){new Noty({text:'Error al actualizar!...'+response.data.error.errorInfo[2], type:'error',theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();console.error("Hubo un error!")});
+		};
+	//The following are not used... taken from x-editable and left here just in case they are needed in the future.
 	$scope.removeUser = function (user) {$scope.users.splice(user, 1)};
 	$scope.filterUser = function (user) {return user.isDeleted !== true};
 	$scope.deleteUser = function (id) {
@@ -84,4 +100,4 @@ function userCtrl($scope, $filter, $http, payrollService, $resource, DTOptionsBu
 
 angular
 .module('payrollApp')
-.controller('userCtrl', ['$scope', '$filter', '$http', 'payrollService', '$resource', 'DTOptionsBuilder', 'DTColumnDefBuilder' , userCtrl]);
+.controller('userCtrl', ['$scope', '$state', '$filter', '$http', 'payrollService', '$resource', 'DTOptionsBuilder', 'DTColumnDefBuilder' , userCtrl]);
