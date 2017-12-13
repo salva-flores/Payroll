@@ -17,8 +17,8 @@
 	$loader->registerDirs(array( __DIR__ . '/models/'))->register();
 	$di = new FactoryDefault();
 	$di->set('db', function() {return new PdoMysql( array(
-		"host" => "localhost",
-		// "host" => "172.16.1.99",
+		// "host" => "localhost",
+		"host" => "172.16.1.99",
 		"username" => "user","password" => "user","dbname" => "hhrr", "options" => array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')));});
 	$app = new Micro($di);
 	$app->notFound(function () use ($app) {$app->response->setStatusCode(404, "API Not Found!")->sendHeaders();$app->response->setJsonContent(array('status' => 404,'message' => 'API Not Found!','error' => 'API Not Found!' ))->send();});
@@ -529,7 +529,7 @@
 			$response -> setJsonContent(array('status' =>http_response_code(),'data'=> $data));
 		} catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(500),'data'=>$e.message));}; 
 		return $response;	});
-	$app->get('/overReqByRange/{range}', function($range) use($app){ //Devuelve datos para la planilla - solo las cerradas y autorizadas
+	$app->get('/overReqByRange/{range}', function($range) use($app){ //Devuelve datos para la planilla de hhee - solo las cerradas y autorizadas
 		$startDate = substr($range, 0, 10); 
 		$endDate = substr($range,-10); 
 		$response = new Phalcon\Http\Response();
@@ -538,7 +538,7 @@
 			// where r.date>='$startDate ' and r.date<='$endDate' and (r.state='Cerrada' or r.state='Autorizada')
 			// where (r.dateTimeStamp>='$startDate ' and r.dateTimeStamp<='$endDate ' and r.state='Autorizada')
 			$data=array();
-			$phql="SELECT e.id as employeeId, e.firstName, r.id, r.date, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.decidedBy, r.decisionDate , r.observations, e.salary
+			$phql="SELECT e.id as employeeId, e.firstName, e.lastName, r.id, r.date, r.estimatedTime, r.requestedBy, r.class, r.description, r.state, r.decidedBy, r.decisionDate , r.observations, e.salary
 			from payOvertimeRequest r
 			inner join mainEmployee e on r.employeeId = e.id
 			where r.date>='$startDate ' and r.date<='$endDate' and r.state='Autorizada'

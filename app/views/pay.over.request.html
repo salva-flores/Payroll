@@ -69,7 +69,8 @@
 							<div class="d-flex mb-2" ng-show="isAdmin">
 								<div class="form-group col-sm-3 pr-1 m-0">
 									<label class="control-label bold m-0">Empleado:</label>
-									<select  class="form-control form-control-sm p-0" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName+' '+e.lastName for e in employees | orderBy:'firstName'" ng-change="checkEmployee(request.employeeId)"></select>
+									<!-- <select  class="form-control form-control-sm p-0" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName+' '+e.lastName for e in employees | orderBy:'firstName'" ng-change="checkEmployee(request.employeeId)"></select> -->
+									<select  class="form-control form-control-sm p-0" name="employeeId" ng-model="request.employeeId" ng-options="e.id as e.firstName+' '+e.lastName for e in employees | filter: {state:'1'} | orderBy:'firstName' " ng-change="checkEmployee(request.employeeId)"></select>
 								</div>
 							</div>
 							<div class="row mb-2">

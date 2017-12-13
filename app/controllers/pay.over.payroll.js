@@ -31,7 +31,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		var este = $scope.requests[0].employeeId, totDev=0;
 		$scope.payroll=[]; $scope.tot=[];
 		for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.tot[k]=0};
-		$scope.payrollRecord={employeeId:este,firstName:$scope.requests[0].firstName,salary:$scope.requests[0].salary};
+		$scope.payrollRecord={employeeId:este,firstName:($scope.requests[0].firstName+' '+$scope.requests[0].lastName),salary:$scope.requests[0].salary};
 		for (var i = 0; i <= $scope.requests.length - 1; i++) {
 			if ($scope.requests[i].employeeId!=este) {
 				for (var j = 0; j <= $scope.overtime.length - 1; j++) {totDev=totDev+$scope.tot[j]};
@@ -40,7 +40,7 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 				este = $scope.requests[i].employeeId; 
 				$scope.tot=[]; $scope.totDev=0; totDev=0;
 				for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.tot[k]=0}; 
-				$scope.payrollRecord={employeeId:este,firstName:$scope.requests[i].firstName,salary:$scope.requests[i].salary};
+				$scope.payrollRecord={employeeId:este,firstName:($scope.requests[i].firstName+' '+$scope.requests[i].lastName),salary:$scope.requests[i].salary};
 			};
 			for (var k = 0; k <= $scope.overtime.length - 1; k++) {$scope.tot[k] = $scope.tot[k]+$scope.requests[i].u[k]};
 		};
@@ -156,7 +156,8 @@ function overtimePayrollCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			$('#reqsTable').DataTable( {  
 				data: $scope.requests,
 				columns: [
-					{data:'firstName',className:'text-left'},
+					// {data:'firstName',className:'text-left'},
+					{data:'firstName',className:'text-left', render: function (data, type, row) {return data+' '+row['lastName']}},
 					{data:'salary', render: function (data, type, row) {return $filter('number')(data,2)}},
 					{data:'date',className:'text-left', render: function (data, type, row) {return $filter('date')(data,'EEE dd-MMM-yy')}},
 					// {data:'dateTimeStamp',className:'text-left', render: function (data, type, row) {return $filter('date')(data.substr(0,10),'EEE, dd-MMM-yy')}},

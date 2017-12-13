@@ -8,7 +8,7 @@
 	<ul class="nav">
 		<li ui-sref-active="active"><a href="#!/dash"><i class="fa fa-dashboard" ></i><span>Dashboard - {{app.name}}</span></a></li>
 		<li ng-repeat="m in menu | orderBy: 'name'" ng-class="{open: $state.includes('{{m.state}}')}" ng-show="m.isVisible==1 && m.app=='{{app.id}}' " side-navigation>
-			<a href="javascript:;"><i class="{{m.icon}}"></i><span>{{m.name}}</span></a>
+			<a href="javascript:;" title="{{m.name}}"><i class="{{m.icon}}"></i><span>{{m.name}}</span></a>
 			<ul class="sub-menu">
 				<li ng-repeat="r in list | orderBy: 'name'" ui-sref-active="active" ng-show="m.id == r.module && r.inMenu==1 || m.id == r.module && user.userName=='root'" side-navigation>
 					<a ui-sref="{{r.state}}"><span>{{r.name}}</span></a>
