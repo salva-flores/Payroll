@@ -117,6 +117,17 @@ angular
 		},
 		data: {title: 'Catálogo de Deducciones'}
 		})
+	.state('app.cat.departments',{
+		url: '/departments', templateUrl: 'app/views/cat.department.html', controller: 'catDepartmentCtrl',
+		resolve: {
+			deps: ['$ocLazyLoad', function ($ocLazyLoad) {
+				return $ocLazyLoad.load([
+					{insertBefore: '#load_styles_before',files: ['src/vendor/angular-xeditable/dist/css/xeditable.css']},
+					{name: 'xeditable', files: ['src/vendor/angular-xeditable/dist/js/xeditable.js']}
+					]).then(function () {return $ocLazyLoad.load('app/controllers/cat.department.js')})}]
+		},
+		data: {title: 'Catálogo de Departamentos'}
+		})
 	.state('app.cat.employees', {
 		url: '/employees', templateUrl: 'app/views/main.employees.html', controller: 'employeesCtrl',
 		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/main.employees.js')}]},
@@ -178,6 +189,11 @@ angular
 		url: '/users', templateUrl: 'app/views/sec.user.html', controller: 'userCtrl',
 		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/sec.user.js')}]},
 		data: {title: 'Usuarios'}
+		})
+	.state('app.sec.log', {
+		url: '/log', templateUrl: 'app/views/sec.log.html', controller: 'logCtrl',
+		resolve: {	deps: ['$ocLazyLoad', function ($ocLazyLoad) {return $ocLazyLoad.load('app/controllers/sec.log.js')}]},
+		data: {title: 'Bitacora del Sistema'}
 		})
 	.state('pay', {
 		abstract: true,templateUrl: 'app/common/app.layout.html',controller: 'layoutCtrl',

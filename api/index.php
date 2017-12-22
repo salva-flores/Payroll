@@ -2,16 +2,16 @@
 //Configuracion
 	require_once('../src/vendor/autoload.php');
 	use Phalcon\Loader;
-	use Phalcon\Mvc\Micro;
-	use Phalcon\Di\FactoryDefault;
-	use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
-	use Phalcon\Http\Response;
 	use Phalcon\Exception;
 	use Phalcon\Validation;
-	// use Phalcon\Mvc\Model;
+	use Phalcon\Mvc\Micro;
+	use Phalcon\Mvc\Model;
 	use Phalcon\Mvc\Model\Message;
 	use Phalcon\Mvc\Model\Query;
 	use Phalcon\Mvc\Model\Resultset\Simple as Resultset;
+	use Phalcon\Di\FactoryDefault;
+	use Phalcon\Db\Adapter\Pdo\Mysql as PdoMysql;
+	use Phalcon\Http\Response;
 	use \Firebase\JWT\JWT;
 	$loader = new Loader();
 	$loader->registerDirs(array( __DIR__ . '/models/'))->register();
@@ -676,15 +676,15 @@
 		$endDate = substr($range,-10); 
 		try {
 			$data=array();
-			$phql="SELECT r.employeeId, u.userName as Usuario, e.firstName as Empleado, count(r.estimatedTime) as Solicitudes, sum(r.estimatedTime) as Horas
+			$phql="SELECT r.employeeId, e.firstName as Empleado, count(distinct r.id) as Solicitudes, sum(round(time_to_sec (timediff(timestamp(d.endTimeStamp), timestamp(d.startTimeStamp)))/60/60)) as Horas
 				from PayOvertimeRequest r
+				inner join PayOvertimeDetail d on r.id = d.requestId
 				inner join MainEmployee e on r.employeeId=e.id
-				inner join SecUser u on r.employeeId=u.employeeId
-				where r.date>='$startDate ' and r.date<='$endDate' and r.state='Autorizada'
-				group by r.employeeId ";
+				where r.date>='$startDate ' and r.date<='$endDate' and r.state='Autorizada' 
+				group by e.id ";
 			$data = $app->modelsManager->executeQuery($phql);
 			if (count($data)>0) {http_response_code(200);$response -> setJsonContent(array('status' =>http_response_code(),'message' => 'Ok','data'=> $data));} 
-			else {http_response_code(406); $response -> setJsonContent(array('status' =>http_response_code(),'message' => 'No hay datos en ese rango!','data'=> $data));};
+			else {http_response_code(200); $response -> setJsonContent(array('status' =>http_response_code(),'message' => 'No hay datos en ese rango!','data'=> $data));};
 		} catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));};
 		return $response;	});
 	$app->get('/overtimeLine', function() use ($app){ // returns data for overtime line chart - total hours in month
@@ -711,6 +711,13 @@
 		}catch(\Exception $e){$response->setJsonContent(array('status' => 500,'message' => 'Internal error services'));};
 		return $response;	
 		});
+	$app->get('/viewLog', function() use ($app){ // returns system log
+		$response=new Response();
+		try {
+			$data = ViewLog::find();
+			$response -> setJsonContent(array('status' => http_response_code(),'data'=> $data));
+		}catch (\Exception $e) {$response->setJsonContent(array('status'=> http_response_code(),'data'=>$e));	};
+		return $response; });
 	$app->get('/kpi', function() use($app){//returns information for indicators...
 		$response = new Response();
 		try {

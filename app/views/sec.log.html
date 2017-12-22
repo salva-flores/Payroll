@@ -1,0 +1,30 @@
+<div class="card">
+	<div class="card-header p-2">
+		<div class="d-flex justify-content-end align-items-center">
+			<div class="mr-auto">Bitácora del Sistema</div>
+			<button class="btn btn-outline-dark btn-xs" title="Refrescar lista" ng-click="loadLog()"><i class="fa fa-redo-alt"></i></button>
+		</div>
+	</div>
+	<div class="card-body p-2">
+		<table datatable="ng" class="table table-bordered table-condensed table-hover" >
+			<thead>
+				<tr>
+					<th>Usuario</th>
+					<th>Accion</th>
+					<th>Tabla</th>
+					<th>Fecha y Hora</th>
+					<th>Ip</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="l in log">
+					<td>{{ l.userName }}</td>
+					<td>{{ l.actionEnum }}</td>
+					<td>{{ l.table || '-' }}</td>
+					<td>{{ l.when | date:'EEE, dd-MMM-yy hh:mm:ss a'}}</td>
+					<td>{{ l.Ip  }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,12 +1,12 @@
 <!-- <div class="configuration-cog" data-ng-click="app.isConfigOpen = !app.isConfigOpen"><i class="fa fa-toggle-off"></i></div> -->
 <div class="configuration-options" > 
 	<div class="title font-weight-normal">Configuración</div>
-	<div class="option"><span>Encabezado Fijo</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isFixedHeader"><span><i class="handle"></i></span></label></div>
-	<div class="option"><span>Menu Colapsado</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isSmallSidebar"><span><i class="handle"></i></span></label></div>
-	<div class="option"><span>Barra de Indicadores abierta</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isChatOpen"><span><i class="handle"></i></span></label></div>
+	<div class="option d-flex flex-row"><span class="mr-auto">Encabezado Fijo</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isFixedHeader"><span><i class="handle"></i></span></label></div>
+	<div class="option d-flex flex-row"><span class="mr-auto">Menu Colapsado</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isSmallSidebar"><span><i class="handle"></i></span></label></div>
+	<div class="option d-flex flex-row"><span class="mr-auto">Barra de Indicadores abierta</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isChatOpen"><span><i class="handle"></i></span></label></div>
 	<!-- <div class="option"><span>Menu Estático</span><label class="switch switch-sm pull-right"><input type="checkbox" ng-model="app.layout.isStaticSidebar"><span><i class="handle"></i></span></label></div> -->
-	<div class="option"><span>Menu a la Derecha</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isRightSidebar"><span><i class="handle"></i></span></label></div>
-	<div class="option"><span>Pie Fijo</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isFixedFooter"><span><i class="handle"></i></span></label></div>
+	<div class="option d-flex flex-row"><span class="mr-auto">Menu a la Derecha</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isRightSidebar"><span><i class="handle"></i></span></label></div>
+	<div class="option d-flex flex-row"><span class="mr-auto">Pie Fijo</span><label class="switch switch-sm pull-right m-0"><input type="checkbox" ng-model="app.layout.isFixedFooter"><span><i class="handle"></i></span></label></div>
 	<div class="title font-weight-normal" >Esquema de Colores</div>
 	<div class="option styles">
 		<label ng-click="app.layout.sidebarTheme='sidebar-skin-default'">
@@ -46,7 +46,7 @@
 		</label>
 		<label ng-click="app.layout.sidebarTheme='sidebar-skin-hoki'">
 			<input type="radio" name="sidebar-choice" ng-model="app.layout.sidebarTheme" value="sidebar-skin-hoki">
-			<i class="fa fa-check"></i>
+			<i class="fa fa-check float"></i>
 			<div style="background-color:plum;"></div>
 			<div style="background-color:navy;"></div>
 			<div style="background-color:plum;"></div>

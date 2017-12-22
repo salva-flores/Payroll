@@ -3,16 +3,15 @@
 		<tabset justified="true" class="nav-justified-xs">
 			<tab heading="Indicadores" >
 				<div class="favourite-list"  ng-show="user.profile==1">
-					<a href="#">
+					<a href="javascript:;">
 						<div class="media-left relative">
 							<div class="status bg-success border-white mr10" ></div>
 						</div>
 						<div class="media-body">
 							<span class="block" ng-model="kpi">{{kpi[0].he.Horas}} Horas Extras en {{ clock | date:'MMMM'}}</span>
-							<!-- <span class="text-muted">en {{ clock | date:'MMMM'}}</span> -->
 						</div>
 					</a>
-					<a href="javascript:;"">
+					<a href="javascript:;">
 						<div class="media-left relative">
 							<!-- <i class="fa fa-clock-o mr5"></i> -->
 							<div class="status bg-success border-white mr10"></div>
@@ -49,5 +48,4 @@
 			</tab>
 		</tabset>
 	</div>
-
 </div>

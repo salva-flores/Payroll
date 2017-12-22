@@ -35,7 +35,6 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		function(response){new Noty({text:'Error... '+response.message,type:'error',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show()});
 		};
 	$scope.loadRequests = function () { 
-		// how to control what records to show
 		if($rootScope.user.userName=='root' || $rootScope.user.profile=='1'){payrollService.fetch('GET','allOvertimeRequest').then(function(response){$scope.requests=response.data.data;$scope.isAdmin=true;$scope.calculate()},function(response){console.log('Hubo un error!')})}
 		else{$http.get('../hhrr/api/overReqById/'+$rootScope.user.employee).then(function (response) {$scope.requests=response.data.data;$scope.calculate()})};
 		};
@@ -52,8 +51,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			var diff = 0, totalDevengado=0; 
 			var dEnd = new Date($scope.detail[j].endTimeStamp);
 			var dStart = new Date($scope.detail[j].startTimeStamp);
-			diff = (dEnd - dStart);//console.log('Diff:',diff);
-			// if (diff < 0) { diff=diff+24*60*60*1000 };
+			diff = (dEnd - dStart);
 			$scope.totalHoras=$scope.totalHoras+diff;
 			var totalHoras = $filter('number')($scope.totalHoras/60/60/1000,1), tot = $filter('number')(diff/60/60/1000,1)*1, a=0, isHoliday=false;
 			angular.forEach($scope.holidays, function(value, key){if (dStart.getDate()*1==value.day*1 && dStart.getMonth()*1+1==value.month*1){isHoliday=true}});
@@ -77,6 +75,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$('#overReqForm').on('shown.bs.modal', function () { $('#reqDate').focus()});
 		};
 	$scope.checkEmployee = function(id){
+		if(!id){return};
 		$http.get('../hhrr/api/overParams/'+id).then(function(response){
 			$scope.overtimeStart=response.data.data[0].Permitido;$scope.maxOverPerWeek= response.data.data[0].Semana;$scope.empName=response.data.data[0].Empleado;  
 			$scope.hora = $filter('date')($scope.overtimeStart, 'HH:mm:ss');});	};
@@ -106,7 +105,6 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			$scope.email.email=response.data.data[0].email;
 			$http({	method : 'POST', url : 'api/sendMail.php', data : $.param($scope.email), headers : { 'Content-Type': 'application/x-www-form-urlencoded' }})
 			.then(function(response){	
-				console.log('then',response);
 				new Noty({text:'Su solicitud ha sido enviada a '+response.data.data[0].email, type: response.data.status==200 ? 'success' : 'error' ,theme:'relax',timeout:2000,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
 				.show().on('onClose', function() {$('#overReqForm').modal('hide')});
 			}, function (response){
@@ -191,11 +189,12 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		};
 	$scope.closeRequest = function() {
 		$scope.request.state="Cerrada";
+		$('#overDetailForm').modal('hide');
 		angular.extend($scope.request,	{decidedBy:''}, {decisionDate:''}, {authorizedBy:''}, {authorizationDate:''});
 		payrollService.fetch('PUT','overReq',$scope.request)
 		.then(function(response){
-			new Noty({text:response.message,type:response.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
-			.show();
+			new Noty({text:response.data.message,type:response.data.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}})
+			.show().on('onClose', function() {$('#overDetailForm').modal('hide')});
 			// .on('onClose', function() {
 			// 	new Noty({text:"Send employee email", type: 'error', theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutLeft'}})
 			// 	.show().on('onClose', function() { $scope.loadRequests(); $('#overDetailForm').modal('hide')});
@@ -204,9 +203,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 			$scope.enableCloseButton=false;
 		};
 	$scope.closeDetail = function (detailForm) {
-		$scope.showDetailRow=false;
-		$scope.showDetail=false;
-		$scope.showState=false;
+		// $scope.showDetailRow=false;$scope.showDetail=false;$scope.showState=false;
 		detailForm.$setUntouched();
 		detailForm.$setPristine();
 		$scope.activity = {id:'',requestId:'',entryDate:'',activityDate:'',startTime:'',startTimeStamp:'',endTime:'',endTimeStamp:'',activities:''};
@@ -214,7 +211,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 		$scope.enableCloseButton=false;
 		};
 	$scope.resetForm = function(frm) { 
-		$scope.initVars(); frm.$setUntouched(); frm.$setPristine(); document.getElementById("1").focus();
+		$scope.initVars(); frm.$setUntouched(); frm.$setPristine(); document.getElementById("start").focus();
 		};
 	$scope.resetAct = function() {
 		$scope.activity.activityDate = new Date($scope.activity.activityDate+'T'+$scope.activity.startTime);
@@ -233,7 +230,7 @@ function overtimeRequestCtrl($scope, $rootScope, $filter, $http, $state, payroll
 	$scope.updateState = function() {
 		// $scope.showState=false;
 		angular.extend($scope.request,{decidedBy:$rootScope.user.id},{decisionDate:$filter('date')(new Date(),'yyyy-MM-dd hh:mm:ss')},{authorizedBy:0},{authorizationDate:''});
-		payrollService.fetch('PUT','overReq', $scope.request).then(function(response){new Noty({text:response.data.message,type:response.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();},function(response){console.log('Hubo un error!', response)});
+		payrollService.fetch('PUT','overReq', $scope.request).then(function(response){new Noty({text:response.data.message,type:response.data.type,theme:'relax',timeout:100,animation:{open:'animated bounceInRight',close:'animated bounceOutRight'}}).show();},function(response){console.log('Hubo un error!', response)});
 		};
 	$scope.run();
 	};

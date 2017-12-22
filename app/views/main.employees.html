@@ -3,7 +3,7 @@
 		<div class="d-flex justify-content-end align-items-center">
 			<div class="mr-auto">Listado de empleados</div>
 			<button class="btn btn-primary btn-outline btn-xs mr-1" title="Agregar empleado" ng-click="addEmployee()" data-toggle="modal" data-target="#employeeForm"><i class="fa fa-user-plus mr-1"></i>Agregar Empleado </button>
-			<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadEmployees()"><i class="fa fa-repeat"></i></button>
+			<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadEmployees()"><i class="fa fa-redo-alt"></i></button>
 		</div>
 	</div>
 	<div class="card-body p-2">
@@ -30,7 +30,7 @@
 					<td>{{ e.idCard }}</td>
 					<td>{{ e.state=='1'?"Activo":"Inactivo" }}</td>
 					<!-- <td align="center"><button type="button" ng-click="edit(e)" id="editButton" class="btn btn-outline-success btn-xs" ng-class="{' btn btn-outline-secondary btn-xs': e.state=='0'}" data-toggle="modal" data-target="#employeeForm" ><i class="fa fa-pencil"></i></button></td> -->
-					<td align="center"><button type="button" ng-click="edit(e)" id="editButton" class="btn btn-xs" ng-class="{'btn-outline-danger':e.state=='0','btn-outline-success':e.state=='1'}" data-toggle="modal" data-target="#employeeForm" ><i class="fa fa-pencil"></i></button></td>
+					<td align="center"><button type="button" ng-click="edit(e)" id="editButton" class="btn btn-xs" ng-class="{'btn-outline-danger':e.state=='0','btn-outline-success':e.state=='1'}" data-toggle="modal" data-target="#employeeForm" ><i class="fa fa-pencil-alt"></i></button></td>
 				</tr>
 			</tbody>
 		</table>
@@ -47,7 +47,7 @@
 					<div class="d-flex">
 						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.employeeName.$invalid && frm.employeeName.$touched, 'has-success' : frm.employeeName.$valid }">
 							<label class="form-control-label m-0" for="employeeName">Nombre</label>  
-							<input type="text" class="form-control form-control-sm" name="employeeName" ng-model="employee.firstName" required>
+							<input type="text" class="form-control form-control-sm" id="empName" name="employeeName" ng-model="employee.firstName" required>
 							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.employeeName.$invalid && frm.employeeName.$touched"><i class="fa fa-info-circle mr-1"></i>Campo requerido!</small>
 						</div>
 						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.employeeLastName.$invalid && frm.employeeLastName.$touched, 'has-success' : frm.employeeLastName.$valid }">
@@ -59,12 +59,12 @@
 					<div class="d-flex">
 						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.email.$invalid && frm.email.$touched, 'has-success' : frm.email.$valid }">
 							<label class="form-control-label m-0"  for="email">Correo</label>
-							<input type="email" class="form-control form-control-sm" id="3" name="email" ng-model="employee.email" ng-pattern-restrict required>
+							<input type="email" class="form-control form-control-sm" id="email" name="email" ng-model="employee.email" ng-pattern-restrict required>
 							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.email.$invalid && frm.email.$touched"><i class="fa fa-info-circle mr-1"></i>Dirección inválida.</small>
 						</div>
 						<div class="form-group m-1 w-50" ng-class="{ 'has-error' : frm.phone.$invalid && frm.phone.$touched, 'has-success' : frm.phone.$valid }">
 							<label class="form-control-label m-0"  for="phone">Teléfono</label>
-							<input type="text" class="form-control form-control-sm" id="4" name="phone" minlength ="8" maxlength="8" ng-model="employee.mobilePhone" pattern="^[0-9]*$" ng-pattern-restrict required>
+							<input type="text" class="form-control form-control-sm" id="phone" name="phone" minlength ="8" maxlength="8" ng-model="employee.mobilePhone" pattern="^[0-9]*$" ng-pattern-restrict required>
 							<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.phone.$invalid && frm.phone.$touched"><i class="fa fa-info-circle mr-1"></i>Número telefónico inválido.</small>
 						</div>
 					</div>
@@ -145,9 +145,9 @@
 				<!-- <button class="btn btn-info btn-outline btn-xs" ng-click="nextStep(-1)" ng-disabled="step<2"  ><i class="fa fa-arrow-left mr-1" ></i><span>Anterior</span></button> -->
 				<!-- <button class="btn btn-outline-danger btn-xs" ng-click="step=1">Cancelar</button> -->
 				<!-- <button class="btn btn-outline-danger btn-xs p-1" data-dismiss="modal" ng-click="step=1">Cancelar</button> -->
-				<!-- <button class="btn btn-success btn-outline btn-xs" ng-click="saveEmployee(employee)" ng-disabled="!frm.$valid" data-dismiss="modal"><i class="fa fa-send mr-1"></i><span>Guardar</span></button> -->
-				<button class="btn btn-success btn-outline btn-xs" ng-click="saveEmployee(employee)" data-dismiss="modal"><i class="fa fa-send mr-1"></i><span>Guardar</span></button>
-				<button class="btn btn-outline-dark btn-xs" data-dismiss="modal"><i class="fa fa-close mr-1"></i>Salir</button>
+				<!-- <button class="btn btn-success btn-outline btn-xs" ng-click="saveEmployee(employee)" ng-disabled="!frm.$valid" data-dismiss="modal"><i class="fab fa-telegram-plane mr-1"></i><span>Guardar</span></button> -->
+				<button class="btn btn-success btn-outline btn-xs" ng-click="saveEmployee(employee)" data-dismiss="modal"><i class="fab fa-telegram-plane mr-1"></i><span>Guardar</span></button>
+				<button class="btn btn-outline-dark btn-xs" data-dismiss="modal"><i class="fa fa-times mr-1"></i>Salir</button>
 				<!-- <button class="btn btn-info btn-outline btn-xs" ng-click="nextStep(1)" ng-disabled="step>2"  ><i class="fa fa-arrow-right mr-1" ></i><span>Siguiente</span></button> -->
 			</div>
 		</div>

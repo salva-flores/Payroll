@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm p-0 w-100 h-100  justify-content-between align-items-center">
 	<a class="navbar-toggler no-border p-1" data-toggle="collapse" ><offscreen></offscreen></a>
-	<a class="nav-item p-2" title="Recargar la Página" href="javascript:;" ng-click="" reload-app><i class="fa fa-refresh"></i></a>
+	<a class="nav-item p-2" title="Recargar la Página" href="javascript:;" ng-click="" reload-app><i class="fa fa-sync-alt"></i></a>
 	<div class="d-flex mr-auto"><small>Módulo de {{app.name}} - {{$state.current.data.title}}</small></div>
 	<div class="d-flex" ng-hide="true">
 		<a class="nav-item p-2" title="Organización" href="javascript:;" ><i class="fa fa-building"></i></a>
@@ -13,8 +13,8 @@
 		<a class="nav-item mr-auto p-2" title="Reportes" href="javascript:;" ><i class="fa fa-plus-square-o"></i></a>
 	</div>
 	<a class="nav-item p-2" title="Aplicaciones" href="javascript:;" quick-launch><i class="fa fa-th"></i></a>
-	<a class="nav-item p-2" title="Config Panel" href="javascript:;" ng-click="app.isConfigVisible=!app.isConfigVisible;app.isConfigOpen = !app.isConfigOpen;"><i class="fa fa-sliders"></i></a>
-	<a class="nav-item p-2" title="Indicadores" href="javascript:;" ng-click="app.layout.isChatOpen = !app.layout.isChatOpen" ><i class="fa fa-line-chart"></i></a>
+	<a class="nav-item p-2" title="Config Panel" href="javascript:;" ng-click="app.isConfigVisible=!app.isConfigVisible;app.isConfigOpen = !app.isConfigOpen;"><i class="fa fa-sliders-h"></i></a>
+	<a class="nav-item p-2" title="Indicadores" href="javascript:;" ng-click="app.layout.isChatOpen = !app.layout.isChatOpen" ><i class="fa fa-chart-line"></i></a>
 	<div class="dropdown pl-1 pr-1">
 		<a data-toggle="dropdown" href="javascript:;" role="button"><img data-ng-src="src/images/{{user.avatar}}" class="header-avatar img-circle " alt="User?" title="{{user.fname}}"></a>
 		<ul class="dropdown-menu p-0" style="right:0;left:auto">
@@ -33,12 +33,12 @@
 			<li><a class="dropdown-item" href="javascript:;">Ayuda</a></li>
 			<li><a class="dropdown-item" href="javascript:;">Perfil</a></li>
 			<li class="dropdown-divider"></li>
-			<li><a class="dropdown-item" ui-sref="session.lockscreen">Bloquear<i class="fa fa-lock pull-right fa-fw"></i></a></li>
-			<li><a class="dropdown-item" ui-sref="login">Cerrar sesion<i class="fa fa-power-off pull-right fa-fw"></i></a></li>
+			<li><a class="dropdown-item" ui-sref="session.lockscreen">Bloquear<i class="fa fa-lock float-right fa-fw"></i></a></li>
+			<li><a class="dropdown-item" ui-sref="login">Cerrar sesion<i class="fa fa-power-off float-right fa-fw"></i></a></li>
 		</ul>
 	</div>
 	<a id="header" class="nav-item p-2" alt="Pantalla Completa" href="javascript:;" full-screen><i ng-class="{'fa fa-expand':app.layout.isFullScreen, 'fa fa-compress':!app.layout.isFullScreen }"></i></a>
-	<a id="header" class="nav-item p-2" alt="Cerrar" href="javascript:;" ng-click="close()"><i class="fa fa-close"></i></a>
+	<a id="header" class="nav-item p-2" alt="Cerrar" href="javascript:;" ng-click="close()"><i class="fa fa-times"></i></a>
 </nav>
 
 <div class="modal fade" id="pf" tabindex="-1" role="dialog" data-backdrop="static">
@@ -67,7 +67,7 @@
 			</div>
 			<div class="modal-footer p-1">
 				<!-- ng-class="{ 'has-error' : !(addDedFrm.pri.$viewValue || addDedFrm.seg.$viewValue)&&(addDedFrm.pri.$touched||addDedFrm.seg.$touched)}"> -->
-				<button class="btn btn-outline-success btn-xs m-0" ng-click="savePass()" ng-hide="!passForm.$valid || !(passForm.pass1.$viewValue==passForm.pass2.$viewValue) "><i class="fa fa-send pr-1"></i><span>Guardar</span></button>
+				<button class="btn btn-outline-success btn-xs m-0" ng-click="savePass()" ng-hide="!passForm.$valid || !(passForm.pass1.$viewValue==passForm.pass2.$viewValue) "><i class="fa fa-save pr-1"></i><span>Guardar</span></button>
 				<button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Cancelar</button>
 			</div>
 		</div>

@@ -3,7 +3,7 @@
 		<div class="d-flex justify-content-end align-items-center">
 			<div class="mr-auto">Listado de perfiles</div>
 			<a href="javascript:;" class="btn btn-outline-success btn-xs mr-1" ng-click="add()"><i class="fa fa-plus mr-1"></i>Agregar Perfil</a>
-			<a href="javascript:;" class="btn btn-outline-dark btn-xs" title="Refrescar lista" ng-click="loadProfiles()"><i class="fa fa-repeat"></i></a>
+			<a href="javascript:;" class="btn btn-outline-dark btn-xs" title="Refrescar lista" ng-click="loadProfiles()"><i class="fa fa-redo-alt"></i></a>
 		</div>
 	</div>
 	<div class="card-body p-0">
@@ -25,13 +25,13 @@
 					</form>
 					<div class="buttons" ng-show="!rowform.$visible">
 						<div ng-hide="true">
-							<a href="javascript:;" title="Editar" class="btn-outline-success mr-1"><i class="fa fa-pencil " ng-click="rowform.$show()"></i></a>
-							<a href="javascript:;" title="Eliminar" class="btn-outline-danger mr-1"><i class="fa fa-trash-o"></i></a>
+							<a href="javascript:;" title="Editar" class="btn-outline-success mr-1"><i class="fa fa-pencil-alt " ng-click="rowform.$show()"></i></a>
+							<a href="javascript:;" title="Eliminar" class="btn-outline-danger mr-1"><i class="fa fa-trash-alt"></i></a>
 							<a href="javascript:;" title="Asignar Recursos" class="btn-outline-primary mr-1"><i class="fa fa-list"></i></a>
 						</div>
 						<div>
-							<button class="btn btn-outline-success btn-xs" title="Editar" ng-click="rowform.$show()"><i class="fa fa-pencil fa-fw"></i></button>
-							<button class="btn btn-outline-danger btn-xs" title="Eliminar" ng-click="remove($index)"><i class="fa fa-trash-o fa-fw"></i></button>
+							<button class="btn btn-outline-success btn-xs" title="Editar" ng-click="rowform.$show()"><i class="fa fa-pencil-alt fa-fw"></i></button>
+							<button class="btn btn-outline-danger btn-xs" title="Eliminar" ng-click="remove($index)"><i class="fa fa-trash-alt fa-fw"></i></button>
 							<button class="btn btn-outline-primary btn-xs" title="Asignar resursos" data-toggle="modal" data-target="#profileResources" ng-click="showprof(profile)"><i class="fa fa-list fa-fw"></i></button>
 							<!-- <button title="Editar" ng-click="editUser(user)" id="editButton" class="btn btn-success btn-outline btn-xs" data-toggle="modal" data-target="#userForm" ><i class="fa fa-pencil"></i></button> -->
 							<!-- <button class="btn btn-success btn-xs" ng-click="edita(profile)" ><i class="fa fa-edit fa-fw"></i>editar</button> -->
@@ -84,7 +84,7 @@
 			</div>
 			<!-- <div class="modal-footer justify-content-between"> -->
 			<div class="modal-footer">
-				<button class="btn btn-outline-success btn-xs" ng-click="saveEmployee(employee)" ><i class="fa fa-send mr-1"></i><span>Guardar</span></button>
+				<button class="btn btn-outline-success btn-xs" ng-click="saveEmployee(employee)" ><i class="fab fa-telegram-plane mr-1"></i><span>Guardar</span></button>
 				<button class="btn btn-outline-dark btn-xs" data-dismiss="modal" ng-click="step=1">Salir</button>
 			</div>
 		</div>

@@ -2,7 +2,7 @@
 	<div class="card-header p-2">
 		<div class="d-flex justify-content-sm-end align-items-center">
 			<div class="mr-auto" >Aprobación de Solicitudes de Horas Extras</div>
-			<button class="btn btn-default btn-outline btn-xs" title="Refrescar..." ng-click="run();"><i class="fa fa-repeat"></i></button>
+			<button class="btn btn-default btn-outline btn-xs" title="Refrescar..." ng-click="run();"><i class="fa fa-redo-alt"></i></button>
 		</div>
 	</div>
 	<div class="card-body p-2" >
@@ -27,7 +27,7 @@
 					<td>{{ r.description }}</td>
 					<td>
 						<div class="d-flex justify-content-center">
-							<i ng-class="{'fa fa-windows fa-lg':r.class=='Ventana','fa fa-building-o fa-lg':r.class=='Normal','fa fa-home fa-lg':r.class=='Interna'}" title="{{ r.class }}"></i>
+							<i ng-class="{'fab fa-windows fa-lg':r.class=='Ventana','fa fa-building-o fa-lg':r.class=='Normal','fa fa-home fa-lg':r.class=='Interna'}" title="{{ r.class }}"></i>
 						</div> 
 					</td>
 					<td class="text-center">{{ r.estimatedTime }}</td>
@@ -95,7 +95,7 @@
 				</form>
 			</div>
 			<div class="card-footer d-flex justify-content-end p-2">
-				<button class="btn btn-outline btn-xs mr-1" ng-click="updateState(req)" ng-class="{'btn-success' : stateForm.$valid}"><i class="fa fa-send"/> Actualizar</button>
+				<button class="btn btn-outline btn-xs mr-1" ng-click="updateState(req)" ng-class="{'btn-success' : stateForm.$valid}"><i class="fab fa-telegram-plane"/> Actualizar</button>
 				<button class="btn btn-outline-secondary btn-xs" ng-click="closeDetail(stateForm)"><i class="fa fa-close"></i> Salir</button>
 			</div>
 		</div>

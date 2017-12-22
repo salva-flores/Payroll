@@ -37,7 +37,7 @@ footer.content-footer { background: rgba(154,154,118,1); }
 .dropdown-menu > li > a:focus {background-color:purple; color:rgba(154,154,118,1)!important;}
 .dropdown-divider {border-top: 1px solid purple;}
 /*Skins*/
-.sidebar-skin-nevada .app { background: lightgray; color: brown;}
+.sidebar-skin-nevada .app { background: lightgray; color: black;}
 .sidebar-skin-nevada .main-panel > .header { background: rgba(101,109,120,1); color: white; }
 .sidebar-skin-nevada .main-panel > .header .navbar > a:hover{ background:white; color:rgba(101,109,120,1);}
 .sidebar-skin-nevada .layout-fixed-header > .main-panel > .header { background: rgba(101,109,120,.5); color:white; }

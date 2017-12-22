@@ -2,8 +2,8 @@
 	<div class="card-header p-2 align-items-center">
 		<div class="d-flex justify-content-end align-items-center">
 			<div class="mr-auto">Listado de usuarios</div>
-			<button class="btn btn-primary btn-outline btn-xs mr-1" title="Agregar usuario" ng-click="addUser()" data-toggle="modal" data-target="#userForm"><i class="fa fa-plus mr-1"></i>Nuevo</button>
-			<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadUsers()"><i class="fa fa-repeat"></i></button>
+			<button class="btn btn-primary btn-outline btn-xs mr-1" title="Agregar usuario" ng-click="addUser()" data-toggle="modal" data-target="#userForm"><i class="fa fa-user-plus mr-1"></i>Nuevo usuario</button>
+			<button class="btn btn-outline-dark btn-xs mr-1" title="Refrescar lista" ng-click="loadUsers()"><i class="fa fa-redo-alt"></i></button>
 		</div>
 	</div>
 	<div class="card-body p-2">
@@ -39,7 +39,7 @@
 						<div>{{ user.isActive==1 ? 'Activo' : 'Inactivo' || '-' }}</div></div>
 					</td>
 					<td align="left">
-						<a href="javascript:;" class="btn btn-outline-success btn-xs p-0" title="Editar" ng-click="editUser(user)" id="editButton" data-toggle="modal" data-target="#userForm"><i class="fa fa-pencil fa-fw"></i></a>
+						<a href="javascript:;" class="btn btn-outline-success btn-xs p-0" title="Editar" ng-click="editUser(user)" id="editButton" data-toggle="modal" data-target="#userForm"><i class="fa fa-pencil-alt fa-fw"></i></a>
 						<a href="javascript:;" class="btn btn-outline-primary btn-xs p-0" title="Cambiar Contraseña" ng-click="changePassword($index,user)" data-toggle="modal" data-target="#passForm"><i class="fa fa-key fa-fw"></i></a>
 						<a href="javascript:;" class="btn btn-outline-danger btn-xs p-0" title="Eliminar" ng-click=""><i class="fa fa-trash fa-fw"></i></a>
 					</td>
@@ -50,7 +50,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="userForm" tabindex="-1" role="dialog" aria-labelledby="userFormLabel" aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="userForm" tabindex="-1" role="dialog" data-backdrop="static">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header p-1">
@@ -63,12 +63,12 @@
 			<form name="frm" novalidate>
 				<div class="form-group m-1" ng-class="{ 'has-error' : frm.userName.$invalid && frm.userName.$touched, 'has-success' : frm.userName.$valid }">
 					<label class="form-control-label m-0" for="userName">Usuario</label>  
-					<input type="text" class="form-control form-control-sm" id="1" name="userName" minlength="5" maxlength="15" pattern="^[a-zA-Z]*$" ng-model="user.userName" ng-pattern-restrict required ng-disabled="!canEditUser">
-					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.userName.$invalid && frm.userName.$touched">Ingrese un nombre de 5 a 15 caracteres.</small>
+					<input type="text" class="form-control form-control-sm" id="userName" name="userName" minlength="5" maxlength="15" pattern="^[a-zA-Z]*$" ng-model="user.userName" ng-pattern-restrict required ng-disabled="!canEditUser">
+					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.userName.$invalid && frm.userName.$dirty">Ingrese un nombre de 5 a 15 caracteres.</small>
 				</div>
 				<div class="form-group m-1" ng-hide="!canEditUser">
 					<label class="form-control-label m-0"  for="password">Contraseña</label>  
-					<input type="password" class="form-control form-control-sm" minlength="5" maxlength="12" id="2" name="password" ng-model="user.password" ng-required="canEditUser"  >
+					<input type="password" class="form-control form-control-sm" minlength="5" maxlength="12" id="password" name="password" ng-model="user.password" ng-required="canEditUser"  >
 				</div>
 				<div class="form-group m-1" ng-class="{ 'has-error' : frm.employeeId.$invalid && frm.employeeId.$touched, 'has-success' : frm.employeeId.$valid }"  ng-hide="!canEditUser">
 					<label class="form-control-label m-0" ><input type="checkbox" ng-model="isEmployee" ng-change="showNotUser(0)"> Es empleado</label>
@@ -81,7 +81,7 @@
 				</div>
 				<div class="form-group m-1" ng-class="{ 'has-error' : frm.email.$invalid && frm.email.$touched, 'has-success' : frm.email.$valid }">
 					<label class="form-control-label m-0"  for="email">Correo</label>
-					<input type="email" class="form-control form-control-sm" id="3" name="email" ng-model="user.email" ng-pattern-restrict required>
+					<input type="email" class="form-control form-control-sm" id="email" name="email" ng-model="user.email" ng-pattern-restrict required>
 					<small style="color:maroon; font-size:10px; font-weight:bold" ng-show="frm.email.$invalid && frm.email.$touched">Dirección inválida.</small>
 				</div>
 				<div class="form-group m-1" ng-class="{ 'has-error' : frm.phone.$invalid && frm.phone.$touched, 'has-success' : frm.phone.$valid }">
@@ -106,7 +106,7 @@
 			</form>
 			</div>
 			<div class="modal-footer p-2">
-				<button class="btn btn-outline-success btn-xs pull-right " ng-click="saveUser(user)" ng-disabled="!frm.$valid"><i class="fa fa-send mr-1"></i><span>Guardar</span></button>
+				<button class="btn btn-outline-success btn-xs pull-right " ng-click="saveUser(user)" ng-disabled="!frm.$valid"><i class="fab fa-telegram-plane mr-1"></i><span>Guardar</span></button>
 				<button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Cancelar</button>
 			</div>
 		</div>
@@ -117,26 +117,26 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header p-1">
-				<h5 class="modal-title">Cambio de contraseña - {{user.firstName}}</h5> 
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<h5 class="modal-title ml-1">Cambio de contraseña - {{user.firstName}}</h5> 
+				<button type="button" class="close mr-1" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body p-1">
 				<form name="passForm" novalidate>
 					<div class="form-group p-1 m-0" ng-class="{ 'has-error' : passForm.pass1.$invalid && passForm.pass1.$touched, 'has-success' : passForm.pass1.$valid }">
-						<input type="password" ng-model="p1" id="1" class="form-control input-lg" id="pass1" name="pass1" placeholder="Contraseña" minlength="5" maxlength="8" required>
-						<small style="color:maroon;" class="p-1" ng-show="passForm.pass1.$invalid && passForm.pass1.$touched"><i class="fa fa-info-circle mr-1"></i>La contraseña debe tener entre 5 y 8 caracteres.</small>
+						<input type="password" ng-model="p1" id="pass1" class="form-control input-lg" id="pass1" name="pass1" placeholder="Contraseña" minlength="5" maxlength="8" required>
+						<small style="color:maroon;" class="p-1" ng-show="passForm.pass1.$invalid && passForm.pass1.$dirty"><i class="fa fa-info-circle mr-1"></i>La contraseña debe tener entre 5 y 8 caracteres.</small>
 					</div>
 					<div class="form-group p-1 m-0" ng-show="passForm.pass1.$valid">
-						<input type="password" id="2" ng-model="p2" class="form-control input-lg" name="pass2" placeholder="Repita su contraseña" minlength="5" maxlength="8" required>
+						<input type="password" id="pass2" ng-model="p2" class="form-control input-lg" name="pass2" placeholder="Repita su contraseña" minlength="5" maxlength="8" required>
 					</div>
 				</form>
 				<div class="p-2" ng-show="!(passForm.pass1.$viewValue==passForm.pass2.$viewValue)&&passForm.pass1.$valid&&passForm.pass2.$touched"><small style="color:maroon;"><i class="fa fa-info-circle mr-1"></i>Las contraseñas no coinciden!</small></div>
 			</div>
 			<div class="modal-footer p-1">
 				<!-- ng-class="{ 'has-error' : !(addDedFrm.pri.$viewValue || addDedFrm.seg.$viewValue)&&(addDedFrm.pri.$touched||addDedFrm.seg.$touched)}"> -->
-				<button class="btn btn-outline-success btn-xs m-0" ng-click="savePass()" ng-hide="!passForm.$valid || !(passForm.pass1.$viewValue==passForm.pass2.$viewValue) "><i class="fa fa-send pr-1"></i><span>Guardar</span></button>
+				<button class="btn btn-outline-success btn-xs m-0" ng-click="savePass()" ng-hide="!passForm.$valid || !(passForm.pass1.$viewValue==passForm.pass2.$viewValue) "><i class="fab fa-telegram-plane pr-1"></i><span>Guardar</span></button>
 				<button type="button" class="btn btn-secondary btn-xs" data-dismiss="modal">Cancelar</button>
 			</div>
 		</div>

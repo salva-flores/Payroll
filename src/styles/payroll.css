@@ -76,14 +76,14 @@ blockquote p { display: inline; }
 .sidebar-panel > nav ul > li > a .fa { -webkit-transition: text-indent 100ms; -moz-transition: text-indent 100ms; -o-transition: text-indent 100ms; transition: text-indent 100ms; }
 .sidebar-panel > nav li:hover > a > .fa,
 .sidebar-panel > nav li:hover > a > span { text-indent: 3px; }
-.sidebar-panel > nav li ul li a {	padding: 7px 25px 7px 65px;}
+.sidebar-panel > nav li ul li a {	padding: 7px 25px 7px 60px;}
 .sidebar-panel > nav li.menu-accordion > a::before {min-width: 15px;text-align: center;font-size: 12px;-webkit-transition: transform 300ms ease;-moz-transition: transform 300ms ease;-o-transition: transform 300ms ease;transition: transform 300ms ease;content: "\f105";font: normal normal normal 14px/1 FontAwesome;speak: none;font-style: normal;font-weight: normal;text-rendering: auto;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;transform: translate(0, 0);position: relative;display: inline-block;float: right;margin-left: 5px;}
 .sidebar-panel > nav li.open.menu-accordion > a::before {-webkit-transform: rotate(90deg);-moz-transform: rotate(90deg);-o-transform: rotate(90deg);-ms-transform: rotate(90deg);transform: rotate(90deg);}
 .sidebar-panel > nav li.open > a .fa,
 .sidebar-panel > nav li.open > a > span {text-indent: 3px;}
 .sidebar-panel > nav > ul > li {position: relative;display: block;}
 .sidebar-panel > nav > ul > li > a:focus {background-color: transparent;}
-.sidebar-panel > nav > ul > li a {position: relative;padding: 10px 25px;}
+.sidebar-panel > nav > ul > li a {position: relative ;padding: 10px 17px;}
 .sidebar-panel > nav > ul > li > ul {position: relative;	padding: 0;	margin: 0;}
 .sidebar-panel > nav > ul > li ul {max-height: 0;overflow: hidden;display: block;width: auto;}
 .sidebar-panel > nav > ul > li > .sub-menu > li > a + .sub-menu > li > a {padding-left: 75px;}

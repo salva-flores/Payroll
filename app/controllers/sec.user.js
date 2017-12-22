@@ -26,7 +26,9 @@ function userCtrl($scope, $state, $filter, $http, payrollService, $resource, DTO
 		}else{$scope.user.employeeId=''; $scope.user.firstName=''; $scope.user.email=''; $scope.user.phone=''};
 		};
 	$scope.addUser = function () {
-		$scope.initUser(); $scope.action='POST';	$scope.canEditUser=true; $scope.accion = "Agregar";
+		$scope.frm.$setPristine(); $scope.frm.$setUntouched();
+		$scope.initUser(); $scope.action='POST';	$scope.canEditUser=true; $scope.accion = "Agregar"; 
+		$('#userForm').on('shown.bs.modal', function () { $('#userName').focus()});
 		};
 	$scope.editUser = function(u){
 		$scope.canEditUser = false;
@@ -59,11 +61,9 @@ function userCtrl($scope, $state, $filter, $http, payrollService, $resource, DTO
 		$scope.action=='PUT';
 		};
 	$scope.changePassword = function(i,u){
-		console.info('index',i,'user',u);
-		$scope.user=u;
-		$scope.p2=$scope.p1='';
-		$scope.passForm.$setPristine();
-		$scope.passForm.$setUntouched();
+		$scope.user = u; $scope.p2 = $scope.p1 = '';
+		$scope.passForm.$setPristine(); $scope.passForm.$setUntouched();
+		$('#passForm').on('shown.bs.modal', function () { $('#pass1').focus()});
 		};
 	$scope.savePass = function(){
 		$scope.user.password=$scope.p1;

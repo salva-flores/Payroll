@@ -8,7 +8,6 @@ function employeesCtrl($scope, $http, $filter, payrollService) {
 		$scope.shifts.length ? null : $http.get('../hhrr/api/getAll/CatWorkingHours').then(function (response) {$scope.shifts = response.data.data});
 		$scope.professions.length ? null : $http.get('../hhrr/api/getAll/CatProfession').then(function (response) {$scope.professions = response.data.data});
 		$scope.academicLevels.length ? null : $http.get('../hhrr/api/getAll/CatAcademicLevel').then(function (response) {$scope.academicLevels = response.data.data});
-		// $scope..length ? null : $http.get('../hhrr/api/getAll/CatAcademicLevel').then(function (response) {$scope.academicLevels = response.data.data});
 		$scope.gender = [{id:'1',name: 'Masculino'},{id:'2',name: 'Femenino'}];
 		$scope.maritalStatus = [{id:'1',name: 'Soltero'},{id:'2',name: 'Casado'},{id:'3',name: 'Divorciado'},{id:'4',name: 'Viudo'}];
 		$scope.loadEmployees();
@@ -22,6 +21,7 @@ function employeesCtrl($scope, $http, $filter, payrollService) {
 	$scope.addEmployee = function () {
 		$scope.frm.$setUntouched();$scope.frm.$setPristine();
 		$scope.employee={};$scope.action='POST'; $scope.canEditEmployee=true; $scope.accion = "Agregar";};
+		$('#employeeForm').on('shown.bs.modal', function () { $('#empName').focus()});
 	$scope.edit = function(e){ 
 		$scope.frm.$setUntouched();$scope.frm.$setPristine();
 		$scope.employee=e;$scope.employee.joined=new Date($scope.employee.joined); 

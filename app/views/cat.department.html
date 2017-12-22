@@ -1,0 +1,31 @@
+<div class="card">
+	<div class="card-header p-2">
+		<div class="d-flex justify-content-end align-items-center">
+			<div class="mr-auto">Catálogo de Departamentos</div>
+			<a href="javascript:;" class="btn btn-outline-success btn-xs mr-1" title="Agregar Deducción" ng-click="add()"><i class="fa fa-plus mr-1"></i>Agregar Departamento</a>
+			<a href="javascript:;" class="btn btn-outline-dark btn-xs" title="Refrescar lista" ng-click="loadArrays()"><i class="fa fa-redo-alt"></i></a>
+		</div>
+	</div>
+	<div class="card-body p-2">
+		<table class="table table-bordered table-condensed table-hover align-middle m-0">
+			<thead><tr><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr></thead>
+			<tbody>
+				<tr ng-repeat="u in units">
+					<td class="p-1"><div e-class="form-control form-control-sm " editable-text="u.name" e-name="name" e-form="rowform" e-required onbeforesave="checkName($data, user.id)">{{ u.name || '-' }}</div></td>
+					<td class="p-1"><div e-class="form-control form-control-sm" editable-text="u.description" e-name="description" e-form="rowform" e-required>{{ u.description || '-' }}</span></td>
+					<td style="white-space: nowrap" class="p-1">
+						<!-- <form editable-form name="rowform" onbeforesave="save($data, u.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == u"> -->
+						<form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == u">
+							<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-outline-primary btn-xs mr-1"><i class="fa fa-save mr-1"></i>guardar</button>
+							<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-outline-dark btn-xs"><i class="fa fa-window-close mr-1"></i>cancelar</button>
+						</form>
+						<div class="buttons" ng-show="!rowform.$visible">
+							<button class="btn btn-outline-primary btn-xs" ng-click="edit();rowform.$show()"><i class="fa fa-edit mr-1"></i>editar</button>
+							<button class="btn btn-outline-danger btn-xs" ng-click="remove($index)"><i class="fa fa-trash-alt mr-1"></i>borrar</button>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
