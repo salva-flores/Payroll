@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 //Configuracion
 	require_once('../src/vendor/autoload.php');
 	use Phalcon\Loader;
@@ -17,8 +17,8 @@
 	$loader->registerDirs(array( __DIR__ . '/models/'))->register();
 	$di = new FactoryDefault();
 	$di->set('db', function() {return new PdoMysql( array(
-		// "host" => "localhost",
-		"host" => "172.16.1.99",
+		"host" => "localhost",
+		//"host" => "172.16.1.99",
 		"username" => "user","password" => "user","dbname" => "hhrr", "options" => array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8')));});
 	$app = new Micro($di);
 	$app->notFound(function () use ($app) {$app->response->setStatusCode(404, "API Not Found!")->sendHeaders();$app->response->setJsonContent(array('status' => 404,'message' => 'API Not Found!','error' => 'API Not Found!' ))->send();});
